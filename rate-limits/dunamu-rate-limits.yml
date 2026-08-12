@@ -1,0 +1,114 @@
+generated: '2026-08-12'
+method: searched
+source: https://global-docs.upbit.com/reference/rate-limits
+docs: https://global-docs.upbit.com/reference/rate-limits
+note: >-
+  Published rate limits for the developer surface Dunamu Inc. operates under the Upbit brand.
+  Dunamu serves no rate-limited API of its own from dunamu.com. Read from the Upbit Developer
+  Center rate-limits reference and its markdown twin on 2026-08-12. The same surface is
+  catalogued as API entries on the Upbit provider profile; this record documents it at the
+  corporate-parent level.
+x-brand: Upbit
+limit_count: 11
+headers:
+- name: Remaining-Req
+  returned_on: every response
+  format: 'group=<group>; min=<n>; sec=<n>'
+  example: 'group=default; min=1800; sec=29'
+  fields:
+  - {field: group, meaning: the rate-limit group the called operation belongs to}
+  - field: min
+    meaning: >-
+      DEPRECATED by the provider — documented as a fixed value that should be ignored. An agent
+      must not budget against it.
+  - {field: sec, meaning: remaining requests in the current second}
+- name: Retry-After
+  returned: unknown
+  note: >-
+    Not documented. The docs describe a block duration being returned on 418 but do not name
+    Retry-After. Recorded as unverified rather than asserted.
+exhaustion:
+  status: 429
+  meaning: Too Many Requests — call quota exceeded.
+  escalation:
+    status: 418
+    meaning: >-
+      "I'm a teapot" — returned on continued violation. The IP or account is temporarily blocked
+      and a block duration is returned. An agent that keeps retrying past 429 is escalated to 418,
+      so 429 must be treated as a hard backoff signal, not a soft one.
+limits:
+- group: market
+  scope: ip
+  limit: 10
+  window: second
+  operations: [List Trading Pairs]
+- group: candle
+  scope: ip
+  limit: 10
+  window: second
+  operations: [List Second/Minute/Day/Week/Month/Year Candles]
+- group: trade
+  scope: ip
+  limit: 10
+  window: second
+  operations: [List Pair Trades]
+- group: ticker
+  scope: ip
+  limit: 10
+  window: second
+  operations: [List Tickers by Pairs, List Tickers by Market]
+- group: orderbook
+  scope: ip
+  limit: 10
+  window: second
+  operations: [Get Orderbook, List Orderbook Instruments]
+- group: default
+  scope: account
+  limit: 30
+  window: second
+  operations: [Get Account Balances, order queries, deposits, withdrawals]
+- group: order
+  scope: account
+  limit: 8
+  window: second
+  operations: [Create Order, Cancel and New Order]
+- group: order-test
+  scope: account
+  limit: 8
+  window: second
+  operations: [Test Order]
+- group: order-cancel-all
+  scope: account
+  limit: 1
+  window: 2 seconds
+  operations: [Batch Cancel Orders]
+- group: websocket-connect
+  scope: ip-or-account
+  limit: 5
+  window: second
+  note: Per IP when unauthenticated, per account when authenticated.
+- group: websocket-message
+  scope: connection
+  limit: 5
+  window: second
+  burst: 100 per minute
+  note: Data-request messages sent over an established WebSocket connection.
+special_policies:
+- name: Origin-header requests
+  limit: 1
+  window: 10 seconds
+  applies_to: [Quotation REST API, WebSocket]
+  note: >-
+    A separate, far tighter policy applied to requests that carry an Origin header — i.e. calls
+    made from a browser. Browser-originated agents are effectively rate-limited 100x harder than
+    server-side ones.
+- name: Travel Rule verification
+  limit: 1
+  window: 10 minutes
+  scope: per deposit
+  applies_to: [Travel Rule verification operations]
+client_guidance:
+  docs: https://global-docs.upbit.com/docs/rest-api-best-practice
+  note: >-
+    The provider publishes REST and WebSocket integration best-practice guides covering
+    authentication, rate limits and error handling.

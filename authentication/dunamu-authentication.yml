@@ -1,0 +1,113 @@
+generated: '2026-08-12'
+method: searched
+source: https://global-docs.upbit.com/reference/auth
+docs: https://global-docs.upbit.com/docs/api-key
+note: >-
+  Authentication profile for the developer surface Dunamu Inc. operates under the Upbit brand.
+  Dunamu itself serves no authenticated API from dunamu.com. Read from the Upbit Developer Center
+  reference and its markdown twins (/reference/auth.md, /reference/rest-api-guide.md,
+  /docs/api-key.md) on 2026-08-12. No OpenAPI securityScheme block was available to derive from —
+  the Dunamu record carries no OpenAPI (the spec set lives on the Upbit provider profile), so this
+  is a docs-sourced profile, not a spec derivation.
+x-brand: Upbit
+surfaces:
+- name: Quotation API
+  scope: public market data
+  authentication: none
+  note: >-
+    Public API, accessible without authentication. Read-only (trading pairs, candles, trade
+    history, tickers, orderbooks).
+- name: Exchange API
+  scope: accounts, orders, deposits, withdrawals, travel rule
+  authentication: jwt-bearer
+  note: Private API. API Key required. Create, Read, Delete (cancel) operations.
+schemes:
+- id: upbit-jwt
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  header: Authorization
+  header_form: 'Authorization: Bearer <jwt>'
+  algorithm: HS256
+  signing_key: >-
+    The issued secret key, used raw. The documentation states explicitly that "the issued secret
+    key is not base64 encoded" and warns developers to check their JWT library settings.
+  claims:
+  - name: access_key
+    required: true
+    description: The issued access key.
+  - name: nonce
+    required: true
+    description: >-
+      A random UUID string, unique per request. Reuse is rejected with error code `nonce_used`.
+  - name: query_hash
+    required: conditional
+    description: >-
+      Hash of the request query string. Required only when the request carries parameters. The
+      query string must be a standard URL query string — JSON is not permitted for hashing.
+  - name: query_hash_alg
+    required: conditional
+    description: Algorithm used for query_hash. SHA512.
+  deprecated_predecessor: >-
+    The legacy `query` claim form was deprecated in March 2022 in favour of
+    query_hash + query_hash_alg.
+key_management:
+  issuance_url: https://global-docs.upbit.com/docs/api-key
+  issuance_path: 'Upbit PC web > My Profile > Open API'
+  issuance_constraint: >-
+    "API Keys can be issued only through the PC web interface and require a security level of 2 or
+    higher." Not issuable from mobile.
+  permissions:
+  - id: view-assets
+    description: Read account assets and balances.
+    ip_allowlist_required: false
+  - id: make-orders
+    description: Create and cancel orders.
+    ip_allowlist_required: true
+  - id: withdraw
+    description: Request digital asset withdrawals.
+    ip_allowlist_required: true
+  ip_allowlist:
+    required_for: [make-orders, withdraw]
+    rule: >-
+      "If you select Make Orders or Withdraw, you must register an allowlisted IP address."
+      A static IP is mandatory — the FAQ states dynamic-IP environments are not supported for
+      key-authenticated Exchange APIs because they involve deposits, withdrawals and trading.
+    error_on_mismatch: no_authorization_ip (HTTP 401)
+  expiry:
+    documented_period: null
+    note: >-
+      The docs expose an "Expired Keys" tab for deleting expired keys and an `expired_access_key`
+      (HTTP 401) error code, so keys DO expire — but no validity period is stated on the API-key
+      page. Recorded as an honest gap, not guessed.
+oauth2:
+  supported: false
+  note: >-
+    No OAuth 2.0, no OpenID Connect, no authorization-server metadata. Probed 2026-08-12:
+    /.well-known/oauth-authorization-server and /.well-known/openid-configuration return 404 on
+    global-docs.upbit.com and dunamu.com. No scopes/ artifact is emitted for this provider —
+    permissions are key-level checkboxes set at issuance, not OAuth scopes. The single
+    scope-shaped runtime signal is the `out_of_scope` error code (HTTP 403), which reports that a
+    key lacks the permission for the requested operation.
+transport:
+  tls_minimum: TLSv1.2
+  tls_recommended: TLSv1.3
+  note: >-
+    "The Upbit Open API supports only TLS version 1.2 or higher." Versions below TLS 1.2 are
+    stated as no longer supported.
+websocket:
+  authentication: >-
+    Private WebSocket streams (wss://<region>-api.upbit.com/websocket/v1/private) use the same JWT
+    bearer token as the REST Exchange API. Public streams
+    (wss://<region>-api.upbit.com/websocket/v1) require no authentication.
+  docs: https://global-docs.upbit.com/reference/websocket-guide
+errors:
+  reference: errors/dunamu-problem-types.yml
+  auth_codes:
+  - invalid_query_payload
+  - jwt_verification
+  - expired_access_key
+  - nonce_used
+  - no_authorization_ip
+  - no_authorization_token
+  - out_of_scope

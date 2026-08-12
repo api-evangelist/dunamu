@@ -42,5 +42,10 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Dunamu is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://www.hiive.com/securities/dunamu-stock
+Dunamu Inc. (두나무 주식회사) is a South Korean fintech and blockchain company founded in April 2012 and headquartered in Seocho-gu, Seoul. Dunamu operates Upbit — Korea's largest digital asset exchange and the country's first registered VASP — and Stockplus, a securities trading application, alongside Stockplus Unlisted for pre-IPO shares. It spun out Lambda256 (blockchain infrastructure, now trading as Nodit) in 2019 and runs the Dunamu & Partners venture arm.
+
+Dunamu publishes no developer program at dunamu.com. Its entire public API surface is served under the Upbit brand through the Upbit Developer Center and is catalogued separately at the [Upbit provider profile](https://github.com/api-evangelist/upbit); this repository profiles the corporate parent and the developer tooling Dunamu publishes from the `upbit-official` GitHub organization — official Python, TypeScript and Go SDKs, the `upbit` CLI, and a provider-published Agent Skill.
+
+- https://dunamu.com/
+- https://global-docs.upbit.com/
+- https://github.com/upbit-official

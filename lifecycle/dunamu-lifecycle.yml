@@ -1,0 +1,53 @@
+generated: '2026-08-12'
+method: searched
+source: https://global-docs.upbit.com/changelog
+note: >-
+  Lifecycle posture for the developer surface Dunamu operates under the Upbit brand. Dunamu
+  publishes no lifecycle documents for the corporate entity itself.
+versioning:
+  scheme: uri-path
+  current: v1
+  docs_version: v1.3.2
+  docs: https://global-docs.upbit.com/reference
+  note: >-
+    The Upbit Open API is versioned in the URI path (/v1/...). The developer center offers its own
+    documentation version selector (v1.2.2 - v1.3.2); that is a docs version, not an API version.
+deprecation:
+  policy_url: null
+  sunset_header: unknown
+  practice: >-
+    OBSERVED, NOT POLICY. Dunamu gives advance notice of removals through the developer center
+    changelog — e.g. "[Notice] WebSocket Ticker - Notice of Upcoming Deprecated Field Removal"
+    (2025-10-31). No published deprecation policy page, no stated notice period, and no evidence of
+    RFC 8594 Sunset/Deprecation response headers was found. No `Deprecation` pointer is emitted.
+  evidence:
+  - {date: '2025-10-31', item: WebSocket Ticker deprecated field removal notice}
+  - {date: '2025-12-02', item: BingX Travel Rule verification UUID change, effective 2025-12-08}
+sla:
+  url: null
+  uptime_target: null
+  note: No published API SLA or uptime target found as of 2026-08-12.
+status_page:
+  url: null
+  note: >-
+    RECORDED ABSENCE. No dedicated API status page. Probed 2026-08-12: status.upbit.com and
+    upbitstatus.com do not resolve (NXDOMAIN). Planned maintenance is announced as dated entries on
+    the developer center changelog and via the exchange notice board
+    (https://sg.upbit.com/service_center/notice, 200). No `StatusPage` pointer is emitted.
+  probes:
+  - {url: 'https://status.upbit.com/', status: 'NXDOMAIN'}
+  - {url: 'https://upbitstatus.com/', status: 'NXDOMAIN'}
+maintenance_channel: https://global-docs.upbit.com/changelog
+retired_surfaces:
+- name: Dunamu FX quotation API
+  endpoint: https://quotation-api-cdn.dunamu.com/v1/forex/recent
+  status: retired
+  evidence: >-
+    Host does not resolve (NXDOMAIN, probed 2026-08-12). Widely reused by Korean developers as a
+    de-facto free KRW FX rate source; reported discontinued mid-2024. No deprecation notice,
+    sunset header, or migration path was published for it — the endpoint simply stopped resolving.
+- name: developers.dunamu.com
+  status: retired
+  evidence: NXDOMAIN, probed 2026-08-12.
+deprecated_operations: []
+x-brand: Upbit

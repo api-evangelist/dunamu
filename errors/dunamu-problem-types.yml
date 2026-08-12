@@ -1,0 +1,144 @@
+generated: '2026-08-12'
+method: searched
+source: https://global-docs.upbit.com/reference/rest-api-guide
+docs: https://global-docs.upbit.com/reference/rest-api-guide
+note: >-
+  Error catalog for the developer surface Dunamu Inc. operates under the Upbit brand. SEARCHED
+  from the provider's own "REST API Usage and Error Guide" and its markdown twin
+  (/reference/rest-api-guide.md) on 2026-08-12 — not derived from an OpenAPI, because the Dunamu
+  corporate record carries no spec (the spec set lives on the Upbit provider profile).
+x-brand: Upbit
+format: vendor
+rfc9457: false
+content_type: application/json
+envelope:
+  shape: |
+    {
+      "error": {
+        "name": <string|integer>,
+        "message": "<string>"
+      }
+    }
+  fields:
+  - name: error.name
+    description: >-
+      The error code. TYPE IS NOT STABLE ACROSS SURFACES — the Quotation API returns `name` as an
+      INTEGER (the HTTP status), while the Exchange API returns it as a STRING code. A client that
+      types this field strictly will break when it crosses from public market data to
+      authenticated exchange calls. This is the single sharpest integration hazard in the
+      envelope.
+    type: string-or-integer
+  - name: error.message
+    description: Human-readable message. Not a stable branching key.
+    type: string
+  stability_guidance: >-
+    The provider explicitly instructs clients to branch on the error code STRING rather than the
+    HTTP status: "HTTP status codes (401, 403) may not be consistent across API domains, such as
+    deposits/withdrawals and orders. When handling exceptions, we recommend validating based on
+    the error code string, such as out_of_scope, rather than relying solely on the HTTP status
+    code."
+statuses:
+- status: 200
+  meaning: Successful response.
+- status: 201
+  meaning: Resource created by request.
+- status: 400
+  meaning: Bad Request.
+- status: 401
+  meaning: Unauthorized.
+- status: 403
+  meaning: Forbidden.
+- status: 404
+  meaning: Requested data does not exist (order, withdrawal, deposit or trade not found).
+- status: 418
+  meaning: Request denied due to excessive requests; IP/account temporarily blocked.
+- status: 429
+  meaning: Rate limit exceeded.
+- status: 500
+  meaning: Internal server error — service maintenance or system error.
+problems:
+- code: create_ask_error
+  status: 400
+  title: Ask (sell) order request information is invalid.
+  remediation: >-
+    May occur when a price is set on a market order. See the order-creation documentation.
+- code: create_bid_error
+  status: 400
+  title: Bid (buy) order request information is invalid.
+  remediation: >-
+    May occur when a price is set on a market order. See the order-creation documentation.
+- code: insufficient_funds_ask
+  status: 400
+  title: Insufficient funds for ask.
+  remediation: Check the available balance.
+- code: insufficient_funds_bid
+  status: 400
+  title: Insufficient funds for bid.
+  remediation: Check the available balance.
+- code: under_min_total_ask
+  status: 400
+  title: Ask below the minimum order amount.
+  remediation: Check the minimum order amount for the trading pair and retry.
+- code: under_min_total_bid
+  status: 400
+  title: Bid below the minimum order amount.
+  remediation: Check the minimum order amount for the trading pair and retry.
+- code: withdraw_address_not_registered
+  status: 400
+  title: Unregistered withdrawal address.
+  remediation: >-
+    Ensure the withdrawal address is on the account's registered withdrawal allowlist
+    (List Withdrawal Allowed Addresses).
+- code: validation_error
+  status: 400
+  title: Invalid API request.
+  remediation: Check for missing required parameters.
+- code: invalid_query_payload
+  status: 401
+  title: Invalid JWT payload.
+  remediation: Check token signature generation against the authentication guide.
+- code: jwt_verification
+  status: 401
+  title: JWT verification failed.
+  remediation: Check token generation and signature.
+- code: expired_access_key
+  status: 401
+  title: API key expired.
+  remediation: Issue and use a new API key.
+- code: nonce_used
+  status: 401
+  title: Nonce value already used.
+  remediation: >-
+    Use a unique nonce for every JWT request. THIS IS THE RETRY HAZARD — a naive client that
+    replays a stored JWT on retry hits this, not a duplicate write.
+- code: no_authorization_ip
+  status: 401
+  title: Unauthorized IP address.
+  remediation: >-
+    Call from an IP registered on the key's allowlist. Dynamic-IP environments are unsupported for
+    key-authenticated Exchange APIs.
+- code: no_authorization_token
+  status: 401
+  title: Missing Auth Token.
+  remediation: Include the Authorization header on the request.
+- code: out_of_scope
+  status: 403
+  title: Feature not permitted for this API key.
+  remediation: >-
+    The key lacks the permission (view assets / make orders / withdraw) for the operation. Reissue
+    with the required permission. The provider names this code specifically as the example of why
+    a client should branch on the code string, not the status.
+- code: null
+  status: 400
+  title: 'Invalid parameter. Check the given value!'
+  remediation: >-
+    Documented in the API-usage FAQ, not in the code table, so no machine code is published for
+    it. Raised when query parameters containing `:` or `+` (common in date formats) are sent
+    without URL encoding.
+undocumented:
+  note: >-
+    The provider states that not every error code is documented: "If you encounter an error that
+    is not documented and cannot identify its cause, please contact us with the error code
+    included in your inquiry." The catalog above is therefore the published subset, not a closed
+    set.
+  source: https://global-docs.upbit.com/docs/faq-api-usage

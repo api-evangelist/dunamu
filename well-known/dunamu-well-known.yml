@@ -1,0 +1,135 @@
+generated: '2026-08-12'
+method: probed
+source: live GET probes, 2026-08-12
+note: >-
+  RECORDED ABSENCE. No /.well-known/ document was found on any Dunamu-controlled host. No
+  common[].WellKnown or SecurityTxt pointer is emitted for this provider — every 200 observed was
+  an HTML application shell, not a document.
+hosts:
+- host: https://dunamu.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://stockplus.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - path: /.well-known/openid-configuration
+    status: 200
+    document: false
+    note: >-
+      NOT a document — the single-page-application catch-all returns the HTML shell
+      (<!doctype html>) with a 200 for this path. Treated as a miss.
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    document: false
+    note: SPA catch-all HTML shell, not a document. Treated as a miss.
+  - path: /.well-known/api-catalog
+    status: 200
+    document: false
+    note: SPA catch-all HTML shell, not a document. Treated as a miss.
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://global-docs.upbit.com
+  note: Developer-center host operated by Dunamu under the Upbit brand.
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://sg-api.upbit.com
+  note: >-
+    Upbit Singapore REST API host — a live production base URL operated by Dunamu, discovered on
+    2026-08-12 from the API overview reference (it is not named anywhere on dunamu.com). Fronted
+    by a Kong gateway: every miss returns Kong's own `{"error":{"message":"no Route matched with
+    those values"}}` envelope, not Upbit's `{"error":{"name":...}}` envelope.
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /openapi.json, status: 404}
+- host: https://id-api.upbit.com
+  note: >-
+    Upbit Indonesia REST API host. Misses return Upbit's own error envelope
+    (`{"error":{"name":"not_found",...}}`) rather than a gateway envelope.
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /openapi.json, status: 404}
+- host: https://th-api.upbit.com
+  note: >-
+    Upbit Thailand REST API host — documented by the provider as BETA and subject to change.
+    Returns a mix of Kong and Upbit error envelopes depending on path.
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /openapi.json, status: 404}
+contract_discovery:
+  note: >-
+    STEP 0b sweep, 2026-08-12. No machine-readable contract is served from any Dunamu-controlled
+    host. /openapi.json, /openapi.yaml, /swagger.json, /v1/openapi.json, /api-docs, /v3/api-docs,
+    /llms.txt and /graphql were probed against dunamu.com, www.dunamu.com, stockplus.com,
+    api.stockplus.com, api.dunamu.com and the three regional Upbit API hosts. Every result was a
+    404, an SPA HTML shell, or a gateway error envelope. The one machine-readable agent surface
+    Dunamu does serve is the Upbit Developer Center's llms.txt plus a Markdown twin of every docs
+    page (append `.md` to any page URL) — captured in conventions/dunamu-conventions.yml.
+  stockplus_spa:
+    note: >-
+      stockplus.com answers 200 with an HTML shell for /api-docs, /v3/api-docs and /graphql. This
+      is an SPA catch-all, NOT a served contract — the dominant soft-200 false positive. Recorded
+      as a miss.
+    probes:
+    - {url: 'https://stockplus.com/api-docs', status: 200, document: false}
+    - {url: 'https://stockplus.com/v3/api-docs', status: 200, document: false}
+    - {url: 'https://stockplus.com/graphql', status: 200, document: false}
+agent_card:
+  found: false
+  note: >-
+    No A2A agent card at either the canonical /.well-known/agent-card.json or the legacy
+    /.well-known/agent.json on any Dunamu host — re-probed 2026-08-12 across seven hosts including
+    the three regional Upbit API bases. No a2a/ artifact is written and no AgentCard pointer is
+    emitted — this artifact is search-only.
+mcp:
+  found: false
+  note: >-
+    SEARCHED 2026-08-12. Dunamu publishes no official hosted or remote MCP server for any of its
+    brands. The MCP servers for Upbit that exist on GitHub (e.g. solangii/upbit-mcp-server) are
+    community projects, not first-party, and are not recorded as Dunamu artifacts. No mcp/
+    artifact is written: there is no first-party server to capture and no OpenAPI in this repo to
+    derive a candidate tool list from. Dunamu's first-party agent surface is instead a packaged
+    Agent Skill that drives the `upbit` CLI — see skills/_index.yml.
+retired_hosts:
+- host: quotation-api-cdn.dunamu.com
+  status: NXDOMAIN
+  note: >-
+    Dunamu's widely-reused public FX rate endpoint (/v1/forex/recent?codes=FRX.KRWUSD) no longer
+    resolves in DNS. Confirmed dead 2026-08-12; reported discontinued mid-2024.
+- host: developers.dunamu.com
+  status: NXDOMAIN
+- host: api.dunamu.com
+  status: 404
+  note: >-
+    Resolves to CloudFront but returns 404 on /, /openapi.json, /swagger.json, /api-docs, /docs
+    and /v1/forex/recent. No served API surface.

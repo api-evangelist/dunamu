@@ -1,0 +1,110 @@
+generated: '2026-08-12'
+method: searched
+source: https://github.com/upbit-official/upbit-cli
+docs: https://github.com/upbit-official/upbit-agent-skills/blob/main/skills/upbit/upbit/references/setup.md
+name: upbit
+binary: upbit
+description: >-
+  First-party command-line interface for the Upbit Open API, published by Dunamu Inc. from the
+  upbit-official GitHub organization. Written in Go (module github.com/upbit-official/upbit-cli),
+  distributed as an npm global package. The CLI is the execution layer the official Upbit agent
+  skill drives.
+version: 0.9.3
+released: '2026-07-23'
+install:
+- method: npm
+  command: npm install -g @upbit-official/upbit-cli
+  requires: Node.js 18 or later
+configuration:
+  interactive: upbit config set
+  config_file: ~/.upbit/config
+  environment_variables:
+  - UPBIT_ACCESS_KEY
+  - UPBIT_SECRET_KEY
+  inline_flags:
+  - --access-key
+  - --secret-key
+  other_commands:
+  - upbit config show
+  - upbit config path
+  - upbit --version
+environments:
+- id: kr
+  base_url: https://www.upbit.com
+  api_key_management: https://www.upbit.com/mypage/open_api_management
+  default: true
+- id: sg
+  base_url: https://sg.upbit.com
+  api_key_management: https://sg.upbit.com/mypage/open_api_management
+- id: id
+  base_url: https://id.upbit.com
+  api_key_management: https://id.upbit.com/mypage/open_api_management
+- id: th
+  base_url: https://th.upbit.com
+  api_key_management: https://th.upbit.com/mypage/open_api_management
+custom_base_url_flag: --base-url
+commands:
+- resource: orders
+  auth: private
+  subcommands: [create, test-create, retrieve, list-open, list-closed, list-by-uuids, cancel,
+    cancel-and-new, cancel-by-uuids, cancel-open, retrieve-chance]
+- resource: accounts
+  auth: private
+  subcommands: [list]
+- resource: api-keys
+  auth: private
+  subcommands: [list]
+- resource: wallet-status
+  auth: private
+  subcommands: [list]
+- resource: withdraws
+  auth: private
+  subcommands: [retrieve, list, cancel-withdrawal, create-withdrawal, create-krw-withdrawal,
+    list-coin-addresses, retrieve-chance]
+- resource: deposits
+  auth: private
+  subcommands: [retrieve, list, create-coin-address, deposit-krw, list-coin-addresses,
+    retrieve-chance, retrieve-coin-address]
+- resource: travel-rule
+  auth: private
+  subcommands: [list-vasps, verify-deposit-by-txid, verify-deposit-by-uuid]
+- resource: tickers
+  auth: public
+  subcommands: [list-by-quote-currencies, list-by-trading-pairs]
+- resource: candles
+  auth: public
+  subcommands: [list-minutes, list-days, list-weeks, list-months, list-years, list-seconds]
+- resource: orderbooks
+  auth: public
+  subcommands: [list, list-instruments]
+- resource: trades
+  auth: public
+  subcommands: [list]
+- resource: trading-pairs
+  auth: public
+  subcommands: [list]
+output:
+  flags: [--format, --transform]
+  query_language: GJSON
+  features: [debug output, auto-paging]
+attribution_header:
+  name: X-Upbit-Initiator
+  required_for: every CLI invocation that calls the API
+  note: >-
+    Documented in the official Upbit agent skill; excluded for --version and config subcommands,
+    which make no API request.
+write_operations:
+- orders create
+- orders cancel
+- orders cancel-and-new
+- orders cancel-by-uuids
+- orders cancel-open
+- withdraws create-withdrawal
+- withdraws create-krw-withdrawal
+- withdraws cancel-withdrawal
+- deposits deposit-krw
+- deposits create-coin-address
+- travel-rule verify-deposit-by-txid
+- travel-rule verify-deposit-by-uuid
+dry_run: orders test-create
+x-brand: Upbit

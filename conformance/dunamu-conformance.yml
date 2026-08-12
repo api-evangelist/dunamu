@@ -1,0 +1,68 @@
+generated: '2026-08-12'
+method: searched
+source: https://www.dunamu.com/en/about/company
+note: >-
+  Dunamu publishes its certification history on the corporate About page as a dated milestone
+  timeline. Every certification below is held for the Upbit service. Dunamu publishes no SOC 2,
+  ISO 27017, ISO 27018, PCI DSS, HIPAA or FedRAMP claim, and operates no trust center — probed
+  2026-08-12 (trust.dunamu.com, security.dunamu.com, dunamu.com/trust, dunamu.com/security all
+  miss).
+standards:
+- id: isms
+  name: Korea Information Security Management System (ISMS)
+  conforms: true
+  scope: Upbit
+  since: '2018'
+  evidence: Certification listed on the Dunamu corporate About page milestone timeline.
+- id: iso-27001
+  name: ISO/IEC 27001 — Information Security Management
+  conforms: true
+  scope: Upbit
+  since: '2018'
+  evidence: Certification listed on the Dunamu corporate About page milestone timeline.
+- id: iso-27701
+  name: ISO/IEC 27701 — Privacy Information Management
+  conforms: true
+  scope: Upbit
+  since: '2021'
+  evidence: Certification listed on the Dunamu corporate About page milestone timeline.
+- id: isms-p
+  name: ISMS-P — Personal Information & Information Security Management
+  conforms: true
+  scope: Upbit
+  since: '2021'
+  evidence: Certification listed on the Dunamu corporate About page milestone timeline.
+- id: iso-22301
+  name: ISO 22301 — Business Continuity Management
+  conforms: true
+  scope: Upbit
+  since: '2023'
+  evidence: Certification listed on the Dunamu corporate About page milestone timeline.
+- id: kr-vasp
+  name: Virtual Asset Service Provider registration (Republic of Korea)
+  conforms: true
+  scope: Upbit
+  since: '2021'
+  evidence: >-
+    Dunamu states Upbit was the first VASP registered in Korea under the Act on Reporting and Using
+    Specified Financial Transaction Information.
+- id: travel-rule
+  name: FATF Travel Rule
+  conforms: true
+  scope: Upbit Open API
+  evidence: >-
+    The Upbit Open API exposes a dedicated Travel Rule surface (list-vasps,
+    verify-deposit-by-txid, verify-deposit-by-uuid) and a TRAVEL_RULE_SUSPECTED deposit state.
+- id: soc2
+  conforms: false
+  evidence: No SOC 2 claim found on any Dunamu-published page as of 2026-08-12.
+- id: pci-dss
+  conforms: false
+  evidence: No PCI DSS claim found on any Dunamu-published page as of 2026-08-12.
+regulatory_context:
+- date: '2026-07-19'
+  event: >-
+    South Korea's Financial Supervisory Service issued an inspection notice to Dunamu regarding the
+    November 2025 Upbit security incident (~54bn KRW / ~USD 37M in unauthorized Solana-network
+    token transfers). Recorded as public regulatory context, not as a conformance finding.
+  source: https://www.theblock.co/post/408848/upbit-parent-dunamu-faces-sanction-process-nearly-eight-months-after-30-million-hack-report

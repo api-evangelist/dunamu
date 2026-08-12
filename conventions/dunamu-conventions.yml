@@ -1,0 +1,166 @@
+generated: '2026-08-12'
+method: searched
+source: https://global-docs.upbit.com/reference/rest-api-guide
+docs:
+- https://global-docs.upbit.com/reference/api-overview
+- https://global-docs.upbit.com/reference/rest-api-guide
+- https://global-docs.upbit.com/reference/auth
+- https://global-docs.upbit.com/docs/rest-api-best-practice
+- https://global-docs.upbit.com/docs/websocket-best-practice
+note: >-
+  Cross-cutting runtime semantics for the developer surface Dunamu Inc. operates under the Upbit
+  brand. SEARCHED from the provider's own reference pages and their markdown twins on 2026-08-12.
+  Dunamu publishes no API conventions for the corporate entity itself.
+x-brand: Upbit
+surfaces:
+  rest:
+    regional_endpoints:
+    - {region: Singapore, base_url: 'https://sg-api.upbit.com'}
+    - {region: Indonesia, base_url: 'https://id-api.upbit.com'}
+    - {region: Thailand, base_url: 'https://th-api.upbit.com', status: beta}
+    note: >-
+      Region-pinned bases, not one global host. A client must connect to the endpoint matching its
+      service region. Thailand is explicitly flagged beta and subject to change.
+  websocket:
+    public: 'wss://<region>-api.upbit.com/websocket/v1'
+    private: 'wss://<region>-api.upbit.com/websocket/v1/private'
+  categories:
+  - name: Quotation
+    auth: none
+    operations: read-only
+    scope: trading pairs, candles (OHLCV), trade history, tickers, orderbooks
+  - name: Exchange
+    auth: required
+    operations: create, read, delete (cancel)
+    scope: account balances, orders, deposits, withdrawals, travel rule
+authentication:
+  style: jwt-bearer
+  header: 'Authorization: Bearer <jwt>'
+  algorithm: HS256
+  detail: authentication/dunamu-authentication.yml
+  reference: https://global-docs.upbit.com/reference/auth
+idempotency:
+  supported: true
+  mechanism: client-assigned-identifier
+  mode: reject-duplicate
+  parameter: identifier
+  location: request body / query parameter
+  applies_to:
+  - Create Order
+  - Test Order
+  - Cancel Order
+  - Cancel Orders by IDs
+  - Cancel and New Order
+  - Get Order
+  - List Orders by IDs
+  header: null
+  retention: permanent
+  semantics: >-
+    HONEST CHARACTERISATION — this is duplicate suppression, NOT idempotent replay. The provider
+    documents `identifier` as "a unique identifier assigned by the user's client application to
+    identify the order, separate from the UUID used internally by the Upbit system... Each order
+    must be assigned a value that is unique across all orders within the user's account, and once
+    an identifier value has been used, it cannot be reused regardless of whether the order was
+    created or executed." A retry carrying the same identifier is REJECTED — it does not replay
+    and return the original response the way an Idempotency-Key implementation would. It does
+    prevent the double-order an agent retry would otherwise cause, which is what the mechanism
+    exists for, and the same identifier is then usable as the query and cancel key. There is no
+    `Idempotency-Key` header on this API.
+  gotcha: >-
+    Retry safety has a second, separate requirement: the JWT `nonce` must be fresh on every
+    attempt. Replaying a stored JWT on retry fails with `nonce_used` (401) before the identifier
+    is ever evaluated.
+  dry_run:
+    supported: true
+    operation: Test Order
+    reference: https://global-docs.upbit.com/reference/order-test
+    cli: upbit orders test-create
+    note: >-
+      Validates an order request without creating an actual order. A real dry-run mode, and the
+      CLI/agent-skill layer exposes it directly.
+pagination:
+  style: cursor-and-count
+  note: >-
+    List operations take a result count and, for time-series data, a `to` cursor timestamp rather
+    than offset paging. Candle and trade endpoints page backwards from `to`. No Link header, no
+    RFC 8288 pagination, no envelope-level page metadata — list responses are bare JSON arrays.
+  response_shape: bare-array
+content:
+  request_content_type: 'application/json; charset=utf-8'
+  note: >-
+    JSON only for POST bodies. Form-encoded POST requests have been unsupported since
+    2022-03-01 — a URL-encoded body is not guaranteed to work.
+  encoding_rule: >-
+    All query parameters on GET and DELETE must be URL-encoded before sending, or the server
+    returns a 400 "Invalid parameter" response. EXCEPTION: for array-type parameters in the
+    Exchange API whose NAME includes `[]`, the `[` and `]` characters must be excluded from
+    encoding. This is a hand-rolled exception a generic HTTP client will get wrong.
+  compression:
+    header: 'Accept-Encoding: gzip'
+    supported_on: Quotation APIs only
+    note: gzip is explicitly NOT supported on Exchange APIs.
+versioning:
+  scheme: uri-path
+  current: v1
+  detail: lifecycle/dunamu-lifecycle.yml
+  note: >-
+    The API is versioned in the URI path (/v1/...). The developer center's own version selector
+    (v1.2.2 - v1.3.2) is a DOCS version, not an API version — do not read it as a contract
+    version.
+errors:
+  envelope: '{"error": {"name": ..., "message": ...}}'
+  detail: errors/dunamu-problem-types.yml
+  branching_rule: >-
+    Branch on the error code STRING, not the HTTP status — the provider states 401 and 403 are not
+    used consistently across API domains.
+  type_hazard: >-
+    `error.name` is an INTEGER on the Quotation API and a STRING on the Exchange API.
+rate_limits:
+  header: Remaining-Req
+  format: 'group=<group>; min=<n>; sec=<n>'
+  detail: rate-limits/dunamu-rate-limits.yml
+  note: >-
+    The `min` field is documented as deprecated and fixed — budget against `sec` only. 429 escalates
+    to 418 (temporary IP/account block) on continued violation.
+request_id:
+  supported: false
+  note: >-
+    No request-id / correlation-id / trace header is documented on either request or response.
+    The FAQ instructs developers to quote the error code in a support inquiry, which is what a
+    request id would otherwise carry. Recorded as an honest absence.
+metadata:
+  supported: false
+  note: No arbitrary key/value metadata bag on any resource.
+field_expansion:
+  supported: false
+  note: No expand / fields / sparse-fieldset parameter documented.
+transport:
+  tls_minimum: TLSv1.2
+  tls_recommended: TLSv1.3
+safety:
+  self_match_prevention:
+    supported: true
+    reference: https://global-docs.upbit.com/docs/smp
+    note: Prevents order matching between orders placed by the same user.
+  withdrawal_allowlist:
+    required: true
+    note: >-
+      Withdrawals only go to addresses on the account's registered allowlist; an unregistered
+      address fails with `withdraw_address_not_registered`.
+  agent_attribution:
+    header: X-Upbit-Initiator
+    note: >-
+      The provider's own packaged Agent Skill requires this attribution header on every
+      API-calling command. See skills/dunamu-upbit-skill.md.
+agent_surface:
+  llms_txt: https://global-docs.upbit.com/llms.txt
+  markdown_twins: true
+  markdown_rule: >-
+    Every documentation page is served as Markdown by appending `.md` to its URL
+    (e.g. /reference/rest-api-guide.md). Verified 200 on 2026-08-12. Each twin carries a
+    `updatedAt` ISO timestamp in frontmatter and a pointer back to llms.txt.
+  provider_guidance: https://global-docs.upbit.com/docs/ai-guide
+  terms_caveat: >-
+    The provider's AI guide states that use of the documentation "for commercial services,
+    redistribution, or monetization may violate the Open API Terms of Use"
+    (https://sg.upbit.com/open_api_agreement).

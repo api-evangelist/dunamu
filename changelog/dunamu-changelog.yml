@@ -1,0 +1,77 @@
+generated: '2026-08-12'
+method: searched
+source: https://global-docs.upbit.com/changelog
+note: >-
+  Dunamu publishes a dated changelog for the Upbit Open API on the Upbit Developer Center. Dates
+  below were read from the page's own publication metadata, not from relative "N months ago"
+  labels. Recent window only — the live changelog remains the source of truth. Dunamu publishes no
+  changelog for the corporate entity itself.
+scheme: >-
+  Dated announcement feed. The developer center itself is versioned (v1.2.2 through v1.3.2 offered
+  in the docs version selector); individual API changes are announced by date, not by API version.
+current_docs_version: v1.3.2
+entries:
+- date: '2026-07-02'
+  title: '[Important] Scheduled Server Maintenance (Completed)'
+  kind: maintenance
+  breaking: false
+- date: '2026-05-08'
+  title: '[Notice] Launch of Upbit Go SDK'
+  kind: addition
+  breaking: false
+  highlights:
+  - First-party Go SDK published (github.com/upbit-official/upbit-sdk-go v0.9.0, 2026-05-06).
+- date: '2026-04-15'
+  title: "[Notice] Official Launch of the Upbit SDK – Get Started with the Upbit API Easily and Quickly!"
+  kind: addition
+  breaking: false
+  highlights:
+  - First-party Python (pypi upbit-sdk) and TypeScript (@upbit-official/upbit-sdk) SDKs published.
+- date: '2026-04-06'
+  title: 'Upbit SDK Launch | Simplified Open API Integration'
+  kind: addition
+  breaking: false
+- date: '2026-04-06'
+  title: '[Important] Scheduled Server Maintenance (Completed)'
+  kind: maintenance
+  breaking: false
+- date: '2025-12-29'
+  title: '[Important] Scheduled Server Maintenance (Completed)'
+  kind: maintenance
+  breaking: false
+- date: '2025-12-02'
+  title: '[Important] Notice on BingX Travel Rule Verification UUID Change (Dec 08, 15:00)'
+  kind: change
+  breaking: true
+  highlights:
+  - Travel Rule VASP verification UUID for BingX changed, effective 2025-12-08 15:00.
+- date: '2025-11-14'
+  title: '[Important] Notice of Tick Size Adjustment for SGD Market'
+  kind: change
+  breaking: false
+- date: '2025-10-31'
+  title: '[Notice] WebSocket Ticker – Notice of Upcoming Deprecated Field Removal'
+  kind: deprecation
+  breaking: true
+  highlights:
+  - Advance notice of deprecated field removal on the WebSocket ticker stream.
+- date: '2025-10-27'
+  title: "[Notice] Addition of 'Test Order' API"
+  kind: addition
+  breaking: false
+  highlights:
+  - Dry-run order placement endpoint added; surfaced in the CLI as `orders test-create`.
+- date: '2025-09-29'
+  title: '[Notice] Upbit Global Developer Center Redesign'
+  kind: docs
+  breaking: false
+related_changelogs:
+- name: Upbit Agent Skills
+  url: https://github.com/upbit-official/upbit-agent-skills/blob/main/CHANGELOG.md
+  scheme: semver
+  current: 0.9.2
+  entries:
+  - {version: 0.9.2, date: '2026-07-13', highlight: "Require X-Upbit-Initiator header on all API commands (needs CLI v0.9.2+)"}
+  - {version: 0.9.1, date: '2026-05-22', highlight: "Fix wallet-status endpoint authentication (Public to Private)"}
+  - {version: 0.9.0, date: '2026-05-07', highlight: Initial release}
+x-brand: Upbit

@@ -1,0 +1,97 @@
+generated: '2026-08-12'
+method: searched
+source: https://github.com/upbit-official
+note: >-
+  Dunamu Inc. publishes its first-party client libraries under the Upbit brand from the
+  upbit-official GitHub organization (github.com/upbit-official). Versions and publish dates below
+  were read from each registry's unauthenticated metadata endpoint on 2026-08-12. Third-party
+  community wrappers (pypi `pyupbit`, pypi `upbit`, npm `upbit`) exist but are NOT first-party and
+  are recorded separately as unofficial.
+packages:
+- language: python
+  registry: pypi
+  name: upbit-sdk
+  url: https://pypi.org/project/upbit-sdk/
+  install: pip install upbit-sdk
+  source: https://github.com/upbit-official/upbit-sdk-python
+  official: true
+  version: 0.9.0
+  published: '2026-04-14'
+  note: The official Python library for the Upbit API.
+- language: typescript
+  registry: npm
+  name: "@upbit-official/upbit-sdk"
+  url: https://www.npmjs.com/package/@upbit-official/upbit-sdk
+  install: npm install @upbit-official/upbit-sdk
+  source: https://github.com/upbit-official/upbit-sdk-typescript
+  official: true
+  version: 0.9.0
+  published: '2026-04-14'
+  note: The official TypeScript library for the Upbit API.
+- language: go
+  registry: go
+  name: github.com/upbit-official/upbit-sdk-go
+  url: https://pkg.go.dev/github.com/upbit-official/upbit-sdk-go
+  install: go get github.com/upbit-official/upbit-sdk-go
+  source: https://github.com/upbit-official/upbit-sdk-go
+  official: true
+  version: v0.9.0
+  published: '2026-05-06'
+  note: >-
+    Read from proxy.golang.org/@latest (tag refs/tags/v0.9.0). Announced on the Upbit Developer
+    Center changelog as "Launch of Upbit Go SDK".
+- language: javascript
+  registry: npm
+  name: "@upbit-official/upbit-cli"
+  url: https://www.npmjs.com/package/@upbit-official/upbit-cli
+  install: npm install -g @upbit-official/upbit-cli
+  source: https://github.com/upbit-official/upbit-cli
+  official: true
+  version: 0.9.3
+  published: '2026-07-23'
+  note: >-
+    Distribution channel for the first-party Upbit CLI (Go binary, published to npm). Command
+    surface captured in cli/dunamu-cli.yml.
+- language: python
+  registry: null
+  name: upbit-strategy-toolkit
+  url: https://github.com/upbit-official/upbit-strategy-toolkit
+  install: null
+  source: https://github.com/upbit-official/upbit-strategy-toolkit
+  official: true
+  version: null
+  published: null
+  note: >-
+    First-party repository ("Build and backtest Upbit trading strategies by chatting with an AI
+    agent"). Checked PyPI for `upbit-strategy-toolkit` on 2026-08-12 — 404, no published package.
+    Distributed by git clone only, so there is no registry version a consumer can pin.
+unofficial:
+- language: python
+  registry: pypi
+  name: pyupbit
+  url: https://pypi.org/project/pyupbit/
+  official: false
+  version: 0.2.34
+  published: '2024-06-14'
+  note: Community wrapper (sharebook-kr); last release predates the official SDKs by ~2 years.
+- language: python
+  registry: pypi
+  name: upbit
+  url: https://pypi.org/project/upbit/
+  official: false
+  version: 1.0.0
+  published: '2018-05-12'
+  note: Community wrapper (chaos314); abandoned.
+- language: javascript
+  registry: npm
+  name: upbit
+  url: https://www.npmjs.com/package/upbit
+  official: false
+  version: 0.0.1
+  published: '2018-03-04'
+  note: Community wrapper (brandsoft); abandoned.
+x-brand: Upbit
+x-note: >-
+  These are Dunamu-published artifacts distributed under the Upbit brand. The Upbit Open API itself
+  is catalogued at the separate Upbit provider profile; this record captures the packaging surface
+  of the parent company.

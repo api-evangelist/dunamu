@@ -1,0 +1,58 @@
+generated: '2026-08-12'
+method: searched
+source: https://global-docs.upbit.com/docs/api-key
+note: >-
+  RECORDED NEAR-ABSENCE. Dunamu Inc. publishes NO developer plans, tiers, quotas or API pricing —
+  neither for the corporate entity at dunamu.com nor on the Upbit Developer Center it operates.
+  Probed 2026-08-12: https://global-docs.upbit.com/docs/pricing (404) and
+  https://global-docs.upbit.com/docs/plans (404); the API-key issuance page carries no fee or
+  charge information at all. There is exactly one access tier, and it is free. This is NOT a
+  gap in our research — it is the provider's actual commercial model, recorded as such.
+x-brand: Upbit
+plan_count: 1
+pricing_page: null
+pricing_model: free-api-monetized-by-trading-fees
+currency: null
+plans:
+- id: upbit-open-api
+  name: Upbit Open API
+  price: 0
+  currency: null
+  billing_period: none
+  quota: null
+  overage: null
+  description: >-
+    The single access tier. No subscription fee, no per-call charge, no metered plan, no
+    enterprise tier. Quotation (public market data) endpoints require no account and no API key
+    at all. Exchange endpoints require an Upbit account at security level 2 or higher and an API
+    key issued from the PC web interface.
+  eligibility:
+    quotation: No account required. Fully anonymous.
+    exchange: >-
+      Upbit account at security level 2 or higher; API key issued only via the PC web at
+      My Profile > Open API; a static allowlisted IP is mandatory for order and withdrawal
+      permissions.
+  limits:
+    reference: rate-limits/dunamu-rate-limits.yml
+    note: >-
+      The tier is bounded by published rate limits (10 req/s per IP on public quotation groups,
+      8-30 req/s per account on exchange groups), not by a paid quota. There is no way to buy a
+      higher limit — no upgrade path is published.
+  terms: https://sg.upbit.com/open_api_agreement
+commercial_model:
+  note: >-
+    Dunamu does not monetize the API. Revenue on this surface is realized as EXCHANGE TRADING
+    FEES on the orders the API places, published on the exchange service-center site rather than
+    on the developer surface. This record deliberately does NOT restate a fee percentage: no
+    Dunamu-published page states one in a form we fetched, and the only figures available on
+    2026-08-12 came from third-party review sites, which is not provider-published evidence.
+  fee_pages_probed:
+  - {url: 'https://sg.upbit.com/service_center/guide_fee', status: 200}
+  - {url: 'https://sg.upbit.com/service_center/fee', status: 200}
+  fee_pages_note: >-
+    Both resolve 200 but render client-side; no fee figure was extracted in a form safe to
+    record as provider-published. Recorded as an honest gap.
+probes:
+- {url: 'https://global-docs.upbit.com/docs/pricing', status: 404}
+- {url: 'https://global-docs.upbit.com/docs/plans', status: 404}
+- {url: 'https://global-docs.upbit.com/docs/api-key', status: 200}
