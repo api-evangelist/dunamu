@@ -47,6 +47,9 @@ description: >-
   Rule compliance, plus first-party Python, TypeScript and Go SDKs, a CLI and packaged agent skills
   published from the upbit-official GitHub organization. That API surface is catalogued separately at
   the Upbit provider profile; this record profiles the corporate parent.
+x-docs-platform: readme
+x-docs-platform-confidence: high
+x-docs-platform-checked: 2026-10-03
 tags:
 - Fintech
 - Cryptocurrency
