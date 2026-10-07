@@ -93,6 +93,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Pricing
+  url: https://global-docs.upbit.com/docs/api-key
 - type: DomainSecurity
   url: security/dunamu-domain-security.yml
 - type: Packages
