@@ -1,13 +1,54 @@
-generated: '2026-09-25'
+generated: '2026-10-14'
 method: probed
-source: 'reconcile-ptr-only.py: an MCP server the provider serves through a vendor implementation'
+source: pre-flight dossier (docs platform, portal detections) + CNAME chains and response headers of the hosts apis.yml names
 registry: all/0-working/vendors.yml
+areas_vocabulary:
+- documentation
+- developer-portal
+- api-gateway
+- cdn
+- hosting
+- sdk-generation
+- api-collections
+- status-page
+- support
+- community
+- identity
+- mcp-hosting
 vendors:
-- vendor: readme
-  area: mcp-hosting
-  host: docs.upbit.com
-  evidence: mcp:https://docs.upbit.com/mcp
-  signal: mcp-handshake
+- vendor: cloudflare
+  name: Cloudflare
+  area: cdn
+  host: global-docs.upbit.com
+  evidence: header:cf-ray
+  signal: header
   confidence: high
   kin_score:
-  - mcp_server
+  - https_enforced
+  - hsts
+- vendor: cloudfront
+  name: Amazon CloudFront
+  area: cdn
+  host: dunamu.com
+  evidence: header:x-amz-cf-id
+  signal: header
+  confidence: high
+  kin_score: []
+reliance:
+  areas_vendor_served:
+  - cdn
+  vendor_count: 2
+  areas_observed: 12
+  share_of_observable_areas: 0.083
+  note: areas where a third party was DETECTED serving this provider; an area absent here was either self-run or not observed, and this script
+    cannot tell those apart
+checked:
+- 'docs-platform: not probed'
+- dunamu.com (Website)
+- global-docs.upbit.com (DeveloperPortal)
+- global-docs.upbit.com (Documentation)
+- global-docs.upbit.com (APIReference)
+- global-docs.upbit.com (GettingStarted)
+- upbitcare.com (Support)
+- sg.upbit.com (SignUp)
+- docs.upbit.com (mcp)

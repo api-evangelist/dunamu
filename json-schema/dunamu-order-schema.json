@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/dunamu/main/json-schema/dunamu-order-schema.json",
+  "title": "Order",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/dunamu-exchange-api-openapi.yml#/components/schemas/Order",
+  "type": "object",
+  "required": [
+    "market",
+    "uuid",
+    "side",
+    "ord_type",
+    "state",
+    "created_at",
+    "remaining_volume",
+    "executed_volume",
+    "reserved_fee",
+    "remaining_fee",
+    "paid_fee",
+    "locked",
+    "trades_count",
+    "prevented_volume",
+    "prevented_locked"
+  ],
+  "properties": {
+    "market": {
+      "type": "string",
+      "description": "Trading pair code.\n"
+    },
+    "uuid": {
+      "type": "string",
+      "description": "Unique identifier of the order."
+    },
+    "side": {
+      "type": "string",
+      "enum": [
+        "ask",
+        "bid"
+      ],
+      "description": "Order direction (ask=sell, bid=buy)."
+    },
+    "ord_type": {
+      "type": "string",
+      "enum": [
+        "limit",
+        "price",
+        "market",
+        "best"
+      ],
+      "description": "Order type."
+    },
+    "price": {
+      "type": "string",
+      "format": "decimal",
+      "description": "Order price or total amount.\nFor limit orders, this is the unit price. For market buy orders, this is the total buy amount.\n"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "wait",
+        "watch",
+        "done",
+        "cancel"
+      ],
+      "description": "Order state.\n\n- `wait`: Pending execution\n- `watch`: Waiting for reservation order\n- `done`: Fully executed\n- `cancel`: Cancelled\n"
+    },
+    "created_at": {
+      "type": "string",
+      "description": "Timestamp when the order was created.\n\n[Format] yyyy-MM-ddTHH:mm:ss+00:00\n"
+    },
+    "volume": {
+      "type": "string",
+      "format": "decimal",
+      "description": "Requested order volume."
+    },
+    "remaining_volume": {
+      "type": "string",
+      "format": "decimal",
+      "description": "Remaining volume after execution."
+    },
+    "executed_volume": {
+      "type": "string",
+      "format": "decimal",
+      "description": "Executed volume."
+    },
+    "reserved_fee": {
+      "type": "string",
+      "format": "decimal",
+      "description": "Fee reserved for this order."
+    },
+    "remaining_fee": {
+      "type": "string",
+      "format": "decimal",
+      "description": "Remaining fee."
+    },
+    "paid_fee": {
+      "type": "string",
+      "format": "decimal",
+      "description": "Fee paid so far."
+    },
+    "locked": {
+      "type": "string",
+      "format": "decimal",
+      "description": "Amount locked for this order."
+    },
+    "trades_count": {
+      "type": "integer",
+      "description": "Number of trades executed for this order."
+    },
+    "time_in_force": {
+      "type": "string",
+      "enum": [
+        "fok",
+        "ioc",
+        "post_only"
+      ],
+      "description": "Time in force condition."
+    },
+    "identifier": {
+      "type": "string",
+      "description": "Client-assigned order identifier specified at order creation.\n* The identifier field is only available for orders created after October 18, 2024.\n"
+    },
+    "smp_type": {
+      "type": "string",
+      "enum": [
+        "reduce",
+        "cancel_maker",
+        "cancel_taker"
+      ],
+      "description": "Self-Match Prevention (SMP) mode."
+    },
+    "prevented_volume": {
+      "type": "string",
+      "format": "decimal",
+      "description": "Volume cancelled due to Self-Match Prevention.\n"
+    },
+    "prevented_locked": {
+      "type": "string",
+      "format": "decimal",
+      "description": "Asset unlocked due to Self-Match Prevention cancellation.\n  - For buy orders: cancelled amount\n  - For sell orders: cancelled volume\n"
+    },
+    "trades": {
+      "type": "array",
+      "description": "List of trades executed for this order (returned in individual order query).",
+      "items": {
+        "type": "object",
+        "properties": {
+          "market": {
+            "type": "string",
+            "description": "Trading pair code."
+          },
+          "uuid": {
+            "type": "string",
+            "description": "Unique identifier of the trade."
+          },
+          "price": {
+            "type": "string",
+            "format": "decimal",
+            "description": "Trade price."
+          },
+          "volume": {
+            "type": "string",
+            "format": "decimal",
+            "description": "Trade volume."
+          },
+          "funds": {
+            "type": "string",
+            "format": "decimal",
+            "description": "Trade funds (price × volume)."
+          },
+          "trend": {
+            "type": "string",
+            "description": "Price trend of the trade."
+          },
+          "created_at": {
+            "type": "string",
+            "description": "Timestamp of the trade."
+          },
+          "side": {
+            "type": "string",
+            "description": "Order side of the trade."
+          }
+        }
+      }
+    }
+  }
+}

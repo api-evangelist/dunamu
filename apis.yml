@@ -1,10 +1,17 @@
 aid: dunamu
+
 name: Dunamu
+
 url: https://raw.githubusercontent.com/api-evangelist/dunamu/refs/heads/main/apis.yml
+
 type: Index
+
 kind: company
+
 x-type: company
+
 x-source: harvest:secondary-market
+
 deliveryModel:
   model: saas
   open_source: false
@@ -16,6 +23,7 @@ deliveryModel:
   - pricing
   generated: '2026-08-28'
   method: derived
+
 accessModel:
   pricing: free
   onboarding: self-serve
@@ -31,25 +39,30 @@ accessModel:
   - security
   generated: '2026-09-03'
   method: derived
+
 specificationVersion: '0.23'
+
 created: '2026-08-12'
+
 modified: '2026-08-12'
+
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-description: >-
-  Dunamu Inc. (두나무 주식회사) is a South Korean fintech and blockchain company founded in April 2012 and
-  headquartered at 369 Gangnam-daero, Seocho-gu, Seoul. Dunamu operates Upbit, Korea's largest digital
-  asset exchange (launched 2017, the country's first registered VASP), and Stockplus, a securities
-  trading application launched in 2014, alongside Stockplus Unlisted for pre-IPO share trading. The
-  group also spun out Lambda256 (blockchain infrastructure, now trading as Nodit) in 2019 and runs the
-  Dunamu & Partners venture arm. Dunamu itself publishes no developer program at dunamu.com — its
-  entire public API surface is served under the Upbit brand through the Upbit Developer Center, which
-  offers REST and WebSocket APIs for market data, orders, accounts, deposits, withdrawals and Travel
-  Rule compliance, plus first-party Python, TypeScript and Go SDKs, a CLI and packaged agent skills
-  published from the upbit-official GitHub organization. That API surface is catalogued separately at
-  the Upbit provider profile; this record profiles the corporate parent.
+
+description: Dunamu Inc. (두나무 주식회사) is a South Korean fintech and blockchain company founded in April 2012 and headquartered at 369 Gangnam-daero,
+  Seocho-gu, Seoul. Dunamu operates Upbit, Korea's largest digital asset exchange (launched 2017, the country's first registered VASP), and Stockplus,
+  a securities trading application launched in 2014, alongside Stockplus Unlisted for pre-IPO share trading. The group also spun out Lambda256
+  (blockchain infrastructure, now trading as Nodit) in 2019 and runs the Dunamu & Partners venture arm. Dunamu itself publishes no developer program
+  at dunamu.com — its entire public API surface is served under the Upbit brand through the Upbit Developer Center, which offers REST and WebSocket
+  APIs for market data, orders, accounts, deposits, withdrawals and Travel Rule compliance, plus first-party Python, TypeScript and Go SDKs, a
+  CLI and packaged agent skills published from the upbit-official GitHub organization. That API surface is catalogued separately at the Upbit
+  provider profile; this record profiles the corporate parent.
+
 x-docs-platform: readme
+
 x-docs-platform-confidence: high
+
 x-docs-platform-checked: 2026-10-03
+
 tags:
 - Fintech
 - Cryptocurrency
@@ -60,8 +73,9 @@ tags:
 - Blockchain
 - South Korea
 - Company
+
 x-company:
-  founded: '2012-04'
+  founded: 2012-04
   headquarters: 369 Gangnam-daero, Seocho-gu, Seoul, South Korea
   business_registration: 119-86-54968
   ceo: Oh Kyung-seok
@@ -79,20 +93,41 @@ x-company:
     relationship: venture investment arm, established 2018
   - name: Dunamu Investment Management
     relationship: operates the Maplus discretionary investment management platform
+
 x-related:
-  - slug: upbit
-    relationship: brand-operated-by
-    note: >-
-      The Upbit Open API (REST + WebSocket, 8 API entries) is operated by Dunamu Inc. and is
-      catalogued at the Upbit provider profile. API entries are deliberately not duplicated here.
-    url: https://raw.githubusercontent.com/api-evangelist/upbit/refs/heads/main/apis.yml
-apis: []
+- slug: upbit
+  relationship: brand-operated-by
+  note: The Upbit Open API (REST + WebSocket, 8 API entries) is operated by Dunamu Inc. and is catalogued at the Upbit provider profile. API entries
+    are deliberately not duplicated here.
+  url: https://raw.githubusercontent.com/api-evangelist/upbit/refs/heads/main/apis.yml
+
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+
 common:
+- type: AgenticAccess
+  url: agentic-access/dunamu-agentic-access.yml
+- type: Spectral
+  url: rules/dunamu-rules.yml
+- type: JSONLD
+  url: json-ld/dunamu-context.jsonld
+- type: Vocabulary
+  url: vocabulary/dunamu-vocabulary.yml
+- type: DataModel
+  url: data-model/dunamu-data-model.yml
+- type: Deprecation
+  url: lifecycle/dunamu-lifecycle.yml
+- type: MCPServer
+  url: mcp/dunamu-mcp.yml
+- type: Hosts
+  url: hosts/dunamu-hosts.yml
+- type: Vendors
+  url: vendors/dunamu-vendors.yml
+- type: Leadership
+  url: https://dunamu.com/esg/management
 - type: Pricing
   url: https://global-docs.upbit.com/docs/api-key
 - type: DomainSecurity
@@ -125,8 +160,6 @@ common:
   url: rate-limits/dunamu-rate-limits.yml
 - type: Plans
   url: plans/dunamu-plans-pricing.yml
-- type: LLMsTxt
-  url: llms/dunamu-llms.txt
 - type: Website
   url: https://dunamu.com/
 - type: About
@@ -165,9 +198,57 @@ common:
   url: https://sg.upbit.com/signup
 - type: LLMsTxt
   url: https://global-docs.upbit.com/llms.txt
+
+apis:
+- aid: dunamu:dunamu-exchange-api
+  name: Dunamu Exchange API
+  description: The Exchange API from Dunamu — 24 operation(s) for exchange.
+  tags:
+  - Exchange
+  properties:
+  - type: OpenAPI
+    url: openapi/dunamu-exchange-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/dunamu-order-chance-schema.json
+  - type: JSONSchema
+    url: json-schema/dunamu-withdraw-chance-schema.json
+  - type: JSONSchema
+    url: json-schema/dunamu-order-schema.json
+  - type: JSONSchema
+    url: json-schema/dunamu-deposit-schema.json
+  - type: JSONSchema
+    url: json-schema/dunamu-withdraw-schema.json
+  - type: JSONSchema
+    url: json-schema/dunamu-withdraw-address-schema.json
+- aid: dunamu:dunamu-quotation-api
+  name: Dunamu Quotation API
+  description: The Quotation API from Dunamu — 12 operation(s) for quotation.
+  tags:
+  - Quotation
+  properties:
+  - type: OpenAPI
+    url: openapi/dunamu-quotation-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/dunamu-ticker-schema.json
+  - type: JSONSchema
+    url: json-schema/dunamu-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/dunamu-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/dunamu-orderbook-schema.json
+  - type: JSONSchema
+    url: json-schema/dunamu-candle-day-schema.json
+  - type: JSONSchema
+    url: json-schema/dunamu-market-schema.json
+
 x-enrichment:
   date: '2026-08-12'
   status: enriched
   artifacts_added: 5
   pass: local-v1
 
+x-readme-harvest:
+  date: '2026-10-14'
+  ops: 40
+  tool: harvest-readme-openapi.py
+  portal: https://global-docs.upbit.com

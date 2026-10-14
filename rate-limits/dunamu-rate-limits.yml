@@ -1,6 +1,7 @@
 generated: '2026-08-12'
 method: searched
 source: https://global-docs.upbit.com/reference/rate-limits
+name: Dunamu API Rate Limits
 docs: https://global-docs.upbit.com/reference/rate-limits
 note: >-
   Published rate limits for the developer surface Dunamu Inc. operates under the Upbit brand.

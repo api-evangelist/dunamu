@@ -1,0 +1,167 @@
+generated: '2026-10-14'
+method: derived
+generator: derive-vocabulary.py
+source:
+- openapi/dunamu-exchange-api-openapi.yml
+- openapi/dunamu-quotation-api-openapi.yml
+vocabulary:
+  name: Dunamu Domain Vocabulary
+  description: 'Terms declared by Dunamu''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-10-14'
+  terms:
+  - term: Account
+    definition: 'Object declared by the contract with fields: currency, balance, locked, avg_buy_price, avg_buy_price_modified, unit_currency.'
+    tags:
+    - Object
+    source: openapi/dunamu-exchange-api-openapi.yml#/components/schemas/Account
+  - term: Error
+    definition: 'Object declared by the contract with fields: error.'
+    tags:
+    - Object
+    source: openapi/dunamu-exchange-api-openapi.yml#/components/schemas/Error
+  - term: OrderChance
+    definition: 'Object declared by the contract with fields: bid_fee, ask_fee, maker_bid_fee, maker_ask_fee, market, bid_account, ask_account.'
+    tags:
+    - Object
+    source: openapi/dunamu-exchange-api-openapi.yml#/components/schemas/OrderChance
+  - term: SideEnum
+    definition: Order direction (ask=sell, bid=buy)
+    tags:
+    - Enumeration
+    source: openapi/dunamu-exchange-api-openapi.yml#/components/schemas/SideEnum
+  - term: OrdTypeEnum
+    definition: 'Order type. * `limit`: Limit order * `price`: Market buy order (by total price) * `market`: Market sell order (by volume) * `best`:
+      Best available price order'
+    tags:
+    - Enumeration
+    source: openapi/dunamu-exchange-api-openapi.yml#/components/schemas/OrdTypeEnum
+  - term: TimeInForceEnum
+    definition: 'Time in force condition. * `fok`: Fill or Kill * `ioc`: Immediate or Cancel * `post_only`: Post only (maker only)'
+    tags:
+    - Enumeration
+    source: openapi/dunamu-exchange-api-openapi.yml#/components/schemas/TimeInForceEnum
+  - term: SmpTypeEnum
+    definition: 'Self-Match Prevention (SMP) mode. * `cancel_maker`: Cancel maker order * `cancel_taker`: Cancel taker order * `reduce`: Reduce
+      order quantity'
+    tags:
+    - Enumeration
+    source: openapi/dunamu-exchange-api-openapi.yml#/components/schemas/SmpTypeEnum
+  - term: Order
+    definition: 'Object declared by the contract with fields: market, uuid, side, ord_type, price, state, created_at, volume, remaining_volume,
+      executed_volume, reserved_fee, remaining_fee. (9 more)'
+    tags:
+    - Object
+    source: openapi/dunamu-exchange-api-openapi.yml#/components/schemas/Order
+  - term: OpenOrderState
+    definition: 'Open order state. * `wait`: Pending execution * `watch`: Pending reservation (stop order)'
+    tags:
+    - Enumeration
+    source: openapi/dunamu-exchange-api-openapi.yml#/components/schemas/OpenOrderState
+  - term: ClosedOrderState
+    definition: 'Closed order state. * `done`: Fully executed * `cancel`: Cancelled'
+    tags:
+    - Enumeration
+    source: openapi/dunamu-exchange-api-openapi.yml#/components/schemas/ClosedOrderState
+  - term: BatchCancelResult
+    definition: 'Object declared by the contract with fields: success, failed.'
+    tags:
+    - Object
+    source: openapi/dunamu-exchange-api-openapi.yml#/components/schemas/BatchCancelResult
+  - term: WithdrawChance
+    definition: 'Object declared by the contract with fields: member_level, currency, account, withdraw_limit.'
+    tags:
+    - Object
+    source: openapi/dunamu-exchange-api-openapi.yml#/components/schemas/WithdrawChance
+  - term: WithdrawAddress
+    definition: 'Object declared by the contract with fields: currency, net_type, network_name, withdraw_address, secondary_address, beneficiary_name,
+      beneficiary_company_name, beneficiary_type, exchange_name, wallet_type.'
+    tags:
+    - Object
+    source: openapi/dunamu-exchange-api-openapi.yml#/components/schemas/WithdrawAddress
+  - term: Withdraw
+    definition: 'Object declared by the contract with fields: type, uuid, currency, net_type, txid, state, created_at, done_at, amount, fee, transaction_type,
+      is_cancelable.'
+    tags:
+    - Object
+    source: openapi/dunamu-exchange-api-openapi.yml#/components/schemas/Withdraw
+  - term: DepositChance
+    definition: 'Object declared by the contract with fields: currency, net_type, is_deposit_possible, deposit_impossible_reason, minimum_deposit_amount,
+      minimum_deposit_confirmations, decimal_precision.'
+    tags:
+    - Object
+    source: openapi/dunamu-exchange-api-openapi.yml#/components/schemas/DepositChance
+  - term: DepositAddress
+    definition: 'Object declared by the contract with fields: currency, net_type, deposit_address, secondary_address.'
+    tags:
+    - Object
+    source: openapi/dunamu-exchange-api-openapi.yml#/components/schemas/DepositAddress
+  - term: GenerateCoinAddressResponse
+    definition: 'Object declared by the contract with fields: success, message.'
+    tags:
+    - Object
+    source: openapi/dunamu-exchange-api-openapi.yml#/components/schemas/GenerateCoinAddressResponse
+  - term: Deposit
+    definition: 'Object declared by the contract with fields: type, uuid, currency, net_type, txid, state, created_at, done_at, amount, fee, transaction_type.'
+    tags:
+    - Object
+    source: openapi/dunamu-exchange-api-openapi.yml#/components/schemas/Deposit
+  - term: TravelRuleVasp
+    definition: 'Object declared by the contract with fields: vasp_name, vasp_uuid, depositable, withdrawable.'
+    tags:
+    - Object
+    source: openapi/dunamu-exchange-api-openapi.yml#/components/schemas/TravelRuleVasp
+  - term: TravelRuleVerificationResult
+    definition: 'Object declared by the contract with fields: deposit_uuid, deposit_state, verification_result.'
+    tags:
+    - Object
+    source: openapi/dunamu-exchange-api-openapi.yml#/components/schemas/TravelRuleVerificationResult
+  - term: WalletStatus
+    definition: 'Object declared by the contract with fields: currency, wallet_state, block_state, block_height, block_updated_at, block_elapsed_minutes,
+      net_type, network_name.'
+    tags:
+    - Object
+    source: openapi/dunamu-exchange-api-openapi.yml#/components/schemas/WalletStatus
+  - term: Market
+    definition: 'Object declared by the contract with fields: market, english_name, market_warning.'
+    tags:
+    - Object
+    source: openapi/dunamu-quotation-api-openapi.yml#/components/schemas/Market
+  - term: Candle
+    definition: 'Object declared by the contract with fields: market, candle_date_time_utc, opening_price, high_price, low_price, trade_price,
+      timestamp, candle_acc_trade_price, candle_acc_trade_volume.'
+    tags:
+    - Object
+    source: openapi/dunamu-quotation-api-openapi.yml#/components/schemas/Candle
+  - term: Trade
+    definition: 'Object declared by the contract with fields: market, trade_date_utc, trade_time_utc, timestamp, trade_price, trade_volume, prev_closing_price,
+      change_price, ask_bid, sequential_id.'
+    tags:
+    - Object
+    source: openapi/dunamu-quotation-api-openapi.yml#/components/schemas/Trade
+  - term: Ticker
+    definition: 'Object declared by the contract with fields: market, trade_date, trade_time, trade_timestamp, opening_price, high_price, low_price,
+      trade_price, prev_closing_price, change, change_price, change_rate. (12 more)'
+    tags:
+    - Object
+    source: openapi/dunamu-quotation-api-openapi.yml#/components/schemas/Ticker
+  - term: Orderbook
+    definition: 'Object declared by the contract with fields: market, timestamp, total_ask_size, total_bid_size, orderbook_units, level.'
+    tags:
+    - Object
+    source: openapi/dunamu-quotation-api-openapi.yml#/components/schemas/Orderbook
+  - term: OrderbookInstrument
+    definition: 'Object declared by the contract with fields: market, quote_currency, tick_size.'
+    tags:
+    - Object
+    source: openapi/dunamu-quotation-api-openapi.yml#/components/schemas/OrderbookInstrument
+  - term: Exchange
+    definition: 'Resource group in the contract; its operation GET /v1/accounts: Retrieves the list of assets and balances owned by the account.'
+    tags:
+    - Resource Group
+    source: openapi/dunamu-exchange-api-openapi.yml
+  - term: Quotation
+    definition: 'Resource group in the contract; its operation GET /v1/candles/days: Retrieves the list of candles per day.'
+    tags:
+    - Resource Group
+    source: openapi/dunamu-quotation-api-openapi.yml

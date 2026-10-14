@@ -1,0 +1,479 @@
+{
+  "@context": {
+    "@vocab": "https://dunamu.com/schema#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dunamu": "https://dunamu.com/schema#",
+    "Account": "dunamu:Account",
+    "currency": {
+      "@id": "dunamu:currency",
+      "@type": "xsd:string"
+    },
+    "balance": {
+      "@id": "dunamu:balance",
+      "@type": "xsd:string"
+    },
+    "locked": {
+      "@id": "dunamu:locked",
+      "@type": "xsd:string"
+    },
+    "avg_buy_price": {
+      "@id": "dunamu:avg_buy_price",
+      "@type": "xsd:string"
+    },
+    "avg_buy_price_modified": {
+      "@id": "dunamu:avg_buy_price_modified",
+      "@type": "xsd:boolean"
+    },
+    "unit_currency": {
+      "@id": "dunamu:unit_currency",
+      "@type": "xsd:string"
+    },
+    "Error": "dunamu:Error",
+    "error": {
+      "@id": "dunamu:error"
+    },
+    "OrderChance": "dunamu:OrderChance",
+    "bid_fee": {
+      "@id": "dunamu:bid_fee",
+      "@type": "xsd:string"
+    },
+    "ask_fee": {
+      "@id": "dunamu:ask_fee",
+      "@type": "xsd:string"
+    },
+    "maker_bid_fee": {
+      "@id": "dunamu:maker_bid_fee",
+      "@type": "xsd:string"
+    },
+    "maker_ask_fee": {
+      "@id": "dunamu:maker_ask_fee",
+      "@type": "xsd:string"
+    },
+    "market": {
+      "@id": "dunamu:market"
+    },
+    "bid_account": {
+      "@id": "dunamu:bid_account"
+    },
+    "ask_account": {
+      "@id": "dunamu:ask_account"
+    },
+    "SideEnum": "dunamu:SideEnum",
+    "OrdTypeEnum": "dunamu:OrdTypeEnum",
+    "TimeInForceEnum": "dunamu:TimeInForceEnum",
+    "SmpTypeEnum": "dunamu:SmpTypeEnum",
+    "Order": "dunamu:Order",
+    "uuid": {
+      "@id": "dunamu:uuid",
+      "@type": "xsd:string"
+    },
+    "side": {
+      "@id": "dunamu:side",
+      "@type": "xsd:string"
+    },
+    "ord_type": {
+      "@id": "dunamu:ord_type",
+      "@type": "xsd:string"
+    },
+    "price": {
+      "@id": "dunamu:price",
+      "@type": "xsd:string"
+    },
+    "state": {
+      "@id": "dunamu:state",
+      "@type": "xsd:string"
+    },
+    "created_at": {
+      "@id": "dunamu:created_at",
+      "@type": "xsd:string"
+    },
+    "volume": {
+      "@id": "dunamu:volume",
+      "@type": "xsd:string"
+    },
+    "remaining_volume": {
+      "@id": "dunamu:remaining_volume",
+      "@type": "xsd:string"
+    },
+    "executed_volume": {
+      "@id": "dunamu:executed_volume",
+      "@type": "xsd:string"
+    },
+    "reserved_fee": {
+      "@id": "dunamu:reserved_fee",
+      "@type": "xsd:string"
+    },
+    "remaining_fee": {
+      "@id": "dunamu:remaining_fee",
+      "@type": "xsd:string"
+    },
+    "paid_fee": {
+      "@id": "dunamu:paid_fee",
+      "@type": "xsd:string"
+    },
+    "trades_count": {
+      "@id": "dunamu:trades_count",
+      "@type": "xsd:integer"
+    },
+    "time_in_force": {
+      "@id": "dunamu:time_in_force",
+      "@type": "xsd:string"
+    },
+    "identifier": {
+      "@id": "dunamu:identifier",
+      "@type": "xsd:string"
+    },
+    "smp_type": {
+      "@id": "dunamu:smp_type",
+      "@type": "xsd:string"
+    },
+    "prevented_volume": {
+      "@id": "dunamu:prevented_volume",
+      "@type": "xsd:string"
+    },
+    "prevented_locked": {
+      "@id": "dunamu:prevented_locked",
+      "@type": "xsd:string"
+    },
+    "trades": {
+      "@id": "dunamu:trades",
+      "@container": "@list"
+    },
+    "OpenOrderState": "dunamu:OpenOrderState",
+    "ClosedOrderState": "dunamu:ClosedOrderState",
+    "BatchCancelResult": "dunamu:BatchCancelResult",
+    "success": {
+      "@id": "dunamu:success"
+    },
+    "failed": {
+      "@id": "dunamu:failed"
+    },
+    "WithdrawChance": "dunamu:WithdrawChance",
+    "member_level": {
+      "@id": "dunamu:member_level"
+    },
+    "account": {
+      "@id": "dunamu:account"
+    },
+    "withdraw_limit": {
+      "@id": "dunamu:withdraw_limit"
+    },
+    "WithdrawAddress": "dunamu:WithdrawAddress",
+    "net_type": {
+      "@id": "dunamu:net_type",
+      "@type": "xsd:string"
+    },
+    "network_name": {
+      "@id": "dunamu:network_name",
+      "@type": "xsd:string"
+    },
+    "withdraw_address": {
+      "@id": "dunamu:withdraw_address",
+      "@type": "xsd:string"
+    },
+    "secondary_address": {
+      "@id": "dunamu:secondary_address",
+      "@type": "xsd:string"
+    },
+    "beneficiary_name": {
+      "@id": "dunamu:beneficiary_name",
+      "@type": "xsd:string"
+    },
+    "beneficiary_company_name": {
+      "@id": "dunamu:beneficiary_company_name",
+      "@type": "xsd:string"
+    },
+    "beneficiary_type": {
+      "@id": "dunamu:beneficiary_type",
+      "@type": "xsd:string"
+    },
+    "exchange_name": {
+      "@id": "dunamu:exchange_name",
+      "@type": "xsd:string"
+    },
+    "wallet_type": {
+      "@id": "dunamu:wallet_type",
+      "@type": "xsd:string"
+    },
+    "Withdraw": "dunamu:Withdraw",
+    "type": {
+      "@id": "dunamu:type",
+      "@type": "xsd:string"
+    },
+    "txid": {
+      "@id": "dunamu:txid",
+      "@type": "xsd:string"
+    },
+    "done_at": {
+      "@id": "dunamu:done_at",
+      "@type": "xsd:string"
+    },
+    "amount": {
+      "@id": "dunamu:amount",
+      "@type": "xsd:string"
+    },
+    "fee": {
+      "@id": "dunamu:fee",
+      "@type": "xsd:string"
+    },
+    "transaction_type": {
+      "@id": "dunamu:transaction_type",
+      "@type": "xsd:string"
+    },
+    "is_cancelable": {
+      "@id": "dunamu:is_cancelable",
+      "@type": "xsd:boolean"
+    },
+    "DepositChance": "dunamu:DepositChance",
+    "is_deposit_possible": {
+      "@id": "dunamu:is_deposit_possible",
+      "@type": "xsd:boolean"
+    },
+    "deposit_impossible_reason": {
+      "@id": "dunamu:deposit_impossible_reason",
+      "@type": "xsd:string"
+    },
+    "minimum_deposit_amount": {
+      "@id": "dunamu:minimum_deposit_amount",
+      "@type": "xsd:string"
+    },
+    "minimum_deposit_confirmations": {
+      "@id": "dunamu:minimum_deposit_confirmations",
+      "@type": "xsd:integer"
+    },
+    "decimal_precision": {
+      "@id": "dunamu:decimal_precision",
+      "@type": "xsd:integer"
+    },
+    "DepositAddress": "dunamu:DepositAddress",
+    "deposit_address": {
+      "@id": "dunamu:deposit_address",
+      "@type": "xsd:string"
+    },
+    "GenerateCoinAddressResponse": "dunamu:GenerateCoinAddressResponse",
+    "message": {
+      "@id": "dunamu:message",
+      "@type": "xsd:string"
+    },
+    "Deposit": "dunamu:Deposit",
+    "TravelRuleVasp": "dunamu:TravelRuleVasp",
+    "vasp_name": {
+      "@id": "dunamu:vasp_name",
+      "@type": "xsd:string"
+    },
+    "vasp_uuid": {
+      "@id": "dunamu:vasp_uuid",
+      "@type": "xsd:string"
+    },
+    "depositable": {
+      "@id": "dunamu:depositable",
+      "@type": "xsd:boolean"
+    },
+    "withdrawable": {
+      "@id": "dunamu:withdrawable",
+      "@type": "xsd:boolean"
+    },
+    "TravelRuleVerificationResult": "dunamu:TravelRuleVerificationResult",
+    "deposit_uuid": {
+      "@id": "dunamu:deposit_uuid",
+      "@type": "xsd:string"
+    },
+    "deposit_state": {
+      "@id": "dunamu:deposit_state",
+      "@type": "xsd:string"
+    },
+    "verification_result": {
+      "@id": "dunamu:verification_result",
+      "@type": "xsd:string"
+    },
+    "WalletStatus": "dunamu:WalletStatus",
+    "wallet_state": {
+      "@id": "dunamu:wallet_state",
+      "@type": "xsd:string"
+    },
+    "block_state": {
+      "@id": "dunamu:block_state",
+      "@type": "xsd:string"
+    },
+    "block_height": {
+      "@id": "dunamu:block_height",
+      "@type": "xsd:integer"
+    },
+    "block_updated_at": {
+      "@id": "dunamu:block_updated_at",
+      "@type": "xsd:string"
+    },
+    "block_elapsed_minutes": {
+      "@id": "dunamu:block_elapsed_minutes",
+      "@type": "xsd:integer"
+    },
+    "Market": "dunamu:Market",
+    "english_name": {
+      "@id": "dunamu:english_name",
+      "@type": "xsd:string"
+    },
+    "market_warning": {
+      "@id": "dunamu:market_warning",
+      "@type": "xsd:string"
+    },
+    "Candle": "dunamu:Candle",
+    "candle_date_time_utc": {
+      "@id": "dunamu:candle_date_time_utc",
+      "@type": "xsd:string"
+    },
+    "opening_price": {
+      "@id": "dunamu:opening_price",
+      "@type": "xsd:decimal"
+    },
+    "high_price": {
+      "@id": "dunamu:high_price",
+      "@type": "xsd:decimal"
+    },
+    "low_price": {
+      "@id": "dunamu:low_price",
+      "@type": "xsd:decimal"
+    },
+    "trade_price": {
+      "@id": "dunamu:trade_price",
+      "@type": "xsd:decimal"
+    },
+    "timestamp": {
+      "@id": "dunamu:timestamp",
+      "@type": "xsd:integer"
+    },
+    "candle_acc_trade_price": {
+      "@id": "dunamu:candle_acc_trade_price",
+      "@type": "xsd:decimal"
+    },
+    "candle_acc_trade_volume": {
+      "@id": "dunamu:candle_acc_trade_volume",
+      "@type": "xsd:decimal"
+    },
+    "Trade": "dunamu:Trade",
+    "trade_date_utc": {
+      "@id": "dunamu:trade_date_utc",
+      "@type": "xsd:string"
+    },
+    "trade_time_utc": {
+      "@id": "dunamu:trade_time_utc",
+      "@type": "xsd:string"
+    },
+    "trade_volume": {
+      "@id": "dunamu:trade_volume",
+      "@type": "xsd:decimal"
+    },
+    "prev_closing_price": {
+      "@id": "dunamu:prev_closing_price",
+      "@type": "xsd:decimal"
+    },
+    "change_price": {
+      "@id": "dunamu:change_price",
+      "@type": "xsd:decimal"
+    },
+    "ask_bid": {
+      "@id": "dunamu:ask_bid",
+      "@type": "xsd:string"
+    },
+    "sequential_id": {
+      "@id": "dunamu:sequential_id",
+      "@type": "xsd:integer"
+    },
+    "Ticker": "dunamu:Ticker",
+    "trade_date": {
+      "@id": "dunamu:trade_date",
+      "@type": "xsd:string"
+    },
+    "trade_time": {
+      "@id": "dunamu:trade_time",
+      "@type": "xsd:string"
+    },
+    "trade_timestamp": {
+      "@id": "dunamu:trade_timestamp",
+      "@type": "xsd:integer"
+    },
+    "change": {
+      "@id": "dunamu:change",
+      "@type": "xsd:string"
+    },
+    "change_rate": {
+      "@id": "dunamu:change_rate",
+      "@type": "xsd:decimal"
+    },
+    "signed_change_price": {
+      "@id": "dunamu:signed_change_price",
+      "@type": "xsd:decimal"
+    },
+    "signed_change_rate": {
+      "@id": "dunamu:signed_change_rate",
+      "@type": "xsd:decimal"
+    },
+    "acc_trade_price": {
+      "@id": "dunamu:acc_trade_price",
+      "@type": "xsd:decimal"
+    },
+    "acc_trade_price_24h": {
+      "@id": "dunamu:acc_trade_price_24h",
+      "@type": "xsd:decimal"
+    },
+    "acc_trade_volume": {
+      "@id": "dunamu:acc_trade_volume",
+      "@type": "xsd:decimal"
+    },
+    "acc_trade_volume_24h": {
+      "@id": "dunamu:acc_trade_volume_24h",
+      "@type": "xsd:decimal"
+    },
+    "highest_52_week_price": {
+      "@id": "dunamu:highest_52_week_price",
+      "@type": "xsd:decimal"
+    },
+    "highest_52_week_date": {
+      "@id": "dunamu:highest_52_week_date",
+      "@type": "xsd:string"
+    },
+    "lowest_52_week_price": {
+      "@id": "dunamu:lowest_52_week_price",
+      "@type": "xsd:decimal"
+    },
+    "lowest_52_week_date": {
+      "@id": "dunamu:lowest_52_week_date",
+      "@type": "xsd:string"
+    },
+    "Orderbook": "dunamu:Orderbook",
+    "total_ask_size": {
+      "@id": "dunamu:total_ask_size",
+      "@type": "xsd:decimal"
+    },
+    "total_bid_size": {
+      "@id": "dunamu:total_bid_size",
+      "@type": "xsd:decimal"
+    },
+    "orderbook_units": {
+      "@id": "dunamu:orderbook_units",
+      "@container": "@list"
+    },
+    "level": {
+      "@id": "dunamu:level",
+      "@type": "xsd:decimal"
+    },
+    "OrderbookInstrument": "dunamu:OrderbookInstrument",
+    "quote_currency": {
+      "@id": "dunamu:quote_currency",
+      "@type": "xsd:string"
+    },
+    "tick_size": {
+      "@id": "dunamu:tick_size",
+      "@type": "xsd:string"
+    }
+  },
+  "@type": "schema:Dataset",
+  "schema:name": "Dunamu API JSON-LD context",
+  "schema:description": "A JSON-LD @context for the objects Dunamu's own API contract declares: one class per component schema, one property per declared field, typed from the contract. Derived by script (derive-json-ld.py, 2026-10-14) from openapi/dunamu-exchange-api-openapi.yml, openapi/dunamu-quotation-api-openapi.yml.",
+  "dcterms:created": "2026-10-14",
+  "dcterms:source": [
+    "openapi/dunamu-exchange-api-openapi.yml",
+    "openapi/dunamu-quotation-api-openapi.yml"
+  ]
+}

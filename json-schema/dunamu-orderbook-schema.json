@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/dunamu/main/json-schema/dunamu-orderbook-schema.json",
+  "title": "Orderbook",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/dunamu-quotation-api-openapi.yml#/components/schemas/Orderbook",
+  "type": "object",
+  "required": [
+    "market",
+    "timestamp",
+    "total_ask_size",
+    "total_bid_size",
+    "orderbook_units",
+    "level"
+  ],
+  "properties": {
+    "market": {
+      "type": "string",
+      "description": "Trading pair code."
+    },
+    "timestamp": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Timestamp of the query request (ms)."
+    },
+    "total_ask_size": {
+      "type": "number",
+      "format": "double",
+      "description": "Total ask volume in the current orderbook."
+    },
+    "total_bid_size": {
+      "type": "number",
+      "format": "double",
+      "description": "Total bid volume in the current orderbook."
+    },
+    "orderbook_units": {
+      "description": "List of orderbook entries ordered from level 1 to level 30.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "Individual orderbook entry.",
+        "required": [
+          "ask_price",
+          "bid_price",
+          "ask_size",
+          "bid_size"
+        ],
+        "properties": {
+          "ask_price": {
+            "type": "number",
+            "format": "double",
+            "description": "Lowest sell (ask) price."
+          },
+          "bid_price": {
+            "type": "number",
+            "format": "double",
+            "description": "Highest buy (bid) price."
+          },
+          "ask_size": {
+            "type": "number",
+            "format": "double",
+            "description": "Sell quantity at ask price."
+          },
+          "bid_size": {
+            "type": "number",
+            "format": "double",
+            "description": "Buy quantity at bid price."
+          }
+        }
+      }
+    },
+    "level": {
+      "type": "number",
+      "format": "double",
+      "description": "Price unit applied for this orderbook level.",
+      "default": 0
+    }
+  }
+}

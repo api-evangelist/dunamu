@@ -1,0 +1,115 @@
+generated: '2026-10-14'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 9
+  own: 2
+  other_domain: 6
+  platform: 1
+  roles:
+  - docs
+  - identity
+  - legal
+  - marketing
+  - other
+  - portal
+  - source
+  - support
+  - website
+hosts:
+- host: blog.naver.com
+  found_by:
+  - pointer
+  types:
+  - Blog
+  serves: []
+  registrable_domain: naver.com
+  role: marketing
+  relation: other-domain
+- host: docs.upbit.com
+  found_by:
+  - vendor-detect
+  types: []
+  serves:
+  - mcp-hosting
+  vendor: readme
+  registrable_domain: upbit.com
+  role: docs
+  relation: other-domain
+- host: dunamu.com
+  found_by:
+  - pointer
+  types:
+  - Website
+  - About
+  - News
+  - Careers
+  - InvestorRelations
+  serves: []
+  registrable_domain: dunamu.com
+  role: website
+  relation: own
+- host: github.com
+  found_by:
+  - pointer
+  types:
+  - GitHubOrganization
+  serves: []
+  registrable_domain: github.com
+  role: source
+  relation: platform
+- host: global-docs.upbit.com
+  found_by:
+  - pointer
+  types:
+  - Pricing
+  - DeveloperPortal
+  - Documentation
+  - APIReference
+  - GettingStarted
+  - ChangeLog
+  - Authentication
+  - RateLimits
+  - LLMsTxt
+  serves: []
+  registrable_domain: upbit.com
+  role: portal
+  relation: other-domain
+- host: sg.upbit.com
+  found_by:
+  - pointer
+  types:
+  - SignUp
+  serves: []
+  registrable_domain: upbit.com
+  role: identity
+  relation: other-domain
+- host: upbit.com
+  found_by:
+  - pointer
+  types:
+  - TermsOfService
+  - PrivacyPolicy
+  serves: []
+  registrable_domain: upbit.com
+  role: legal
+  relation: other-domain
+- host: upbitcare.com
+  found_by:
+  - pointer
+  types:
+  - Support
+  serves: []
+  registrable_domain: upbitcare.com
+  role: support
+  relation: other-domain
+- host: www.dunamu.com
+  found_by:
+  - pointer
+  types:
+  - Compliance
+  serves: []
+  registrable_domain: dunamu.com
+  role: other
+  relation: own

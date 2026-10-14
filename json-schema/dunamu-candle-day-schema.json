@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/dunamu/main/json-schema/dunamu-candle-day-schema.json",
+  "title": "CandleDay",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/dunamu-quotation-api-openapi.yml#/components/schemas/CandleDay",
+  "allOf": [
+    {
+      "$ref": "#/$defs/Candle"
+    },
+    {
+      "type": "object",
+      "required": [
+        "prev_closing_price",
+        "change_price",
+        "change_rate"
+      ],
+      "properties": {
+        "prev_closing_price": {
+          "type": "number",
+          "format": "double",
+          "description": "Previous day's closing price (UTC-based)."
+        },
+        "change_price": {
+          "type": "number",
+          "format": "double",
+          "description": "Price change = trade_price - prev_closing_price."
+        },
+        "change_rate": {
+          "type": "number",
+          "format": "double",
+          "description": "Change rate = (trade_price - prev_closing_price) / prev_closing_price."
+        },
+        "converted_trade_price": {
+          "type": "number",
+          "format": "double",
+          "description": "Closing price converted per converting_price_unit. Null for non-digital asset markets."
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "Candle": {
+      "type": "object",
+      "required": [
+        "market",
+        "candle_date_time_utc",
+        "opening_price",
+        "high_price",
+        "low_price",
+        "trade_price",
+        "timestamp",
+        "candle_acc_trade_price",
+        "candle_acc_trade_volume"
+      ],
+      "properties": {
+        "market": {
+          "type": "string",
+          "description": "Trading pair code representing the market.\n\n[Example]: \"SGD-BTC\"\n"
+        },
+        "candle_date_time_utc": {
+          "type": "string",
+          "description": "Start time of the candle period in UTC.\n\n[Format]: yyyy-MM-dd'T'HH:mm:ss\n"
+        },
+        "opening_price": {
+          "type": "number",
+          "format": "double",
+          "description": "The opening price of the candle,\nrepresenting the first trading price during the candle period.\n"
+        },
+        "high_price": {
+          "type": "number",
+          "format": "double",
+          "description": "The highest trading price,\nrecorded during the candle period.\n"
+        },
+        "low_price": {
+          "type": "number",
+          "format": "double",
+          "description": "The lowest trading price,\nrecorded during the candle period.\n"
+        },
+        "trade_price": {
+          "type": "number",
+          "format": "double",
+          "description": "The closing price of the candle, representing the last trading price during the candle period."
+        },
+        "timestamp": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The timestamp (in milliseconds) when the last tick of the candle was recorded."
+        },
+        "candle_acc_trade_price": {
+          "type": "number",
+          "format": "double",
+          "description": "The total trade amount (in the quoted currency) accumulated during the candle period."
+        },
+        "candle_acc_trade_volume": {
+          "type": "number",
+          "format": "double",
+          "description": "The total traded volume (in the base asset) accumulated during the candle period."
+        }
+      }
+    }
+  }
+}

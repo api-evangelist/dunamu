@@ -1,0 +1,3643 @@
+[
+ {
+  "page": "https://global-docs.upbit.com/reference/list-trading-pairs.md",
+  "definition": {
+   "openapi": "3.0.2",
+   "info": {
+    "title": "QUOTATION API",
+    "version": "1.0.0"
+   },
+   "servers": [
+    {
+     "url": "https://{region}-api.upbit.com"
+    }
+   ],
+   "x-readme": {
+    "explorer-enabled": false,
+    "samples-languages": [
+     "shell",
+     "python",
+     "java",
+     "node"
+    ]
+   },
+   "paths": {
+    "/v1/market/all": {
+     "get": {
+      "operationId": "list-trading-pairs",
+      "summary": "List Trading Pairs",
+      "description": "Retrieves the list of all trading pairs supported by Upbit.",
+      "tags": [
+       "Quotation"
+      ],
+      "parameters": [
+       {
+        "name": "is_details",
+        "in": "query",
+        "required": false,
+        "schema": {
+         "type": "boolean",
+         "description": "Whether to include detailed information in the query.\nIf true, the response includes detail fields such as caution or warning designation.\nDefault: false.\n",
+         "example": true
+        },
+        "examples": {
+         "default": {
+          "value": false
+         }
+        }
+       }
+      ],
+      "responses": {
+       "200": {
+        "description": "List of trading pairs",
+        "content": {
+         "application/json": {
+          "schema": {
+           "type": "array",
+           "items": {
+            "$ref": "#/components/schemas/Market"
+           }
+          },
+          "examples": {
+           "Successful Example": {
+            "value": [
+             {
+              "market": "SGD-ETH",
+              "english_name": "Ethereum",
+              "market_warning": "NONE"
+             },
+             {
+              "market": "SGD-XRP",
+              "english_name": "XRP",
+              "market_warning": "NONE"
+             },
+             {
+              "market": "SGD-BTC",
+              "english_name": "Bitcoin",
+              "market_warning": "NONE"
+             },
+             {
+              "market": "SGD-USDT",
+              "english_name": "Tether",
+              "market_warning": "NONE"
+             },
+             {
+              "market": "SGD-SOL",
+              "english_name": "Solana",
+              "market_warning": "NONE"
+             }
+            ]
+           }
+          }
+         }
+        }
+       },
+       "400": {
+        "description": "error object",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/Error"
+          },
+          "examples": {
+           "parameter type error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Type mismatch error. Check the parameters type!"
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   },
+   "components": {
+    "schemas": {
+     "Error": {
+      "type": "object",
+      "properties": {
+       "error": {
+        "type": "object",
+        "required": [
+         "name",
+         "message"
+        ],
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "Name identifying the error."
+         },
+         "message": {
+          "type": "string",
+          "description": "Message describing the cause of the error."
+         }
+        }
+       }
+      }
+     },
+     "Market": {
+      "type": "object",
+      "required": [
+       "market",
+       "english_name"
+      ],
+      "properties": {
+       "market": {
+        "type": "string",
+        "description": "Trading pair code representing the market.\n\n[Example]: \"SGD-BTC\"\n",
+        "example": "SGD-BTC"
+       },
+       "english_name": {
+        "type": "string",
+        "description": "English name of the digital asset.",
+        "example": "Bitcoin"
+       },
+       "market_warning": {
+        "type": "string",
+        "enum": [
+         "NONE",
+         "CAUTION"
+        ],
+        "description": "Trading pair warning status.",
+        "example": "NONE"
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ {
+  "page": "https://global-docs.upbit.com/reference/list-candles-seconds.md",
+  "definition": {
+   "openapi": "3.0.2",
+   "info": {
+    "title": "QUOTATION API",
+    "version": "1.0.0"
+   },
+   "servers": [
+    {
+     "url": "https://{region}-api.upbit.com"
+    }
+   ],
+   "x-readme": {
+    "explorer-enabled": false,
+    "samples-languages": [
+     "shell",
+     "python",
+     "java",
+     "node"
+    ]
+   },
+   "paths": {
+    "/v1/candles/seconds": {
+     "get": {
+      "operationId": "list-candles-seconds",
+      "summary": "List Second Candles",
+      "description": "Retrieves the list of candles per second.",
+      "tags": [
+       "Quotation"
+      ],
+      "parameters": [
+       {
+        "name": "market",
+        "in": "query",
+        "required": true,
+        "schema": {
+         "type": "string",
+         "description": "Trading pair code to query.",
+         "example": "SGD-BTC"
+        },
+        "allowReserved": true,
+        "examples": {
+         "default": {
+          "value": "SGD-BTC"
+         }
+        }
+       },
+       {
+        "name": "to",
+        "in": "query",
+        "required": false,
+        "schema": {
+         "type": "string",
+         "description": "End time of the query range.\nRetrieves candles before the specified time. If not specified, the most recent candles are returned.\n\nAccepts ISO 8601 datetime format. URL encoding is required for spaces and special characters.\n\n[Example] 2025-06-24T04:56:53Z\n2025-06-24 04:56:53\n2025-06-24T13:56:53+08:00\n\nSecond candles only support data up to 3 months prior. An empty array is returned for older times.\n",
+         "example": "2024-01-01T00:00:00"
+        },
+        "allowReserved": true
+       },
+       {
+        "name": "count",
+        "in": "query",
+        "required": false,
+        "schema": {
+         "type": "integer",
+         "description": "Number of candles to retrieve.\n\nUp to 200 candles are supported. Default: 1.\n",
+         "example": 200,
+         "default": 1
+        },
+        "allowReserved": true
+       }
+      ],
+      "responses": {
+       "200": {
+        "description": "List of candles",
+        "content": {
+         "application/json": {
+          "schema": {
+           "type": "array",
+           "items": {
+            "$ref": "#/components/schemas/Candle"
+           }
+          },
+          "examples": {
+           "Successful Example": {
+            "value": [
+             {
+              "market": "SGD-BTC",
+              "candle_date_time_utc": "2025-07-30T21:11:43",
+              "opening_price": 152114,
+              "high_price": 152114,
+              "low_price": 152114,
+              "trade_price": 152114,
+              "timestamp": 1753909903998,
+              "candle_acc_trade_price": 16.28532484,
+              "candle_acc_trade_volume": 0.00010706
+             }
+            ]
+           }
+          }
+         }
+        }
+       },
+       "400": {
+        "description": "error object",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/Error"
+          },
+          "examples": {
+           "parameter range error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Invalid parameter. Check the given value!"
+             }
+            }
+           },
+           "parameter type error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Type mismatch error. Check the parameters type!"
+             }
+            }
+           },
+           "missing required parameter error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Missing request parameter error. Check the required parameters!"
+             }
+            }
+           }
+          }
+         }
+        }
+       },
+       "404": {
+        "description": "error object",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/Error"
+          },
+          "examples": {
+           "not found error": {
+            "value": {
+             "error": {
+              "name": 404,
+              "message": "Code not found"
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   },
+   "components": {
+    "schemas": {
+     "Error": {
+      "type": "object",
+      "properties": {
+       "error": {
+        "type": "object",
+        "required": [
+         "name",
+         "message"
+        ],
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "Name identifying the error."
+         },
+         "message": {
+          "type": "string",
+          "description": "Message describing the cause of the error."
+         }
+        }
+       }
+      }
+     },
+     "Candle": {
+      "type": "object",
+      "required": [
+       "market",
+       "candle_date_time_utc",
+       "opening_price",
+       "high_price",
+       "low_price",
+       "trade_price",
+       "timestamp",
+       "candle_acc_trade_price",
+       "candle_acc_trade_volume"
+      ],
+      "properties": {
+       "market": {
+        "type": "string",
+        "description": "Trading pair code representing the market.\n\n[Example]: \"SGD-BTC\"\n",
+        "example": "SGD-BTC"
+       },
+       "candle_date_time_utc": {
+        "type": "string",
+        "description": "Start time of the candle period in UTC.\n\n[Format]: yyyy-MM-dd'T'HH:mm:ss\n",
+        "example": "2025-06-23T14:29:59"
+       },
+       "opening_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The opening price of the candle,\nrepresenting the first trading price during the candle period.\n",
+        "example": 142340000
+       },
+       "high_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The highest trading price,\nrecorded during the candle period.\n",
+        "example": 142340000
+       },
+       "low_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The lowest trading price,\nrecorded during the candle period.\n",
+        "example": 142340000
+       },
+       "trade_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The closing price of the candle, representing the last trading price during the candle period.",
+        "example": 142340000
+       },
+       "timestamp": {
+        "type": "integer",
+        "format": "int64",
+        "description": "The timestamp (in milliseconds) when the last tick of the candle was recorded.",
+        "example": 1750688999123
+       },
+       "candle_acc_trade_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The total trade amount (in the quoted currency) accumulated during the candle period.",
+        "example": 185042
+       },
+       "candle_acc_trade_volume": {
+        "type": "number",
+        "format": "double",
+        "description": "The total traded volume (in the base asset) accumulated during the candle period.",
+        "example": 0.0013
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ {
+  "page": "https://global-docs.upbit.com/reference/list-candles-minutes.md",
+  "definition": {
+   "openapi": "3.0.2",
+   "info": {
+    "title": "QUOTATION API",
+    "version": "1.0.0"
+   },
+   "servers": [
+    {
+     "url": "https://{region}-api.upbit.com"
+    }
+   ],
+   "x-readme": {
+    "explorer-enabled": false,
+    "samples-languages": [
+     "shell",
+     "python",
+     "java",
+     "node"
+    ]
+   },
+   "paths": {
+    "/v1/candles/minutes/{unit}": {
+     "get": {
+      "operationId": "list-candles-minutes",
+      "summary": "List Minute Candles",
+      "description": "Retrieves the list of candles per minute.",
+      "tags": [
+       "Quotation"
+      ],
+      "x-readme": {
+       "parameter-ordering": [
+        "header",
+        "path",
+        "query",
+        "body",
+        "form",
+        "cookie"
+       ]
+      },
+      "parameters": [
+       {
+        "name": "unit",
+        "in": "path",
+        "required": true,
+        "schema": {
+         "type": "integer",
+         "format": "int32",
+         "description": "Candle unit in minutes.\n\nSpecify the candle unit to retrieve. Up to 240 minutes (4 hours) is supported.\n",
+         "example": 15,
+         "enum": [
+          1,
+          3,
+          5,
+          10,
+          15,
+          30,
+          60,
+          240
+         ]
+        },
+        "allowReserved": true,
+        "examples": {
+         "default": {
+          "value": 15
+         }
+        }
+       },
+       {
+        "name": "market",
+        "in": "query",
+        "required": true,
+        "schema": {
+         "type": "string",
+         "description": "Trading pair code to query.",
+         "example": "SGD-BTC"
+        },
+        "allowReserved": true,
+        "examples": {
+         "default": {
+          "value": "SGD-BTC"
+         }
+        }
+       },
+       {
+        "name": "to",
+        "in": "query",
+        "required": false,
+        "schema": {
+         "type": "string",
+         "description": "End time of the query range.\nRetrieves candles before the specified time. If not specified, the most recent candles are returned.\n\nAccepts ISO 8601 datetime format.\n\n[Example]\n2025-06-24T04:56:53Z\n2025-06-24 04:56:53\n2025-06-24T13:56:53+08:00\n",
+         "example": "2024-01-01T00:00:00"
+        },
+        "allowReserved": true
+       },
+       {
+        "name": "count",
+        "in": "query",
+        "required": false,
+        "schema": {
+         "type": "integer",
+         "description": "Number of candles to retrieve.\n\nUp to 200 candles are supported. Default: 1.\n",
+         "example": 200,
+         "default": 1
+        },
+        "allowReserved": true
+       }
+      ],
+      "responses": {
+       "200": {
+        "description": "List of candles",
+        "content": {
+         "application/json": {
+          "schema": {
+           "type": "array",
+           "items": {
+            "$ref": "#/components/schemas/CandleMinute"
+           }
+          },
+          "examples": {
+           "Successful Example": {
+            "value": [
+             {
+              "market": "SGD-BTC",
+              "candle_date_time_utc": "2025-07-30T21:00:00",
+              "opening_price": 153099,
+              "high_price": 153099,
+              "low_price": 153099,
+              "trade_price": 153099,
+              "timestamp": 1753975737223,
+              "candle_acc_trade_price": 26.72649243,
+              "candle_acc_trade_volume": 0.00017457,
+              "unit": 1
+             }
+            ]
+           }
+          }
+         }
+        }
+       },
+       "400": {
+        "description": "error object",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/Error"
+          },
+          "examples": {
+           "parameter range error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Invalid parameter. Check the given value!"
+             }
+            }
+           },
+           "parameter type error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Type mismatch error. Check the parameters type!"
+             }
+            }
+           },
+           "missing required parameter error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Missing request parameter error. Check the required parameters!"
+             }
+            }
+           }
+          }
+         }
+        }
+       },
+       "404": {
+        "description": "error object",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/Error"
+          },
+          "examples": {
+           "not found error": {
+            "value": {
+             "error": {
+              "name": 404,
+              "message": "Code not found"
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   },
+   "components": {
+    "schemas": {
+     "Error": {
+      "type": "object",
+      "properties": {
+       "error": {
+        "type": "object",
+        "required": [
+         "name",
+         "message"
+        ],
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "Name identifying the error."
+         },
+         "message": {
+          "type": "string",
+          "description": "Message describing the cause of the error."
+         }
+        }
+       }
+      }
+     },
+     "Candle": {
+      "type": "object",
+      "required": [
+       "market",
+       "candle_date_time_utc",
+       "opening_price",
+       "high_price",
+       "low_price",
+       "trade_price",
+       "timestamp",
+       "candle_acc_trade_price",
+       "candle_acc_trade_volume"
+      ],
+      "properties": {
+       "market": {
+        "type": "string",
+        "description": "Trading pair code representing the market.\n\n[Example]: \"SGD-BTC\"\n",
+        "example": "SGD-BTC"
+       },
+       "candle_date_time_utc": {
+        "type": "string",
+        "description": "Start time of the candle period in UTC.\n\n[Format]: yyyy-MM-dd'T'HH:mm:ss\n",
+        "example": "2025-06-23T14:29:59"
+       },
+       "opening_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The opening price of the candle,\nrepresenting the first trading price during the candle period.\n",
+        "example": 142340000
+       },
+       "high_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The highest trading price,\nrecorded during the candle period.\n",
+        "example": 142340000
+       },
+       "low_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The lowest trading price,\nrecorded during the candle period.\n",
+        "example": 142340000
+       },
+       "trade_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The closing price of the candle, representing the last trading price during the candle period.",
+        "example": 142340000
+       },
+       "timestamp": {
+        "type": "integer",
+        "format": "int64",
+        "description": "The timestamp (in milliseconds) when the last tick of the candle was recorded.",
+        "example": 1750688999123
+       },
+       "candle_acc_trade_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The total trade amount (in the quoted currency) accumulated during the candle period.",
+        "example": 185042
+       },
+       "candle_acc_trade_volume": {
+        "type": "number",
+        "format": "double",
+        "description": "The total traded volume (in the base asset) accumulated during the candle period.",
+        "example": 0.0013
+       }
+      }
+     },
+     "CandleMinute": {
+      "allOf": [
+       {
+        "$ref": "#/components/schemas/Candle"
+       },
+       {
+        "type": "object",
+        "required": [
+         "unit"
+        ],
+        "properties": {
+         "unit": {
+          "type": "integer",
+          "format": "int32",
+          "enum": [
+           1,
+           3,
+           5,
+           10,
+           15,
+           30,
+           60,
+           240
+          ],
+          "description": "Candle unit in minutes.",
+          "example": 1
+         }
+        }
+       }
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "page": "https://global-docs.upbit.com/reference/list-candles-days.md",
+  "definition": {
+   "openapi": "3.0.2",
+   "info": {
+    "title": "QUOTATION API",
+    "version": "1.0.0"
+   },
+   "servers": [
+    {
+     "url": "https://{region}-api.upbit.com"
+    }
+   ],
+   "x-readme": {
+    "explorer-enabled": false,
+    "samples-languages": [
+     "shell",
+     "python",
+     "java",
+     "node"
+    ]
+   },
+   "paths": {
+    "/v1/candles/days": {
+     "get": {
+      "operationId": "list-candles-days",
+      "summary": "List Day Candles",
+      "description": "Retrieves the list of candles per day.",
+      "tags": [
+       "Quotation"
+      ],
+      "parameters": [
+       {
+        "name": "market",
+        "in": "query",
+        "required": true,
+        "schema": {
+         "type": "string",
+         "description": "Trading pair code to query.",
+         "example": "SGD-BTC"
+        },
+        "allowReserved": true,
+        "examples": {
+         "default": {
+          "value": "SGD-BTC"
+         }
+        }
+       },
+       {
+        "name": "to",
+        "in": "query",
+        "required": false,
+        "schema": {
+         "type": "string",
+         "description": "End time of the query range.\nRetrieves candles before the specified time. If not specified, the most recent candles are returned.\n\nAccepts ISO 8601 datetime format.\n",
+         "example": "2024-01-01T00:00:00"
+        },
+        "allowReserved": true
+       },
+       {
+        "name": "count",
+        "in": "query",
+        "required": false,
+        "schema": {
+         "type": "integer",
+         "description": "Number of candles to retrieve.\n\nUp to 200 candles are supported. Default: 1.\n",
+         "example": 200,
+         "default": 1
+        },
+        "allowReserved": true
+       }
+      ],
+      "responses": {
+       "200": {
+        "description": "List of candles",
+        "content": {
+         "application/json": {
+          "schema": {
+           "type": "array",
+           "items": {
+            "$ref": "#/components/schemas/CandleDay"
+           }
+          },
+          "examples": {
+           "Successful Example": {
+            "value": [
+             {
+              "market": "SGD-BTC",
+              "candle_date_time_utc": "2025-07-30T00:00:00",
+              "opening_price": 153473,
+              "high_price": 153504,
+              "low_price": 151937,
+              "trade_price": 152114,
+              "timestamp": 1753909903998,
+              "candle_acc_trade_price": 4564.10881053,
+              "candle_acc_trade_volume": 0.0299313,
+              "prev_closing_price": 151721,
+              "change_price": 393,
+              "change_rate": 0.0025902808
+             }
+            ]
+           }
+          }
+         }
+        }
+       },
+       "400": {
+        "description": "error object",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/Error"
+          },
+          "examples": {
+           "parameter range error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Invalid parameter. Check the given value!"
+             }
+            }
+           },
+           "parameter type error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Type mismatch error. Check the parameters type!"
+             }
+            }
+           },
+           "missing required parameter error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Missing request parameter error. Check the required parameters!"
+             }
+            }
+           }
+          }
+         }
+        }
+       },
+       "404": {
+        "description": "error object",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/Error"
+          },
+          "examples": {
+           "not found error": {
+            "value": {
+             "error": {
+              "name": 404,
+              "message": "Code not found"
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   },
+   "components": {
+    "schemas": {
+     "Error": {
+      "type": "object",
+      "properties": {
+       "error": {
+        "type": "object",
+        "required": [
+         "name",
+         "message"
+        ],
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "Name identifying the error."
+         },
+         "message": {
+          "type": "string",
+          "description": "Message describing the cause of the error."
+         }
+        }
+       }
+      }
+     },
+     "Candle": {
+      "type": "object",
+      "required": [
+       "market",
+       "candle_date_time_utc",
+       "opening_price",
+       "high_price",
+       "low_price",
+       "trade_price",
+       "timestamp",
+       "candle_acc_trade_price",
+       "candle_acc_trade_volume"
+      ],
+      "properties": {
+       "market": {
+        "type": "string",
+        "description": "Trading pair code representing the market.\n\n[Example]: \"SGD-BTC\"\n",
+        "example": "SGD-BTC"
+       },
+       "candle_date_time_utc": {
+        "type": "string",
+        "description": "Start time of the candle period in UTC.\n\n[Format]: yyyy-MM-dd'T'HH:mm:ss\n",
+        "example": "2025-06-23T14:29:59"
+       },
+       "opening_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The opening price of the candle,\nrepresenting the first trading price during the candle period.\n",
+        "example": 142340000
+       },
+       "high_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The highest trading price,\nrecorded during the candle period.\n",
+        "example": 142340000
+       },
+       "low_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The lowest trading price,\nrecorded during the candle period.\n",
+        "example": 142340000
+       },
+       "trade_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The closing price of the candle, representing the last trading price during the candle period.",
+        "example": 142340000
+       },
+       "timestamp": {
+        "type": "integer",
+        "format": "int64",
+        "description": "The timestamp (in milliseconds) when the last tick of the candle was recorded.",
+        "example": 1750688999123
+       },
+       "candle_acc_trade_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The total trade amount (in the quoted currency) accumulated during the candle period.",
+        "example": 185042
+       },
+       "candle_acc_trade_volume": {
+        "type": "number",
+        "format": "double",
+        "description": "The total traded volume (in the base asset) accumulated during the candle period.",
+        "example": 0.0013
+       }
+      }
+     },
+     "CandleDay": {
+      "allOf": [
+       {
+        "$ref": "#/components/schemas/Candle"
+       },
+       {
+        "type": "object",
+        "required": [
+         "prev_closing_price",
+         "change_price",
+         "change_rate"
+        ],
+        "properties": {
+         "prev_closing_price": {
+          "type": "number",
+          "format": "double",
+          "description": "Previous day's closing price (UTC-based).",
+          "example": 147996000
+         },
+         "change_price": {
+          "type": "number",
+          "format": "double",
+          "description": "Price change = trade_price - prev_closing_price.",
+          "example": -2237000
+         },
+         "change_rate": {
+          "type": "number",
+          "format": "double",
+          "description": "Change rate = (trade_price - prev_closing_price) / prev_closing_price.",
+          "example": -0.0151152734
+         },
+         "converted_trade_price": {
+          "type": "number",
+          "format": "double",
+          "description": "Closing price converted per converting_price_unit. Null for non-digital asset markets.",
+          "example": 148601000
+         }
+        }
+       }
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "page": "https://global-docs.upbit.com/reference/list-candles-weeks.md",
+  "definition": {
+   "openapi": "3.0.2",
+   "info": {
+    "title": "QUOTATION API",
+    "version": "1.0.0"
+   },
+   "servers": [
+    {
+     "url": "https://{region}-api.upbit.com"
+    }
+   ],
+   "x-readme": {
+    "explorer-enabled": false,
+    "samples-languages": [
+     "shell",
+     "python",
+     "java",
+     "node"
+    ]
+   },
+   "paths": {
+    "/v1/candles/weeks": {
+     "get": {
+      "operationId": "list-candles-weeks",
+      "summary": "List Week Candles",
+      "description": "Retrieves the list of candles per week.",
+      "tags": [
+       "Quotation"
+      ],
+      "parameters": [
+       {
+        "name": "market",
+        "in": "query",
+        "required": true,
+        "schema": {
+         "type": "string",
+         "description": "Trading pair code to query.",
+         "example": "SGD-BTC"
+        },
+        "allowReserved": true,
+        "examples": {
+         "default": {
+          "value": "SGD-BTC"
+         }
+        }
+       },
+       {
+        "name": "to",
+        "in": "query",
+        "required": false,
+        "schema": {
+         "type": "string",
+         "description": "End time of the query range.\nRetrieves candles before the specified time. If not specified, the most recent candles are returned.\n",
+         "example": "2024-01-01T00:00:00"
+        },
+        "allowReserved": true
+       },
+       {
+        "name": "count",
+        "in": "query",
+        "required": false,
+        "schema": {
+         "type": "integer",
+         "description": "Number of candles to retrieve. Up to 200, default: 1.\n",
+         "example": 200,
+         "default": 1
+        },
+        "allowReserved": true
+       }
+      ],
+      "responses": {
+       "200": {
+        "description": "List of candles",
+        "content": {
+         "application/json": {
+          "schema": {
+           "type": "array",
+           "items": {
+            "$ref": "#/components/schemas/CandlePeriod"
+           }
+          },
+          "examples": {
+           "Successful Example": {
+            "value": [
+             {
+              "market": "SGD-BTC",
+              "candle_date_time_utc": "2025-07-28T00:00:00",
+              "opening_price": 152702,
+              "high_price": 153526,
+              "low_price": 151500,
+              "trade_price": 152114,
+              "timestamp": 1753909903998,
+              "candle_acc_trade_price": 39991.1838817,
+              "candle_acc_trade_volume": 0.26276451,
+              "first_day_of_period": "2025-07-28"
+             }
+            ]
+           }
+          }
+         }
+        }
+       },
+       "400": {
+        "description": "error object",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/Error"
+          },
+          "examples": {
+           "parameter range error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Invalid parameter. Check the given value!"
+             }
+            }
+           },
+           "parameter type error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Type mismatch error. Check the parameters type!"
+             }
+            }
+           },
+           "missing required parameter error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Missing request parameter error. Check the required parameters!"
+             }
+            }
+           }
+          }
+         }
+        }
+       },
+       "404": {
+        "description": "error object",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/Error"
+          },
+          "examples": {
+           "not found error": {
+            "value": {
+             "error": {
+              "name": 404,
+              "message": "Code not found"
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   },
+   "components": {
+    "schemas": {
+     "Error": {
+      "type": "object",
+      "properties": {
+       "error": {
+        "type": "object",
+        "required": [
+         "name",
+         "message"
+        ],
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "Name identifying the error."
+         },
+         "message": {
+          "type": "string",
+          "description": "Message describing the cause of the error."
+         }
+        }
+       }
+      }
+     },
+     "Candle": {
+      "type": "object",
+      "required": [
+       "market",
+       "candle_date_time_utc",
+       "opening_price",
+       "high_price",
+       "low_price",
+       "trade_price",
+       "timestamp",
+       "candle_acc_trade_price",
+       "candle_acc_trade_volume"
+      ],
+      "properties": {
+       "market": {
+        "type": "string",
+        "description": "Trading pair code representing the market.\n\n[Example]: \"SGD-BTC\"\n",
+        "example": "SGD-BTC"
+       },
+       "candle_date_time_utc": {
+        "type": "string",
+        "description": "Start time of the candle period in UTC.\n\n[Format]: yyyy-MM-dd'T'HH:mm:ss\n",
+        "example": "2025-06-23T14:29:59"
+       },
+       "opening_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The opening price of the candle,\nrepresenting the first trading price during the candle period.\n",
+        "example": 142340000
+       },
+       "high_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The highest trading price,\nrecorded during the candle period.\n",
+        "example": 142340000
+       },
+       "low_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The lowest trading price,\nrecorded during the candle period.\n",
+        "example": 142340000
+       },
+       "trade_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The closing price of the candle, representing the last trading price during the candle period.",
+        "example": 142340000
+       },
+       "timestamp": {
+        "type": "integer",
+        "format": "int64",
+        "description": "The timestamp (in milliseconds) when the last tick of the candle was recorded.",
+        "example": 1750688999123
+       },
+       "candle_acc_trade_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The total trade amount (in the quoted currency) accumulated during the candle period.",
+        "example": 185042
+       },
+       "candle_acc_trade_volume": {
+        "type": "number",
+        "format": "double",
+        "description": "The total traded volume (in the base asset) accumulated during the candle period.",
+        "example": 0.0013
+       }
+      }
+     },
+     "CandlePeriod": {
+      "allOf": [
+       {
+        "$ref": "#/components/schemas/Candle"
+       },
+       {
+        "type": "object",
+        "required": [
+         "first_day_of_period"
+        ],
+        "properties": {
+         "first_day_of_period": {
+          "type": "string",
+          "description": "Start date of candle aggregation period (yyyy-MM-dd).",
+          "example": "2025-06-30"
+         }
+        }
+       }
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "page": "https://global-docs.upbit.com/reference/list-candles-months.md",
+  "definition": {
+   "openapi": "3.0.2",
+   "info": {
+    "title": "QUOTATION API",
+    "version": "1.0.0"
+   },
+   "servers": [
+    {
+     "url": "https://{region}-api.upbit.com"
+    }
+   ],
+   "x-readme": {
+    "explorer-enabled": false,
+    "samples-languages": [
+     "shell",
+     "python",
+     "java",
+     "node"
+    ]
+   },
+   "paths": {
+    "/v1/candles/months": {
+     "get": {
+      "operationId": "list-candles-months",
+      "summary": "List Month Candles",
+      "description": "Retrieves the list of candles per month.",
+      "tags": [
+       "Quotation"
+      ],
+      "parameters": [
+       {
+        "name": "market",
+        "in": "query",
+        "required": true,
+        "schema": {
+         "type": "string",
+         "description": "Trading pair code to query.",
+         "example": "SGD-BTC"
+        },
+        "allowReserved": true,
+        "examples": {
+         "default": {
+          "value": "SGD-BTC"
+         }
+        }
+       },
+       {
+        "name": "to",
+        "in": "query",
+        "required": false,
+        "schema": {
+         "type": "string",
+         "description": "End time of the query range. If not specified, the most recent candles are returned.\n\nAccepts ISO 8601 datetime format.\n",
+         "example": "2024-01-01T00:00:00"
+        },
+        "allowReserved": true
+       },
+       {
+        "name": "count",
+        "in": "query",
+        "required": false,
+        "schema": {
+         "type": "integer",
+         "description": "Number of candles to retrieve. Up to 200, default: 1.",
+         "example": 200,
+         "default": 1
+        },
+        "allowReserved": true
+       }
+      ],
+      "responses": {
+       "200": {
+        "description": "List of candles",
+        "content": {
+         "application/json": {
+          "schema": {
+           "type": "array",
+           "items": {
+            "$ref": "#/components/schemas/CandlePeriod"
+           }
+          },
+          "examples": {
+           "Successful Example": {
+            "value": [
+             {
+              "market": "SGD-BTC",
+              "candle_date_time_utc": "2025-07-01T00:00:00",
+              "opening_price": 138284,
+              "high_price": 157745,
+              "low_price": 134053,
+              "trade_price": 152114,
+              "timestamp": 1753909903998,
+              "candle_acc_trade_price": 267280.01931441,
+              "candle_acc_trade_volume": 1.81998461,
+              "first_day_of_period": "2025-07-01"
+             }
+            ]
+           }
+          }
+         }
+        }
+       },
+       "400": {
+        "description": "error object",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/Error"
+          },
+          "examples": {
+           "parameter range error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Invalid parameter. Check the given value!"
+             }
+            }
+           },
+           "parameter type error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Type mismatch error. Check the parameters type!"
+             }
+            }
+           },
+           "missing required parameter error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Missing request parameter error. Check the required parameters!"
+             }
+            }
+           }
+          }
+         }
+        }
+       },
+       "404": {
+        "description": "error object",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/Error"
+          },
+          "examples": {
+           "not found error": {
+            "value": {
+             "error": {
+              "name": 404,
+              "message": "Code not found"
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   },
+   "components": {
+    "schemas": {
+     "Error": {
+      "type": "object",
+      "properties": {
+       "error": {
+        "type": "object",
+        "required": [
+         "name",
+         "message"
+        ],
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "Name identifying the error."
+         },
+         "message": {
+          "type": "string",
+          "description": "Message describing the cause of the error."
+         }
+        }
+       }
+      }
+     },
+     "Candle": {
+      "type": "object",
+      "required": [
+       "market",
+       "candle_date_time_utc",
+       "opening_price",
+       "high_price",
+       "low_price",
+       "trade_price",
+       "timestamp",
+       "candle_acc_trade_price",
+       "candle_acc_trade_volume"
+      ],
+      "properties": {
+       "market": {
+        "type": "string",
+        "description": "Trading pair code representing the market.\n\n[Example]: \"SGD-BTC\"\n",
+        "example": "SGD-BTC"
+       },
+       "candle_date_time_utc": {
+        "type": "string",
+        "description": "Start time of the candle period in UTC.\n\n[Format]: yyyy-MM-dd'T'HH:mm:ss\n",
+        "example": "2025-06-23T14:29:59"
+       },
+       "opening_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The opening price of the candle,\nrepresenting the first trading price during the candle period.\n",
+        "example": 142340000
+       },
+       "high_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The highest trading price,\nrecorded during the candle period.\n",
+        "example": 142340000
+       },
+       "low_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The lowest trading price,\nrecorded during the candle period.\n",
+        "example": 142340000
+       },
+       "trade_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The closing price of the candle, representing the last trading price during the candle period.",
+        "example": 142340000
+       },
+       "timestamp": {
+        "type": "integer",
+        "format": "int64",
+        "description": "The timestamp (in milliseconds) when the last tick of the candle was recorded.",
+        "example": 1750688999123
+       },
+       "candle_acc_trade_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The total trade amount (in the quoted currency) accumulated during the candle period.",
+        "example": 185042
+       },
+       "candle_acc_trade_volume": {
+        "type": "number",
+        "format": "double",
+        "description": "The total traded volume (in the base asset) accumulated during the candle period.",
+        "example": 0.0013
+       }
+      }
+     },
+     "CandlePeriod": {
+      "allOf": [
+       {
+        "$ref": "#/components/schemas/Candle"
+       },
+       {
+        "type": "object",
+        "required": [
+         "first_day_of_period"
+        ],
+        "properties": {
+         "first_day_of_period": {
+          "type": "string",
+          "description": "Start date of candle aggregation period (yyyy-MM-dd).",
+          "example": "2025-06-30"
+         }
+        }
+       }
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "page": "https://global-docs.upbit.com/reference/list-candles-years.md",
+  "definition": {
+   "openapi": "3.0.2",
+   "info": {
+    "title": "QUOTATION API",
+    "version": "1.0.0"
+   },
+   "servers": [
+    {
+     "url": "https://{region}-api.upbit.com"
+    }
+   ],
+   "x-readme": {
+    "explorer-enabled": false,
+    "samples-languages": [
+     "shell",
+     "python",
+     "java",
+     "node"
+    ]
+   },
+   "paths": {
+    "/v1/candles/years": {
+     "get": {
+      "operationId": "list-candles-years",
+      "summary": "List Year Candles",
+      "description": "Retrieves the list of candles per year.",
+      "tags": [
+       "Quotation"
+      ],
+      "parameters": [
+       {
+        "name": "market",
+        "in": "query",
+        "required": true,
+        "schema": {
+         "type": "string",
+         "description": "Trading pair code to query.",
+         "example": "SGD-BTC"
+        },
+        "allowReserved": true,
+        "examples": {
+         "default": {
+          "value": "SGD-BTC"
+         }
+        }
+       },
+       {
+        "name": "to",
+        "in": "query",
+        "required": false,
+        "schema": {
+         "type": "string",
+         "description": "End time of the query range. ISO 8601 format.",
+         "example": "2024-01-01T00:00:00"
+        },
+        "allowReserved": true
+       },
+       {
+        "name": "count",
+        "in": "query",
+        "required": false,
+        "schema": {
+         "type": "integer",
+         "description": "Number of candles to retrieve. Up to 200, default: 1.",
+         "example": 200,
+         "default": 1
+        },
+        "allowReserved": true
+       }
+      ],
+      "responses": {
+       "200": {
+        "description": "List of candles",
+        "content": {
+         "application/json": {
+          "schema": {
+           "type": "array",
+           "items": {
+            "$ref": "#/components/schemas/CandlePeriod"
+           }
+          },
+          "examples": {
+           "Successful Example": {
+            "value": [
+             {
+              "market": "SGD-BTC",
+              "candle_date_time_utc": "2025-01-01T00:00:00",
+              "opening_price": 127871,
+              "high_price": 157745,
+              "low_price": 101000,
+              "trade_price": 152114,
+              "timestamp": 1753909903998,
+              "candle_acc_trade_price": 3041987.66401311,
+              "candle_acc_trade_volume": 23.30205337,
+              "first_day_of_period": "2025-01-01"
+             }
+            ]
+           }
+          }
+         }
+        }
+       },
+       "400": {
+        "description": "error object",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/Error"
+          },
+          "examples": {
+           "parameter range error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Invalid parameter. Check the given value!"
+             }
+            }
+           },
+           "parameter type error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Type mismatch error. Check the parameters type!"
+             }
+            }
+           },
+           "missing required parameter error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Missing request parameter error. Check the required parameters!"
+             }
+            }
+           }
+          }
+         }
+        }
+       },
+       "404": {
+        "description": "error object",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/Error"
+          },
+          "examples": {
+           "not found error": {
+            "value": {
+             "error": {
+              "name": 404,
+              "message": "Code not found"
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   },
+   "components": {
+    "schemas": {
+     "Error": {
+      "type": "object",
+      "properties": {
+       "error": {
+        "type": "object",
+        "required": [
+         "name",
+         "message"
+        ],
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "Name identifying the error."
+         },
+         "message": {
+          "type": "string",
+          "description": "Message describing the cause of the error."
+         }
+        }
+       }
+      }
+     },
+     "Candle": {
+      "type": "object",
+      "required": [
+       "market",
+       "candle_date_time_utc",
+       "opening_price",
+       "high_price",
+       "low_price",
+       "trade_price",
+       "timestamp",
+       "candle_acc_trade_price",
+       "candle_acc_trade_volume"
+      ],
+      "properties": {
+       "market": {
+        "type": "string",
+        "description": "Trading pair code representing the market.\n\n[Example]: \"SGD-BTC\"\n",
+        "example": "SGD-BTC"
+       },
+       "candle_date_time_utc": {
+        "type": "string",
+        "description": "Start time of the candle period in UTC.\n\n[Format]: yyyy-MM-dd'T'HH:mm:ss\n",
+        "example": "2025-06-23T14:29:59"
+       },
+       "opening_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The opening price of the candle,\nrepresenting the first trading price during the candle period.\n",
+        "example": 142340000
+       },
+       "high_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The highest trading price,\nrecorded during the candle period.\n",
+        "example": 142340000
+       },
+       "low_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The lowest trading price,\nrecorded during the candle period.\n",
+        "example": 142340000
+       },
+       "trade_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The closing price of the candle, representing the last trading price during the candle period.",
+        "example": 142340000
+       },
+       "timestamp": {
+        "type": "integer",
+        "format": "int64",
+        "description": "The timestamp (in milliseconds) when the last tick of the candle was recorded.",
+        "example": 1750688999123
+       },
+       "candle_acc_trade_price": {
+        "type": "number",
+        "format": "double",
+        "description": "The total trade amount (in the quoted currency) accumulated during the candle period.",
+        "example": 185042
+       },
+       "candle_acc_trade_volume": {
+        "type": "number",
+        "format": "double",
+        "description": "The total traded volume (in the base asset) accumulated during the candle period.",
+        "example": 0.0013
+       }
+      }
+     },
+     "CandlePeriod": {
+      "allOf": [
+       {
+        "$ref": "#/components/schemas/Candle"
+       },
+       {
+        "type": "object",
+        "required": [
+         "first_day_of_period"
+        ],
+        "properties": {
+         "first_day_of_period": {
+          "type": "string",
+          "description": "Start date of candle aggregation period (yyyy-MM-dd).",
+          "example": "2025-06-30"
+         }
+        }
+       }
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "page": "https://global-docs.upbit.com/reference/list-pair-trades.md",
+  "definition": {
+   "openapi": "3.0.2",
+   "info": {
+    "title": "QUOTATION API",
+    "version": "1.0.0"
+   },
+   "servers": [
+    {
+     "url": "https://{region}-api.upbit.com"
+    }
+   ],
+   "x-readme": {
+    "explorer-enabled": false,
+    "samples-languages": [
+     "shell",
+     "python",
+     "java",
+     "node"
+    ]
+   },
+   "paths": {
+    "/v1/trades/ticks": {
+     "get": {
+      "operationId": "list-pair-trades",
+      "summary": "List Pair Trades",
+      "description": "Retrieves recent trades for the specified pair.",
+      "tags": [
+       "Quotation"
+      ],
+      "parameters": [
+       {
+        "name": "market",
+        "in": "query",
+        "required": true,
+        "schema": {
+         "type": "string",
+         "description": "Trading pair code to query.",
+         "example": "SGD-BTC"
+        },
+        "allowReserved": true,
+        "examples": {
+         "default": {
+          "value": "SGD-BTC"
+         }
+        }
+       },
+       {
+        "name": "to",
+        "in": "query",
+        "required": false,
+        "schema": {
+         "type": "string",
+         "description": "End time within the query date range (UTC).\nOptional parameter to retrieve trades within a specific time of the query date.\n\nAccepts HHmmss or HH:mm:ss format. Trade list is returned in reverse chronological order from the specified time.\n",
+         "example": "134501"
+        },
+        "allowReserved": true
+       },
+       {
+        "name": "count",
+        "in": "query",
+        "required": false,
+        "schema": {
+         "type": "integer",
+         "description": "Number of trade records to retrieve.\n\nUp to 500 supported. Default: 1.\n",
+         "example": 500,
+         "default": 1
+        },
+        "allowReserved": true
+       },
+       {
+        "name": "cursor",
+        "in": "query",
+        "required": false,
+        "schema": {
+         "type": "string",
+         "description": "Cursor for pagination.\nEnter the \"sequential_id\" from the response to retrieve the previous \"count\" trade records prior to that trade.\n",
+         "example": 17510687993360000
+        },
+        "allowReserved": true
+       },
+       {
+        "name": "days_ago",
+        "in": "query",
+        "required": false,
+        "schema": {
+         "type": "integer",
+         "description": "Day offset between the query date and the request date.\nMust specify the target date; up to 7 days of history is supported (UTC-based).\n\nInteger between 1 and 7. If omitted, returns trades for the current date. If 7, returns trades from 7 days ago in reverse chronological order.\n",
+         "example": 1
+        },
+        "allowReserved": true
+       }
+      ],
+      "responses": {
+       "200": {
+        "description": "List of trades",
+        "content": {
+         "application/json": {
+          "schema": {
+           "type": "array",
+           "items": {
+            "$ref": "#/components/schemas/Trade"
+           }
+          },
+          "examples": {
+           "Successful Example": {
+            "value": [
+             {
+              "market": "SGD-BTC",
+              "trade_date_utc": "2025-07-31",
+              "trade_time_utc": "15:28:57",
+              "timestamp": 1753975737159,
+              "trade_price": 153099,
+              "trade_volume": 8.736e-05,
+              "prev_closing_price": 152114,
+              "change_price": 985,
+              "ask_bid": "ASK",
+              "sequential_id": 1753975737159000
+             }
+            ]
+           }
+          }
+         }
+        }
+       },
+       "400": {
+        "description": "error object",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/Error"
+          },
+          "examples": {
+           "parameter range error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Invalid parameter. Check the given value!"
+             }
+            }
+           },
+           "parameter type error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Type mismatch error. Check the parameters type!"
+             }
+            }
+           },
+           "missing required parameter error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Missing request parameter error. Check the required parameters!"
+             }
+            }
+           }
+          }
+         }
+        }
+       },
+       "404": {
+        "description": "error object",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/Error"
+          },
+          "examples": {
+           "not found error": {
+            "value": {
+             "error": {
+              "name": 404,
+              "message": "Code not found"
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   },
+   "components": {
+    "schemas": {
+     "Error": {
+      "type": "object",
+      "properties": {
+       "error": {
+        "type": "object",
+        "required": [
+         "name",
+         "message"
+        ],
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "Name identifying the error."
+         },
+         "message": {
+          "type": "string",
+          "description": "Message describing the cause of the error."
+         }
+        }
+       }
+      }
+     },
+     "Trade": {
+      "type": "object",
+      "required": [
+       "market",
+       "trade_date_utc",
+       "trade_time_utc",
+       "timestamp",
+       "trade_price",
+       "trade_volume",
+       "prev_closing_price",
+       "change_price",
+       "ask_bid",
+       "sequential_id"
+      ],
+      "properties": {
+       "market": {
+        "type": "string",
+        "description": "Trading pair code.",
+        "example": "SGD-BTC"
+       },
+       "trade_date_utc": {
+        "type": "string",
+        "description": "Trade date (UTC-based).\n\n[Format] yyyy-MM-dd\n",
+        "example": "2025-06-17"
+       },
+       "trade_time_utc": {
+        "type": "string",
+        "description": "Trade time (UTC-based).\n\n[Format] HH:mm:ss\n",
+        "example": "16:59:59"
+       },
+       "timestamp": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Milliseconds timestamp when the trade was executed.",
+        "example": 1750749886904
+       },
+       "trade_price": {
+        "type": "number",
+        "format": "double",
+        "description": "Most recent trade price.",
+        "example": 142340000
+       },
+       "trade_volume": {
+        "type": "number",
+        "format": "double",
+        "description": "Most recent trade volume.",
+        "example": 100000000
+       },
+       "prev_closing_price": {
+        "type": "number",
+        "format": "double",
+        "description": "Previous day's closing price (UTC-based).",
+        "example": 140908000
+       },
+       "change_price": {
+        "type": "number",
+        "format": "double",
+        "description": "Price change from previous day's closing price.\nCalculated as \"trade_price\" - \"prev_closing_price\".\n  - Positive(+): current price rose from previous closing\n  - Negative(-): current price fell from previous closing\n  - 0: no change from previous closing\n",
+        "example": 100000000
+       },
+       "ask_bid": {
+        "type": "string",
+        "enum": [
+         "ASK",
+         "BID"
+        ],
+        "description": "Trade direction — ASK (sell) or BID (buy).",
+        "example": "ASK"
+       },
+       "sequential_id": {
+        "type": "integer",
+        "description": "Unique identifier for the trade.\n\nThis field does not guarantee the sequence of trades.\n",
+        "example": 17501795992650000
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ {
+  "page": "https://global-docs.upbit.com/reference/list-tickers.md",
+  "definition": {
+   "openapi": "3.0.2",
+   "info": {
+    "title": "QUOTATION API",
+    "version": "1.0.0"
+   },
+   "servers": [
+    {
+     "url": "https://{region}-api.upbit.com"
+    }
+   ],
+   "x-readme": {
+    "explorer-enabled": false,
+    "samples-languages": [
+     "shell",
+     "python",
+     "java",
+     "node"
+    ]
+   },
+   "paths": {
+    "/v1/ticker": {
+     "get": {
+      "operationId": "list-tickers",
+      "summary": "List Tickers by Pairs",
+      "description": "Retrieves the current price for the specified pair. Returns the ticker snapshot of the pair at the time of the request.",
+      "tags": [
+       "Quotation"
+      ],
+      "parameters": [
+       {
+        "name": "markets",
+        "in": "query",
+        "required": true,
+        "schema": {
+         "type": "string",
+         "description": "List of trading pairs to query.\n\nFor multiple pairs, use comma-separated format.\n\n[Example] SGD-BTC,SGD-ETH\n",
+         "example": "SGD-BTC,SGD-ETH"
+        },
+        "allowReserved": true,
+        "examples": {
+         "default": {
+          "value": "SGD-BTC,SGD-ETH"
+         }
+        }
+       }
+      ],
+      "responses": {
+       "200": {
+        "description": "List of tickers",
+        "content": {
+         "application/json": {
+          "schema": {
+           "type": "array",
+           "items": {
+            "$ref": "#/components/schemas/Ticker"
+           }
+          },
+          "examples": {
+           "Successful Example": {
+            "value": [
+             {
+              "market": "SGD-BTC",
+              "trade_date": "20250802",
+              "trade_time": "050603",
+              "trade_timestamp": 1754111163227,
+              "opening_price": 146200,
+              "high_price": 147185,
+              "low_price": 146200,
+              "trade_price": 147152,
+              "prev_closing_price": 146069,
+              "change": "RISE",
+              "change_price": 1083,
+              "change_rate": 0.0074143042,
+              "signed_change_price": 1083,
+              "signed_change_rate": 0.0074143042,
+              "trade_volume": 1.592e-05,
+              "acc_trade_price": 4615.64264147,
+              "acc_trade_price_24h": 2449.59753547,
+              "acc_trade_volume": 0.0315062,
+              "acc_trade_volume_24h": 0.01669057,
+              "highest_52_week_price": 157745,
+              "highest_52_week_date": "2025-07-14",
+              "lowest_52_week_price": 65687,
+              "lowest_52_week_date": "2024-08-05",
+              "timestamp": 1754190935031
+             },
+             {
+              "market": "SGD-ETH",
+              "trade_date": "20250803",
+              "trade_time": "025714",
+              "trade_timestamp": 1754189834969,
+              "opening_price": 4333,
+              "high_price": 4448,
+              "low_price": 4333,
+              "trade_price": 4448,
+              "prev_closing_price": 4397,
+              "change": "RISE",
+              "change_price": 51,
+              "change_rate": 0.0115988174,
+              "signed_change_price": 51,
+              "signed_change_rate": 0.0115988174,
+              "trade_volume": 0.22116943,
+              "acc_trade_price": 1225.0473119,
+              "acc_trade_price_24h": 2461.18629393,
+              "acc_trade_volume": 0.27675085,
+              "acc_trade_volume_24h": 0.54777252,
+              "highest_52_week_price": 5483,
+              "highest_52_week_date": "2024-12-16",
+              "lowest_52_week_price": 1881,
+              "lowest_52_week_date": "2025-04-07",
+              "timestamp": 1754190935030
+             }
+            ]
+           }
+          }
+         }
+        }
+       },
+       "400": {
+        "description": "error object",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/Error"
+          },
+          "examples": {
+           "parameter type error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Type mismatch error. Check the parameters type!"
+             }
+            }
+           },
+           "missing required parameter error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Missing request parameter error. Check the required parameters!"
+             }
+            }
+           }
+          }
+         }
+        }
+       },
+       "404": {
+        "description": "error object",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/Error"
+          },
+          "examples": {
+           "not found error": {
+            "value": {
+             "error": {
+              "name": 404,
+              "message": "Code not found"
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   },
+   "components": {
+    "schemas": {
+     "Error": {
+      "type": "object",
+      "properties": {
+       "error": {
+        "type": "object",
+        "required": [
+         "name",
+         "message"
+        ],
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "Name identifying the error."
+         },
+         "message": {
+          "type": "string",
+          "description": "Message describing the cause of the error."
+         }
+        }
+       }
+      }
+     },
+     "Ticker": {
+      "type": "object",
+      "required": [
+       "market",
+       "trade_date",
+       "trade_time",
+       "trade_timestamp",
+       "opening_price",
+       "high_price",
+       "low_price",
+       "trade_price",
+       "prev_closing_price",
+       "change",
+       "change_price",
+       "change_rate",
+       "signed_change_price",
+       "signed_change_rate",
+       "trade_volume",
+       "acc_trade_price",
+       "acc_trade_price_24h",
+       "acc_trade_volume",
+       "acc_trade_volume_24h",
+       "highest_52_week_price",
+       "highest_52_week_date",
+       "lowest_52_week_price",
+       "lowest_52_week_date",
+       "timestamp"
+      ],
+      "properties": {
+       "market": {
+        "type": "string",
+        "description": "Trading pair code.",
+        "example": "SGD-BTC"
+       },
+       "trade_date": {
+        "type": "string",
+        "description": "Most recent trade date (UTC-based).\n\n[Format] yyyyMMdd\n",
+        "example": 20250624
+       },
+       "trade_time": {
+        "type": "string",
+        "description": "Most recent trade time (UTC-based).\n\n[Format] HHmmss\n",
+        "example": 63514
+       },
+       "trade_timestamp": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Milliseconds timestamp when the trade was executed.",
+        "example": 1750179599265
+       },
+       "opening_price": {
+        "type": "number",
+        "format": "double",
+        "description": "Opening price of the trading pair.",
+        "example": 142340000
+       },
+       "high_price": {
+        "type": "number",
+        "format": "double",
+        "description": "Highest trading price of the trading pair.",
+        "example": 142340000
+       },
+       "low_price": {
+        "type": "number",
+        "format": "double",
+        "description": "Lowest trading price of the trading pair.",
+        "example": 142340000
+       },
+       "trade_price": {
+        "type": "number",
+        "format": "double",
+        "description": "Current (closing) price of the trading pair.",
+        "example": 142340000
+       },
+       "prev_closing_price": {
+        "type": "number",
+        "format": "double",
+        "description": "Previous day's closing price (UTC-based).",
+        "example": 140908000
+       },
+       "change": {
+        "type": "string",
+        "enum": [
+         "EVEN",
+         "RISE",
+         "FALL"
+        ],
+        "description": "Price change status.\n  - `EVEN`: No change\n  - `RISE`: Price rose\n  - `FALL`: Price fell\n",
+        "example": "FALL"
+       },
+       "change_price": {
+        "type": "number",
+        "format": "double",
+        "description": "Absolute price change from previous day's closing price.\n\nCalculated as \"trade_price\" - \"prev_closing_price\".\n",
+        "example": 100000000
+       },
+       "change_rate": {
+        "type": "number",
+        "format": "double",
+        "description": "Absolute price change rate from previous day's closing price.\n\nCalculated as (\"trade_price\" - \"prev_closing_price\") / \"prev_closing_price\".\n",
+        "example": 0.0031057175
+       },
+       "signed_change_price": {
+        "type": "number",
+        "format": "double",
+        "description": "Signed price change from previous day's closing price.\nCalculated as \"trade_price\" - \"prev_closing_price\".\n  - Positive(+): price rose\n  - Negative(-): price fell\n",
+        "example": -454000
+       },
+       "signed_change_rate": {
+        "type": "number",
+        "format": "double",
+        "description": "Signed price change rate from previous day's closing price.\nCalculated as (\"trade_price\" - \"prev_closing_price\") / \"prev_closing_price\".\n  - Positive(+): price rose\n  - Negative(-): price fell\n\n  [Example] 0.015 = 1.5% increase\n",
+        "example": -0.0031057175
+       },
+       "trade_volume": {
+        "type": "number",
+        "format": "double",
+        "description": "Most recent trade volume.",
+        "example": 0.0068
+       },
+       "acc_trade_price": {
+        "type": "number",
+        "format": "double",
+        "description": "Accumulated trade amount since UTC midnight.",
+        "example": 72976655137.21983
+       },
+       "acc_trade_price_24h": {
+        "type": "number",
+        "format": "double",
+        "description": "Accumulated trade amount over the past 24 hours.",
+        "example": 344100708901.19037
+       },
+       "acc_trade_volume": {
+        "type": "number",
+        "format": "double",
+        "description": "Accumulated trade volume since UTC midnight.",
+        "example": 501.38991748
+       },
+       "acc_trade_volume_24h": {
+        "type": "number",
+        "format": "double",
+        "description": "Accumulated trade volume over the past 24 hours.",
+        "example": 2389.39562434
+       },
+       "highest_52_week_price": {
+        "type": "number",
+        "format": "double",
+        "description": "52-week highest price.",
+        "example": 163325000
+       },
+       "highest_52_week_date": {
+        "type": "string",
+        "description": "Date of 52-week highest price.\n\n[Format] yyyy-MM-dd\n",
+        "example": "2025-01-20"
+       },
+       "lowest_52_week_price": {
+        "type": "number",
+        "format": "double",
+        "description": "52-week lowest price.",
+        "example": 72100000
+       },
+       "lowest_52_week_date": {
+        "type": "string",
+        "description": "Date of 52-week lowest price.\n\n[Format] yyyy-MM-dd\n",
+        "example": "2024-08-05"
+       },
+       "timestamp": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Timestamp (ms) when the ticker information was recorded.",
+        "example": 1750746915062
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ {
+  "page": "https://global-docs.upbit.com/reference/list-quote-tickers.md",
+  "definition": {
+   "openapi": "3.0.2",
+   "info": {
+    "title": "QUOTATION API",
+    "version": "1.0.0"
+   },
+   "servers": [
+    {
+     "url": "https://{region}-api.upbit.com"
+    }
+   ],
+   "x-readme": {
+    "explorer-enabled": false,
+    "samples-languages": [
+     "shell",
+     "python",
+     "java",
+     "node"
+    ]
+   },
+   "paths": {
+    "/v1/ticker/all": {
+     "get": {
+      "operationId": "list-quote-tickers",
+      "summary": "List Tickers by Market",
+      "description": "Retrieves current price information of all pairs in the specified market(quote currency).",
+      "tags": [
+       "Quotation"
+      ],
+      "parameters": [
+       {
+        "name": "quote_currencies",
+        "in": "query",
+        "required": true,
+        "schema": {
+         "type": "string",
+         "description": "List of quote currencies to query.\nFor multiple markets, use comma-separated format.\n\n[Example] SGD,BTC\n",
+         "example": "SGD,BTC"
+        },
+        "allowReserved": true,
+        "examples": {
+         "default": {
+          "value": "SGD,BTC"
+         }
+        }
+       }
+      ],
+      "responses": {
+       "200": {
+        "description": "List of tickers by market",
+        "content": {
+         "application/json": {
+          "schema": {
+           "type": "array",
+           "items": {
+            "$ref": "#/components/schemas/Ticker"
+           }
+          },
+          "examples": {
+           "Successful Example": {
+            "value": [
+             {
+              "market": "SGD-USDT",
+              "trade_date": "20250731",
+              "trade_time": "112447",
+              "trade_timestamp": 1753961087850,
+              "opening_price": 1.3,
+              "high_price": 1.3,
+              "low_price": 1.295,
+              "trade_price": 1.3,
+              "prev_closing_price": 1.3,
+              "change": "EVEN",
+              "change_price": 0,
+              "change_rate": 0,
+              "signed_change_price": 0,
+              "signed_change_rate": 0,
+              "trade_volume": 7059.27692307,
+              "acc_trade_price": 15279.1644121887,
+              "acc_trade_price_24h": 15329.03441219,
+              "acc_trade_volume": 11754.54954784,
+              "acc_trade_volume_24h": 11792.9110863,
+              "highest_52_week_price": 800,
+              "highest_52_week_date": "2024-11-16",
+              "lowest_52_week_price": 1.25,
+              "lowest_52_week_date": "2025-06-30",
+              "timestamp": 1753975850030
+             },
+             {
+              "market": "SGD-SOL",
+              "trade_date": "20250731",
+              "trade_time": "141705",
+              "trade_timestamp": 1753971425175,
+              "opening_price": 232,
+              "high_price": 232,
+              "low_price": 228.7,
+              "trade_price": 228.7,
+              "prev_closing_price": 228.3,
+              "change": "RISE",
+              "change_price": 0.4,
+              "change_rate": 0.0017520806,
+              "signed_change_price": 0.4,
+              "signed_change_rate": 0.0017520806,
+              "trade_volume": 0.00481822,
+              "acc_trade_price": 10737.123250223,
+              "acc_trade_price_24h": 11628.53010595,
+              "acc_trade_volume": 46.30406992,
+              "acc_trade_volume_24h": 50.19863171,
+              "highest_52_week_price": 405.45,
+              "highest_52_week_date": "2025-01-19",
+              "lowest_52_week_price": 128.6,
+              "lowest_52_week_date": "2025-04-07",
+              "timestamp": 1753975850031
+             },
+             {
+              "market": "SGD-BTC",
+              "trade_date": "20250731",
+              "trade_time": "152857",
+              "trade_timestamp": 1753975737159,
+              "opening_price": 153099,
+              "high_price": 153099,
+              "low_price": 153099,
+              "trade_price": 153099,
+              "prev_closing_price": 152114,
+              "change": "RISE",
+              "change_price": 985,
+              "change_rate": 0.0064754066,
+              "signed_change_price": 985,
+              "signed_change_rate": 0.0064754066,
+              "trade_volume": 8.736e-05,
+              "acc_trade_price": 26.72649243,
+              "acc_trade_price_24h": 3376.85221158,
+              "acc_trade_volume": 0.00017457,
+              "acc_trade_volume_24h": 0.02219418,
+              "highest_52_week_price": 157745,
+              "highest_52_week_date": "2025-07-14",
+              "lowest_52_week_price": 65687,
+              "lowest_52_week_date": "2024-08-05",
+              "timestamp": 1753975850030
+             },
+             {
+              "market": "SGD-XRP",
+              "trade_date": "20250731",
+              "trade_time": "152856",
+              "trade_timestamp": 1753975736989,
+              "opening_price": 4.045,
+              "high_price": 4.045,
+              "low_price": 4,
+              "trade_price": 4.02,
+              "prev_closing_price": 4.015,
+              "change": "RISE",
+              "change_price": 0.005,
+              "change_rate": 0.00124533,
+              "signed_change_price": 0.005,
+              "signed_change_rate": 0.00124533,
+              "trade_volume": 248.75621891,
+              "acc_trade_price": 1264.9856333432,
+              "acc_trade_price_24h": 2529.96811381,
+              "acc_trade_volume": 314.7532424,
+              "acc_trade_volume_24h": 633.99250421,
+              "highest_52_week_price": 1000,
+              "highest_52_week_date": "2024-12-02",
+              "lowest_52_week_price": 0.574,
+              "lowest_52_week_date": "2024-08-05",
+              "timestamp": 1753975850029
+             },
+             {
+              "market": "SGD-ETH",
+              "trade_date": "20250731",
+              "trade_time": "151327",
+              "trade_timestamp": 1753974807708,
+              "opening_price": 4888,
+              "high_price": 4888,
+              "low_price": 4888,
+              "trade_price": 4888,
+              "prev_closing_price": 4895,
+              "change": "FALL",
+              "change_price": 7,
+              "change_rate": 0.0014300306,
+              "signed_change_price": -7,
+              "signed_change_rate": -0.0014300306,
+              "trade_volume": 0.00178707,
+              "acc_trade_price": 8.73519816,
+              "acc_trade_price_24h": 2412.96706386,
+              "acc_trade_volume": 0.00178707,
+              "acc_trade_volume_24h": 0.49291098,
+              "highest_52_week_price": 5483,
+              "highest_52_week_date": "2024-12-16",
+              "lowest_52_week_price": 1881,
+              "lowest_52_week_date": "2025-04-07",
+              "timestamp": 1753975850029
+             }
+            ]
+           }
+          }
+         }
+        }
+       },
+       "400": {
+        "description": "error object",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/Error"
+          },
+          "examples": {
+           "invalid parameter error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Invalid parameter. Check the given value!"
+             }
+            }
+           },
+           "parameter type error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Type mismatch error. Check the parameters type!"
+             }
+            }
+           },
+           "missing required parameter error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Missing request parameter error. Check the required parameters!"
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   },
+   "components": {
+    "schemas": {
+     "Error": {
+      "type": "object",
+      "properties": {
+       "error": {
+        "type": "object",
+        "required": [
+         "name",
+         "message"
+        ],
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "Name identifying the error."
+         },
+         "message": {
+          "type": "string",
+          "description": "Message describing the cause of the error."
+         }
+        }
+       }
+      }
+     },
+     "Ticker": {
+      "type": "object",
+      "required": [
+       "market",
+       "trade_date",
+       "trade_time",
+       "trade_timestamp",
+       "opening_price",
+       "high_price",
+       "low_price",
+       "trade_price",
+       "prev_closing_price",
+       "change",
+       "change_price",
+       "change_rate",
+       "signed_change_price",
+       "signed_change_rate",
+       "trade_volume",
+       "acc_trade_price",
+       "acc_trade_price_24h",
+       "acc_trade_volume",
+       "acc_trade_volume_24h",
+       "highest_52_week_price",
+       "highest_52_week_date",
+       "lowest_52_week_price",
+       "lowest_52_week_date",
+       "timestamp"
+      ],
+      "properties": {
+       "market": {
+        "type": "string",
+        "description": "Trading pair code.",
+        "example": "SGD-BTC"
+       },
+       "trade_date": {
+        "type": "string",
+        "description": "Most recent trade date (UTC-based).\n\n[Format] yyyyMMdd\n",
+        "example": 20250624
+       },
+       "trade_time": {
+        "type": "string",
+        "description": "Most recent trade time (UTC-based).\n\n[Format] HHmmss\n",
+        "example": 63514
+       },
+       "trade_timestamp": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Milliseconds timestamp when the trade was executed.",
+        "example": 1750179599265
+       },
+       "opening_price": {
+        "type": "number",
+        "format": "double",
+        "description": "Opening price of the trading pair.",
+        "example": 142340000
+       },
+       "high_price": {
+        "type": "number",
+        "format": "double",
+        "description": "Highest trading price of the trading pair.",
+        "example": 142340000
+       },
+       "low_price": {
+        "type": "number",
+        "format": "double",
+        "description": "Lowest trading price of the trading pair.",
+        "example": 142340000
+       },
+       "trade_price": {
+        "type": "number",
+        "format": "double",
+        "description": "Current (closing) price of the trading pair.",
+        "example": 142340000
+       },
+       "prev_closing_price": {
+        "type": "number",
+        "format": "double",
+        "description": "Previous day's closing price (UTC-based).",
+        "example": 140908000
+       },
+       "change": {
+        "type": "string",
+        "enum": [
+         "EVEN",
+         "RISE",
+         "FALL"
+        ],
+        "description": "Price change status.\n  - `EVEN`: No change\n  - `RISE`: Price rose\n  - `FALL`: Price fell\n",
+        "example": "FALL"
+       },
+       "change_price": {
+        "type": "number",
+        "format": "double",
+        "description": "Absolute price change from previous day's closing price.\n\nCalculated as \"trade_price\" - \"prev_closing_price\".\n",
+        "example": 100000000
+       },
+       "change_rate": {
+        "type": "number",
+        "format": "double",
+        "description": "Absolute price change rate from previous day's closing price.\n\nCalculated as (\"trade_price\" - \"prev_closing_price\") / \"prev_closing_price\".\n",
+        "example": 0.0031057175
+       },
+       "signed_change_price": {
+        "type": "number",
+        "format": "double",
+        "description": "Signed price change from previous day's closing price.\nCalculated as \"trade_price\" - \"prev_closing_price\".\n  - Positive(+): price rose\n  - Negative(-): price fell\n",
+        "example": -454000
+       },
+       "signed_change_rate": {
+        "type": "number",
+        "format": "double",
+        "description": "Signed price change rate from previous day's closing price.\nCalculated as (\"trade_price\" - \"prev_closing_price\") / \"prev_closing_price\".\n  - Positive(+): price rose\n  - Negative(-): price fell\n\n  [Example] 0.015 = 1.5% increase\n",
+        "example": -0.0031057175
+       },
+       "trade_volume": {
+        "type": "number",
+        "format": "double",
+        "description": "Most recent trade volume.",
+        "example": 0.0068
+       },
+       "acc_trade_price": {
+        "type": "number",
+        "format": "double",
+        "description": "Accumulated trade amount since UTC midnight.",
+        "example": 72976655137.21983
+       },
+       "acc_trade_price_24h": {
+        "type": "number",
+        "format": "double",
+        "description": "Accumulated trade amount over the past 24 hours.",
+        "example": 344100708901.19037
+       },
+       "acc_trade_volume": {
+        "type": "number",
+        "format": "double",
+        "description": "Accumulated trade volume since UTC midnight.",
+        "example": 501.38991748
+       },
+       "acc_trade_volume_24h": {
+        "type": "number",
+        "format": "double",
+        "description": "Accumulated trade volume over the past 24 hours.",
+        "example": 2389.39562434
+       },
+       "highest_52_week_price": {
+        "type": "number",
+        "format": "double",
+        "description": "52-week highest price.",
+        "example": 163325000
+       },
+       "highest_52_week_date": {
+        "type": "string",
+        "description": "Date of 52-week highest price.\n\n[Format] yyyy-MM-dd\n",
+        "example": "2025-01-20"
+       },
+       "lowest_52_week_price": {
+        "type": "number",
+        "format": "double",
+        "description": "52-week lowest price.",
+        "example": 72100000
+       },
+       "lowest_52_week_date": {
+        "type": "string",
+        "description": "Date of 52-week lowest price.\n\n[Format] yyyy-MM-dd\n",
+        "example": "2024-08-05"
+       },
+       "timestamp": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Timestamp (ms) when the ticker information was recorded.",
+        "example": 1750746915062
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ {
+  "page": "https://global-docs.upbit.com/reference/list-orderbooks.md",
+  "definition": {
+   "openapi": "3.0.2",
+   "info": {
+    "title": "QUOTATION API",
+    "version": "1.0.0"
+   },
+   "servers": [
+    {
+     "url": "https://{region}-api.upbit.com"
+    }
+   ],
+   "x-readme": {
+    "explorer-enabled": false,
+    "samples-languages": [
+     "shell",
+     "python",
+     "java",
+     "node"
+    ]
+   },
+   "paths": {
+    "/v1/orderbook": {
+     "get": {
+      "operationId": "list-orderbooks",
+      "summary": "Get Orderbook",
+      "description": "Retrieves the real-time orderbook data for the specified markets.",
+      "tags": [
+       "Quotation"
+      ],
+      "parameters": [
+       {
+        "name": "markets",
+        "in": "query",
+        "required": true,
+        "schema": {
+         "type": "string",
+         "description": "List of trading pairs to query.\n\nFor multiple pairs, use comma-separated format.\n",
+         "example": "SGD-BTC,SGD-ETH"
+        },
+        "allowReserved": true,
+        "examples": {
+         "default": {
+          "value": "SGD-BTC,SGD-ETH"
+         }
+        }
+       },
+       {
+        "name": "count",
+        "in": "query",
+        "required": false,
+        "schema": {
+         "type": "integer",
+         "description": "Number of orderbook entries to retrieve.\n\nBased on the best bid-ask pair, returns the specified number of pairs. Default: 30.\n",
+         "example": 10,
+         "default": 30
+        },
+        "allowReserved": true
+       }
+      ],
+      "responses": {
+       "200": {
+        "description": "List of orderbook",
+        "content": {
+         "application/json": {
+          "schema": {
+           "type": "array",
+           "items": {
+            "$ref": "#/components/schemas/Orderbook"
+           }
+          },
+          "examples": {
+           "Successful Example": {
+            "value": [
+             {
+              "market": "SGD-BTC",
+              "timestamp": 1753973734372,
+              "total_ask_size": 10.6377063,
+              "total_bid_size": 0.74153973,
+              "orderbook_units": [
+               {
+                "ask_price": 153487,
+                "bid_price": 153105,
+                "ask_size": 0.00011366,
+                "bid_size": 0.17
+               },
+               {
+                "ask_price": 153489,
+                "bid_price": 153104,
+                "ask_size": 0.00011366,
+                "bid_size": 0.17
+               },
+               {
+                "ask_price": 153750,
+                "bid_price": 152384,
+                "ask_size": 0.09,
+                "bid_size": 0.2
+               },
+               {
+                "ask_price": 153813,
+                "bid_price": 150956,
+                "ask_size": 0.2,
+                "bid_size": 0.01627697
+               },
+               {
+                "ask_price": 155494,
+                "bid_price": 150503,
+                "ask_size": 0.01175995,
+                "bid_size": 0.01534872
+               },
+               {
+                "ask_price": 155703,
+                "bid_price": 150350,
+                "ask_size": 0.01115748,
+                "bid_size": 0.00329299
+               },
+               {
+                "ask_price": 155965,
+                "bid_price": 149700,
+                "ask_size": 0.01410468,
+                "bid_size": 0.0187742
+               },
+               {
+                "ask_price": 156358,
+                "bid_price": 149132,
+                "ask_size": 0.01346486,
+                "bid_size": 0.01736742
+               },
+               {
+                "ask_price": 156620,
+                "bid_price": 148846,
+                "ask_size": 0.01293835,
+                "bid_size": 0.01129124
+               },
+               {
+                "ask_price": 156835,
+                "bid_price": 148684,
+                "ask_size": 0.01254629,
+                "bid_size": 0.01099228
+               },
+               {
+                "ask_price": 157043,
+                "bid_price": 148321,
+                "ask_size": 0.0081433,
+                "bid_size": 0.01028785
+               },
+               {
+                "ask_price": 157485,
+                "bid_price": 148181,
+                "ask_size": 0.00781621,
+                "bid_size": 0.06748503
+               },
+               {
+                "ask_price": 157906,
+                "bid_price": 148084,
+                "ask_size": 0.00746434,
+                "bid_size": 0.00970239
+               },
+               {
+                "ask_price": 158149,
+                "bid_price": 147395,
+                "ask_size": 0.00699754,
+                "bid_size": 0.00881583
+               },
+               {
+                "ask_price": 158518,
+                "bid_price": 147181,
+                "ask_size": 0.00672714,
+                "bid_size": 0.00840015
+               },
+               {
+                "ask_price": 158682,
+                "bid_price": 146744,
+                "ask_size": 0.00631775,
+                "bid_size": 0.00800029
+               },
+               {
+                "ask_price": 158888,
+                "bid_price": 146368,
+                "ask_size": 0.00045947,
+                "bid_size": 0.00762095
+               },
+               {
+                "ask_price": 158942,
+                "bid_price": 145788,
+                "ask_size": 0.00610307,
+                "bid_size": 0.00661069
+               },
+               {
+                "ask_price": 159219,
+                "bid_price": 145572,
+                "ask_size": 0.00568092,
+                "bid_size": 0.00660636
+               },
+               {
+                "ask_price": 159673,
+                "bid_price": 145445,
+                "ask_size": 0.00536277,
+                "bid_size": 0.00631814
+               },
+               {
+                "ask_price": 160023,
+                "bid_price": 145413,
+                "ask_size": 0.00510331,
+                "bid_size": 0.00646851
+               },
+               {
+                "ask_price": 160398,
+                "bid_price": 145020,
+                "ask_size": 0.00476806,
+                "bid_size": 0.0061312
+               },
+               {
+                "ask_price": 160840,
+                "bid_price": 144695,
+                "ask_size": 0.00451249,
+                "bid_size": 0.00544578
+               },
+               {
+                "ask_price": 161061,
+                "bid_price": 144364,
+                "ask_size": 0.0044029,
+                "bid_size": 0.00518513
+               },
+               {
+                "ask_price": 161252,
+                "bid_price": 144341,
+                "ask_size": 0.00419339,
+                "bid_size": 0.00550398
+               },
+               {
+                "ask_price": 161558,
+                "bid_price": 143644,
+                "ask_size": 0.00386111,
+                "bid_size": 0.00490418
+               },
+               {
+                "ask_price": 161983,
+                "bid_price": 143508,
+                "ask_size": 0.00374006,
+                "bid_size": 0.00426742
+               },
+               {
+                "ask_price": 162270,
+                "bid_price": 142573,
+                "ask_size": 0.00360672,
+                "bid_size": 0.00351967
+               },
+               {
+                "ask_price": 162519,
+                "bid_price": 142325,
+                "ask_size": 0.0032599,
+                "bid_size": 0.00352893
+               },
+               {
+                "ask_price": 162769,
+                "bid_price": 142061,
+                "ask_size": 0.00310058,
+                "bid_size": 0.00339343
+               }
+              ]
+             }
+            ]
+           }
+          }
+         }
+        }
+       },
+       "400": {
+        "description": "error object",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/Error"
+          },
+          "examples": {
+           "invalid parameter error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Invalid parameter. Check the given value!"
+             }
+            }
+           },
+           "parameter type error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Type mismatch error. Check the parameters type!"
+             }
+            }
+           },
+           "missing required parameter error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Missing request parameter error. Check the required parameters!"
+             }
+            }
+           }
+          }
+         }
+        }
+       },
+       "404": {
+        "description": "error object",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/Error"
+          },
+          "examples": {
+           "not found error": {
+            "value": {
+             "error": {
+              "name": 404,
+              "message": "Code not found"
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   },
+   "components": {
+    "schemas": {
+     "Error": {
+      "type": "object",
+      "properties": {
+       "error": {
+        "type": "object",
+        "required": [
+         "name",
+         "message"
+        ],
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "Name identifying the error."
+         },
+         "message": {
+          "type": "string",
+          "description": "Message describing the cause of the error."
+         }
+        }
+       }
+      }
+     },
+     "Orderbook": {
+      "type": "object",
+      "required": [
+       "market",
+       "timestamp",
+       "total_ask_size",
+       "total_bid_size",
+       "orderbook_units",
+       "level"
+      ],
+      "properties": {
+       "market": {
+        "type": "string",
+        "description": "Trading pair code.",
+        "example": "SGD-BTC"
+       },
+       "timestamp": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Timestamp of the query request (ms).",
+        "example": 1750749886904
+       },
+       "total_ask_size": {
+        "type": "number",
+        "format": "double",
+        "description": "Total ask volume in the current orderbook.",
+        "example": 10.64580882
+       },
+       "total_bid_size": {
+        "type": "number",
+        "format": "double",
+        "description": "Total bid volume in the current orderbook.",
+        "example": 8.26105616
+       },
+       "orderbook_units": {
+        "description": "List of orderbook entries ordered from level 1 to level 30.",
+        "type": "array",
+        "items": {
+         "type": "object",
+         "description": "Individual orderbook entry.",
+         "required": [
+          "ask_price",
+          "bid_price",
+          "ask_size",
+          "bid_size"
+         ],
+         "properties": {
+          "ask_price": {
+           "type": "number",
+           "format": "double",
+           "description": "Lowest sell (ask) price.",
+           "example": 146030000
+          },
+          "bid_price": {
+           "type": "number",
+           "format": "double",
+           "description": "Highest buy (bid) price.",
+           "example": 146000000
+          },
+          "ask_size": {
+           "type": "number",
+           "format": "double",
+           "description": "Sell quantity at ask price.",
+           "example": 0.74547181
+          },
+          "bid_size": {
+           "type": "number",
+           "format": "double",
+           "description": "Buy quantity at bid price.",
+           "example": 0.20338834
+          }
+         }
+        }
+       },
+       "level": {
+        "type": "number",
+        "format": "double",
+        "description": "Price unit applied for this orderbook level.",
+        "example": 10000,
+        "default": 0
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ {
+  "page": "https://global-docs.upbit.com/reference/list-orderbook-instruments.md",
+  "definition": {
+   "openapi": "3.0.2",
+   "info": {
+    "title": "QUOTATION API",
+    "version": "1.0.0"
+   },
+   "servers": [
+    {
+     "url": "https://{region}-api.upbit.com"
+    }
+   ],
+   "x-readme": {
+    "explorer-enabled": false,
+    "samples-languages": [
+     "shell",
+     "python",
+     "java",
+     "node"
+    ]
+   },
+   "paths": {
+    "/v1/orderbook/instruments": {
+     "get": {
+      "operationId": "list-orderbook-instruments",
+      "summary": "List Orderbook Instruments",
+      "description": "Retrieves the tick size (order price unit) for the specified trading pairs.",
+      "tags": [
+       "Quotation"
+      ],
+      "parameters": [
+       {
+        "name": "markets",
+        "in": "query",
+        "required": true,
+        "schema": {
+         "type": "string",
+         "description": "List of trading pairs to query.\n\nFor multiple pairs, use comma-separated format.\n",
+         "example": "SGD-BTC,SGD-ETH"
+        },
+        "allowReserved": true,
+        "examples": {
+         "default": {
+          "value": "SGD-BTC,SGD-ETH"
+         }
+        }
+       }
+      ],
+      "responses": {
+       "200": {
+        "description": "List of orderbook instruments",
+        "content": {
+         "application/json": {
+          "schema": {
+           "type": "array",
+           "items": {
+            "$ref": "#/components/schemas/OrderbookInstrument"
+           }
+          },
+          "examples": {
+           "Successful Example": {
+            "value": [
+             {
+              "market": "SGD-BTC",
+              "quote_currency": "SGD",
+              "tick_size": "1"
+             },
+             {
+              "market": "SGD-ETH",
+              "quote_currency": "SGD",
+              "tick_size": "1"
+             }
+            ]
+           }
+          }
+         }
+        }
+       },
+       "400": {
+        "description": "error object",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/Error"
+          },
+          "examples": {
+           "invalid parameter error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Invalid parameter. Check the given value!"
+             }
+            }
+           },
+           "parameter type error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Type mismatch error. Check the parameters type!"
+             }
+            }
+           },
+           "missing required parameter error": {
+            "value": {
+             "error": {
+              "name": 400,
+              "message": "Missing request parameter error. Check the required parameters!"
+             }
+            }
+           }
+          }
+         }
+        }
+       },
+       "404": {
+        "description": "error object",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/Error"
+          },
+          "examples": {
+           "not found error": {
+            "value": {
+             "error": {
+              "name": 404,
+              "message": "Code not found"
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   },
+   "components": {
+    "schemas": {
+     "Error": {
+      "type": "object",
+      "properties": {
+       "error": {
+        "type": "object",
+        "required": [
+         "name",
+         "message"
+        ],
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "Name identifying the error."
+         },
+         "message": {
+          "type": "string",
+          "description": "Message describing the cause of the error."
+         }
+        }
+       }
+      }
+     },
+     "OrderbookInstrument": {
+      "type": "object",
+      "required": [
+       "market",
+       "quote_currency",
+       "tick_size"
+      ],
+      "properties": {
+       "market": {
+        "type": "string",
+        "description": "Trading pair code.",
+        "example": "SGD-BTC"
+       },
+       "quote_currency": {
+        "type": "string",
+        "description": "Quote currency code for the trading pair (e.g., SGD, BTC, USDT).",
+        "example": "SGD"
+       },
+       "tick_size": {
+        "type": "string",
+        "description": "Price unit applied to the orderbook level.",
+        "example": "10000"
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+]

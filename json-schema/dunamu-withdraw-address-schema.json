@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/dunamu/main/json-schema/dunamu-withdraw-address-schema.json",
+  "title": "WithdrawAddress",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/dunamu-exchange-api-openapi.yml#/components/schemas/WithdrawAddress",
+  "type": "object",
+  "required": [
+    "currency",
+    "net_type",
+    "network_name",
+    "withdraw_address"
+  ],
+  "properties": {
+    "currency": {
+      "type": "string",
+      "description": "Currency code of the digital asset to withdraw."
+    },
+    "net_type": {
+      "type": "string",
+      "description": "Withdrawal network type.\n\nBlockchain network identifier used by Upbit. The `net_type` parameter in withdrawal requests must match this value.\n\n[Example] \"ETH\", \"TRX\", \"SOL\"\n"
+    },
+    "network_name": {
+      "type": "string",
+      "description": "Withdrawal network name displayed to users.\n\n[Example] \"Ethereum\", \"Bitcoin\", \"Tron\", \"Solana\"\n"
+    },
+    "withdraw_address": {
+      "type": "string",
+      "description": "Recipient address for digital asset withdrawal.\n\nOnly addresses registered in the allowed withdrawal address list can be used.\n"
+    },
+    "secondary_address": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Secondary withdrawal address (Destination Tag, Memo, or Message).\nSome digital assets require a secondary address along with the primary address.\n"
+    },
+    "beneficiary_name": {
+      "type": "string",
+      "description": "Name of the wallet owner.\n\nName of the individual or corporate representative receiving the withdrawn assets. Returned only for exchange wallets; null for personal wallets.\n"
+    },
+    "beneficiary_company_name": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Company name of the entity receiving the withdrawn assets."
+    },
+    "beneficiary_type": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Account holder type.\n  - `individual`: Personal wallet\n  - `corporate`: Corporate wallet\n"
+    },
+    "exchange_name": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Name of the exchange where the withdrawal address is registered.\n\n[Example] \"Binance\", \"Bybit\"\n"
+    },
+    "wallet_type": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Personal wallet type.\n\n[Example] \"MetaMask\"\n"
+    }
+  }
+}

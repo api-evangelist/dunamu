@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/dunamu/main/json-schema/dunamu-ticker-schema.json",
+  "title": "Ticker",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/dunamu-quotation-api-openapi.yml#/components/schemas/Ticker",
+  "type": "object",
+  "required": [
+    "market",
+    "trade_date",
+    "trade_time",
+    "trade_timestamp",
+    "opening_price",
+    "high_price",
+    "low_price",
+    "trade_price",
+    "prev_closing_price",
+    "change",
+    "change_price",
+    "change_rate",
+    "signed_change_price",
+    "signed_change_rate",
+    "trade_volume",
+    "acc_trade_price",
+    "acc_trade_price_24h",
+    "acc_trade_volume",
+    "acc_trade_volume_24h",
+    "highest_52_week_price",
+    "highest_52_week_date",
+    "lowest_52_week_price",
+    "lowest_52_week_date",
+    "timestamp"
+  ],
+  "properties": {
+    "market": {
+      "type": "string",
+      "description": "Trading pair code."
+    },
+    "trade_date": {
+      "type": "string",
+      "description": "Most recent trade date (UTC-based).\n\n[Format] yyyyMMdd\n"
+    },
+    "trade_time": {
+      "type": "string",
+      "description": "Most recent trade time (UTC-based).\n\n[Format] HHmmss\n"
+    },
+    "trade_timestamp": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Milliseconds timestamp when the trade was executed."
+    },
+    "opening_price": {
+      "type": "number",
+      "format": "double",
+      "description": "Opening price of the trading pair."
+    },
+    "high_price": {
+      "type": "number",
+      "format": "double",
+      "description": "Highest trading price of the trading pair."
+    },
+    "low_price": {
+      "type": "number",
+      "format": "double",
+      "description": "Lowest trading price of the trading pair."
+    },
+    "trade_price": {
+      "type": "number",
+      "format": "double",
+      "description": "Current (closing) price of the trading pair."
+    },
+    "prev_closing_price": {
+      "type": "number",
+      "format": "double",
+      "description": "Previous day's closing price (UTC-based)."
+    },
+    "change": {
+      "type": "string",
+      "enum": [
+        "EVEN",
+        "RISE",
+        "FALL"
+      ],
+      "description": "Price change status.\n  - `EVEN`: No change\n  - `RISE`: Price rose\n  - `FALL`: Price fell\n"
+    },
+    "change_price": {
+      "type": "number",
+      "format": "double",
+      "description": "Absolute price change from previous day's closing price.\n\nCalculated as \"trade_price\" - \"prev_closing_price\".\n"
+    },
+    "change_rate": {
+      "type": "number",
+      "format": "double",
+      "description": "Absolute price change rate from previous day's closing price.\n\nCalculated as (\"trade_price\" - \"prev_closing_price\") / \"prev_closing_price\".\n"
+    },
+    "signed_change_price": {
+      "type": "number",
+      "format": "double",
+      "description": "Signed price change from previous day's closing price.\nCalculated as \"trade_price\" - \"prev_closing_price\".\n  - Positive(+): price rose\n  - Negative(-): price fell\n"
+    },
+    "signed_change_rate": {
+      "type": "number",
+      "format": "double",
+      "description": "Signed price change rate from previous day's closing price.\nCalculated as (\"trade_price\" - \"prev_closing_price\") / \"prev_closing_price\".\n  - Positive(+): price rose\n  - Negative(-): price fell\n\n  [Example] 0.015 = 1.5% increase\n"
+    },
+    "trade_volume": {
+      "type": "number",
+      "format": "double",
+      "description": "Most recent trade volume."
+    },
+    "acc_trade_price": {
+      "type": "number",
+      "format": "double",
+      "description": "Accumulated trade amount since UTC midnight."
+    },
+    "acc_trade_price_24h": {
+      "type": "number",
+      "format": "double",
+      "description": "Accumulated trade amount over the past 24 hours."
+    },
+    "acc_trade_volume": {
+      "type": "number",
+      "format": "double",
+      "description": "Accumulated trade volume since UTC midnight."
+    },
+    "acc_trade_volume_24h": {
+      "type": "number",
+      "format": "double",
+      "description": "Accumulated trade volume over the past 24 hours."
+    },
+    "highest_52_week_price": {
+      "type": "number",
+      "format": "double",
+      "description": "52-week highest price."
+    },
+    "highest_52_week_date": {
+      "type": "string",
+      "description": "Date of 52-week highest price.\n\n[Format] yyyy-MM-dd\n"
+    },
+    "lowest_52_week_price": {
+      "type": "number",
+      "format": "double",
+      "description": "52-week lowest price."
+    },
+    "lowest_52_week_date": {
+      "type": "string",
+      "description": "Date of 52-week lowest price.\n\n[Format] yyyy-MM-dd\n"
+    },
+    "timestamp": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Timestamp (ms) when the ticker information was recorded."
+    }
+  }
+}

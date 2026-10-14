@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/dunamu/main/json-schema/dunamu-trade-schema.json",
+  "title": "Trade",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/dunamu-quotation-api-openapi.yml#/components/schemas/Trade",
+  "type": "object",
+  "required": [
+    "market",
+    "trade_date_utc",
+    "trade_time_utc",
+    "timestamp",
+    "trade_price",
+    "trade_volume",
+    "prev_closing_price",
+    "change_price",
+    "ask_bid",
+    "sequential_id"
+  ],
+  "properties": {
+    "market": {
+      "type": "string",
+      "description": "Trading pair code."
+    },
+    "trade_date_utc": {
+      "type": "string",
+      "description": "Trade date (UTC-based).\n\n[Format] yyyy-MM-dd\n"
+    },
+    "trade_time_utc": {
+      "type": "string",
+      "description": "Trade time (UTC-based).\n\n[Format] HH:mm:ss\n"
+    },
+    "timestamp": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Milliseconds timestamp when the trade was executed."
+    },
+    "trade_price": {
+      "type": "number",
+      "format": "double",
+      "description": "Most recent trade price."
+    },
+    "trade_volume": {
+      "type": "number",
+      "format": "double",
+      "description": "Most recent trade volume."
+    },
+    "prev_closing_price": {
+      "type": "number",
+      "format": "double",
+      "description": "Previous day's closing price (UTC-based)."
+    },
+    "change_price": {
+      "type": "number",
+      "format": "double",
+      "description": "Price change from previous day's closing price.\nCalculated as \"trade_price\" - \"prev_closing_price\".\n  - Positive(+): current price rose from previous closing\n  - Negative(-): current price fell from previous closing\n  - 0: no change from previous closing\n"
+    },
+    "ask_bid": {
+      "type": "string",
+      "enum": [
+        "ASK",
+        "BID"
+      ],
+      "description": "Trade direction — ASK (sell) or BID (buy)."
+    },
+    "sequential_id": {
+      "type": "integer",
+      "description": "Unique identifier for the trade.\n\nThis field does not guarantee the sequence of trades.\n"
+    }
+  }
+}

@@ -1,0 +1,263 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/dunamu/main/json-schema/dunamu-order-chance-schema.json",
+  "title": "OrderChance",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/dunamu-exchange-api-openapi.yml#/components/schemas/OrderChance",
+  "type": "object",
+  "required": [
+    "bid_fee",
+    "ask_fee",
+    "maker_bid_fee",
+    "maker_ask_fee",
+    "market",
+    "bid_account",
+    "ask_account"
+  ],
+  "properties": {
+    "bid_fee": {
+      "type": "string",
+      "format": "decimal",
+      "description": "Fee rate applied when placing a buy order."
+    },
+    "ask_fee": {
+      "type": "string",
+      "format": "decimal",
+      "description": "Fee rate applied when placing a sell order."
+    },
+    "maker_bid_fee": {
+      "type": "string",
+      "format": "decimal",
+      "description": "Maker fee rate for buy orders."
+    },
+    "maker_ask_fee": {
+      "type": "string",
+      "format": "decimal",
+      "description": "Maker fee rate for sell orders."
+    },
+    "market": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "order_types",
+        "order_sides",
+        "bid_types",
+        "ask_types",
+        "bid",
+        "ask",
+        "max_total",
+        "state"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Trading pair code.\n"
+        },
+        "name": {
+          "type": "string",
+          "description": "Trading pair name (base asset / quote currency).\n"
+        },
+        "order_types": {
+          "type": "array",
+          "deprecated": true,
+          "description": "Supported order types (deprecated).",
+          "enum": [
+            "limit",
+            "price",
+            "market",
+            "best"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "order_sides": {
+          "type": "array",
+          "description": "Supported order sides.",
+          "enum": [
+            "ask",
+            "bid"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "bid_types": {
+          "type": "array",
+          "description": "Supported buy order types.\n\n[Example] [\"limit\", \"price\", \"best_fok\", ...]\n",
+          "enum": [
+            "best_fok",
+            "best_ioc",
+            "limit",
+            "limit_fok",
+            "limit_ioc",
+            "price"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "ask_types": {
+          "type": "array",
+          "description": "Supported sell order types.\n\n[Example] [\"market\", \"limit\", \"best_fok\", ...]\n",
+          "enum": [
+            "best_fok",
+            "best_ioc",
+            "limit",
+            "limit_fok",
+            "limit_ioc",
+            "market"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "bid": {
+          "description": "Buy order constraints.",
+          "type": "object",
+          "required": [
+            "currency",
+            "min_total"
+          ],
+          "properties": {
+            "currency": {
+              "type": "string",
+              "description": "Quote currency used to purchase digital assets (SGD, BTC, USDT)."
+            },
+            "price_unit": {
+              "type": "number",
+              "format": "double",
+              "deprecated": true,
+              "description": "Order price unit. This field is deprecated and should not be referenced."
+            },
+            "min_total": {
+              "type": "string",
+              "format": "decimal",
+              "description": "Minimum order amount for buy orders (in quote currency).\n"
+            }
+          }
+        },
+        "ask": {
+          "description": "Sell order constraints.",
+          "type": "object",
+          "required": [
+            "currency",
+            "min_total"
+          ],
+          "properties": {
+            "currency": {
+              "type": "string",
+              "description": "Currency of the asset being sold.\n\n[Example] \"BTC\", \"ETH\"\n"
+            },
+            "price_unit": {
+              "type": "number",
+              "format": "double",
+              "deprecated": true,
+              "description": "Order price unit. This field is deprecated and should not be referenced."
+            },
+            "min_total": {
+              "type": "string",
+              "format": "decimal",
+              "description": "Minimum order amount for sell orders (in quote currency).\n"
+            }
+          }
+        },
+        "max_total": {
+          "type": "string",
+          "description": "Maximum order amount."
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "active"
+          ],
+          "description": "Market operation state.",
+          "default": "active"
+        }
+      }
+    },
+    "bid_account": {
+      "description": "Quote asset account information.",
+      "type": "object",
+      "required": [
+        "currency",
+        "balance",
+        "locked",
+        "avg_buy_price",
+        "avg_buy_price_modified"
+      ],
+      "properties": {
+        "currency": {
+          "type": "string",
+          "description": "Currency code to be queried."
+        },
+        "balance": {
+          "type": "string",
+          "format": "decimal",
+          "description": "Available amount or volume for orders.\n"
+        },
+        "locked": {
+          "type": "string",
+          "format": "decimal",
+          "description": "Amount or quantity locked by pending orders or withdrawals."
+        },
+        "avg_buy_price": {
+          "type": "string",
+          "format": "decimal",
+          "description": "Average buy price of the asset."
+        },
+        "avg_buy_price_modified": {
+          "type": "boolean",
+          "description": "Indicates whether the average buy price has been modified."
+        },
+        "unit_currency": {
+          "type": "string",
+          "description": "Currency unit used as the basis for avg_buy_price.\n"
+        }
+      }
+    },
+    "ask_account": {
+      "description": "Base asset account information.",
+      "type": "object",
+      "required": [
+        "currency",
+        "balance",
+        "locked",
+        "avg_buy_price",
+        "avg_buy_price_modified"
+      ],
+      "properties": {
+        "currency": {
+          "type": "string",
+          "description": "Currency code to be queried."
+        },
+        "balance": {
+          "type": "string",
+          "format": "decimal",
+          "description": "Available amount or volume for orders.\n"
+        },
+        "locked": {
+          "type": "string",
+          "format": "decimal",
+          "description": "Amount or quantity locked by pending orders or withdrawals."
+        },
+        "avg_buy_price": {
+          "type": "string",
+          "format": "decimal",
+          "description": "Average buy price of the asset."
+        },
+        "avg_buy_price_modified": {
+          "type": "boolean",
+          "description": "Indicates whether the average buy price has been modified."
+        },
+        "unit_currency": {
+          "type": "string",
+          "description": "Currency unit used as the basis for avg_buy_price.\n"
+        }
+      }
+    }
+  }
+}

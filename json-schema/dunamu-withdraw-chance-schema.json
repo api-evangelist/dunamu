@@ -1,0 +1,218 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/dunamu/main/json-schema/dunamu-withdraw-chance-schema.json",
+  "title": "WithdrawChance",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/dunamu-exchange-api-openapi.yml#/components/schemas/WithdrawChance",
+  "type": "object",
+  "required": [
+    "member_level",
+    "currency",
+    "account",
+    "withdraw_limit"
+  ],
+  "properties": {
+    "member_level": {
+      "description": "User security level information.",
+      "type": "object",
+      "required": [
+        "security_level",
+        "fee_level",
+        "email_verified",
+        "identity_auth_verified",
+        "bank_account_verified",
+        "two_factor_auth_verified",
+        "locked",
+        "wallet_locked"
+      ],
+      "properties": {
+        "security_level": {
+          "type": "integer",
+          "description": "Security level."
+        },
+        "fee_level": {
+          "type": "integer",
+          "description": "Fee level."
+        },
+        "email_verified": {
+          "type": "boolean",
+          "description": "Whether email is verified."
+        },
+        "identity_auth_verified": {
+          "type": "boolean",
+          "description": "Whether identity is verified."
+        },
+        "bank_account_verified": {
+          "type": "boolean",
+          "description": "Whether bank account is verified."
+        },
+        "two_factor_auth_verified": {
+          "type": "boolean",
+          "description": "Whether two-factor authentication is enabled."
+        },
+        "locked": {
+          "type": "boolean",
+          "description": "Whether the account is locked."
+        },
+        "wallet_locked": {
+          "type": "boolean",
+          "description": "Whether the wallet (withdrawal) is locked."
+        }
+      }
+    },
+    "currency": {
+      "description": "Currency information.",
+      "type": "object",
+      "required": [
+        "code",
+        "withdraw_fee",
+        "is_coin",
+        "wallet_state",
+        "wallet_support"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Currency code."
+        },
+        "withdraw_fee": {
+          "type": "string",
+          "format": "decimal",
+          "description": "Withdrawal fee."
+        },
+        "is_coin": {
+          "type": "boolean",
+          "description": "Whether this is a digital asset."
+        },
+        "wallet_state": {
+          "type": "string",
+          "enum": [
+            "working",
+            "unsupported"
+          ],
+          "description": "Whether deposit/withdrawal has been supported for this asset.\n  - `working`: Has been supported\n  - `unsupported`: Never supported\n"
+        },
+        "wallet_support": {
+          "description": "Current deposit/withdrawal availability. 'deposit' if deposits are available, 'withdraw' if withdrawals are available. Empty list means neither is available.",
+          "type": "array",
+          "enum": [
+            "deposit",
+            "withdraw"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "account": {
+      "description": "Asset balance information.",
+      "type": "object",
+      "required": [
+        "currency",
+        "balance",
+        "locked",
+        "avg_buy_price",
+        "avg_buy_price_modified",
+        "unit_currency"
+      ],
+      "properties": {
+        "currency": {
+          "type": "string",
+          "description": "Currency code to be queried."
+        },
+        "balance": {
+          "type": "string",
+          "format": "decimal",
+          "description": "Available amount or volume for orders."
+        },
+        "locked": {
+          "type": "string",
+          "format": "decimal",
+          "description": "Amount or quantity locked by pending orders or withdrawals."
+        },
+        "avg_buy_price": {
+          "type": "string",
+          "format": "decimal",
+          "description": "Average buy price of the asset."
+        },
+        "avg_buy_price_modified": {
+          "type": "boolean",
+          "description": "Indicates whether the average buy price has been modified."
+        },
+        "unit_currency": {
+          "type": "string",
+          "description": "Currency unit used as the basis for avg_buy_price."
+        }
+      }
+    },
+    "withdraw_limit": {
+      "description": "Withdrawal limit information.",
+      "type": "object",
+      "required": [
+        "currency",
+        "onetime",
+        "daily",
+        "remaining_daily",
+        "remaining_daily_fiat",
+        "fiat_currency"
+      ],
+      "properties": {
+        "currency": {
+          "type": "string",
+          "description": "Currency code to be queried."
+        },
+        "onetime": {
+          "type": "string",
+          "deprecated": true,
+          "format": "decimal",
+          "description": "One-time withdrawal limit (deprecated)."
+        },
+        "daily": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "deprecated": true,
+          "format": "decimal",
+          "description": "Daily withdrawal limit (deprecated)."
+        },
+        "remaining_daily": {
+          "type": "string",
+          "deprecated": true,
+          "format": "decimal",
+          "description": "Remaining daily withdrawal limit (deprecated)."
+        },
+        "remaining_daily_fiat": {
+          "type": "string",
+          "format": "decimal",
+          "description": "Integrated remaining daily withdrawal limit (in fiat currency)."
+        },
+        "fiat_currency": {
+          "type": "string",
+          "description": "Reference fiat currency."
+        },
+        "minimum": {
+          "type": "string",
+          "format": "decimal",
+          "description": "Minimum withdrawal amount or volume."
+        },
+        "fixed": {
+          "type": "integer",
+          "description": "Decimal precision for withdrawal amount/volume."
+        },
+        "withdraw_delayed_fiat": {
+          "type": "string",
+          "format": "decimal",
+          "description": "Amount restricted due to the withdrawal delay policy."
+        },
+        "can_withdraw": {
+          "type": "boolean",
+          "description": "Whether withdrawal is currently supported.\n* To check current availability, refer to currency.wallet_support for the 'withdraw' value.\n"
+        }
+      }
+    }
+  }
+}

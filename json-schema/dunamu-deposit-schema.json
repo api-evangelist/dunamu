@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/dunamu/main/json-schema/dunamu-deposit-schema.json",
+  "title": "Deposit",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/dunamu-exchange-api-openapi.yml#/components/schemas/Deposit",
+  "type": "object",
+  "required": [
+    "type",
+    "uuid",
+    "currency",
+    "txid",
+    "state",
+    "created_at",
+    "done_at",
+    "amount",
+    "fee",
+    "transaction_type"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "Transaction type.",
+      "default": "deposit"
+    },
+    "uuid": {
+      "type": "string",
+      "description": "Unique identifier (UUID) of the deposit."
+    },
+    "currency": {
+      "type": "string",
+      "description": "Currency code of the deposit."
+    },
+    "net_type": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Deposit network type. Returns null for fiat currency deposits.\n\n[Example] ETH, TRX, SOL\n"
+    },
+    "txid": {
+      "type": "string",
+      "description": "Deposit transaction ID."
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "PROCESSING",
+        "ACCEPTED",
+        "CANCELLED",
+        "REJECTED",
+        "TRAVEL_RULE_SUSPECTED",
+        "REFUNDING",
+        "REFUNDED"
+      ],
+      "description": "Deposit status.\n  - `PROCESSING`: Deposit in progress (digital asset only)\n  - `ACCEPTED`: Completed\n  - `CANCELLED`: Cancelled\n  - `REJECTED`: Rejected\n  - `TRAVEL_RULE_SUSPECTED`: Awaiting additional Travel Rule verification (digital assets only)\n  - `REFUNDING`: Refund in progress\n  - `REFUNDED`: Refunded (digital asset only)\n"
+    },
+    "created_at": {
+      "type": "string",
+      "description": "Timestamp when the deposit was requested.\n\n[Format] yyyy-MM-ddTHH:mm:ss+00:00\n"
+    },
+    "done_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Timestamp when the deposit was completed.\n\n[Format] yyyy-MM-ddTHH:mm:ss+00:00\n"
+    },
+    "amount": {
+      "type": "string",
+      "format": "decimal",
+      "description": "Deposit amount."
+    },
+    "fee": {
+      "type": "string",
+      "format": "decimal",
+      "description": "Deposit fee."
+    },
+    "transaction_type": {
+      "type": "string",
+      "enum": [
+        "default",
+        "internal"
+      ],
+      "description": "Deposit transaction type.\n  - `default`: Standard deposit\n  - `internal`: Internal deposit (between Upbit accounts)\n",
+      "default": "default"
+    }
+  }
+}

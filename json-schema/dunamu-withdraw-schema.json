@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/dunamu/main/json-schema/dunamu-withdraw-schema.json",
+  "title": "Withdraw",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/dunamu-exchange-api-openapi.yml#/components/schemas/Withdraw",
+  "type": "object",
+  "required": [
+    "type",
+    "uuid",
+    "currency",
+    "net_type",
+    "txid",
+    "state",
+    "created_at",
+    "amount",
+    "fee",
+    "transaction_type",
+    "is_cancelable"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "Transaction type.",
+      "default": "withdraw"
+    },
+    "uuid": {
+      "type": "string",
+      "description": "Unique identifier of the withdrawal."
+    },
+    "currency": {
+      "type": "string",
+      "description": "Currency code to be queried."
+    },
+    "net_type": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Withdrawal network type.\n\nBlockchain network identifier used by Upbit.\n\n[Example] \"ETH\", \"TRX\", \"SOL\"\n"
+    },
+    "txid": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Transaction ID."
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "WAITING",
+        "PROCESSING",
+        "DONE",
+        "FAILED",
+        "CANCELLED",
+        "REJECTED"
+      ],
+      "description": "Withdrawal processing state.\n  - `WAITING`: Waiting\n  - `PROCESSING`: Processing\n  - `DONE`: Completed\n  - `FAILED`: Failed\n  - `CANCELLED`: Cancelled\n  - `REJECTED`: Rejected\n"
+    },
+    "created_at": {
+      "type": "string",
+      "description": "Timestamp when the withdrawal was created."
+    },
+    "done_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Timestamp when the withdrawal was completed. Returns null if not yet completed."
+    },
+    "amount": {
+      "type": "string",
+      "format": "decimal",
+      "description": "Amount of the asset to withdraw."
+    },
+    "fee": {
+      "type": "string",
+      "format": "decimal",
+      "description": "Withdrawal fee."
+    },
+    "transaction_type": {
+      "type": "string",
+      "enum": [
+        "default",
+        "internal"
+      ],
+      "description": "Withdrawal transaction type.\n\n* `default`: Standard withdrawal\n* `internal`: Internal (instant) withdrawal\n",
+      "default": "default"
+    },
+    "is_cancelable": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "description": "Whether the withdrawal can be cancelled."
+    }
+  }
+}
