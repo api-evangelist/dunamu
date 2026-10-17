@@ -1,9 +1,11 @@
-openapi: 3.0.2
+openapi: 3.2.0
 info:
-  title: QUOTATION API
+  title: Quotation API
   version: 1.0.0
 servers:
 - url: https://{region}-api.upbit.com
+tags:
+- name: Quotation
 paths:
   /v1/candles/days:
     get:
@@ -1435,263 +1437,6 @@ paths:
                       message: Code not found
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          required:
-          - name
-          - message
-          properties:
-            name:
-              type: string
-              description: Name identifying the error.
-            message:
-              type: string
-              description: Message describing the cause of the error.
-    Market:
-      type: object
-      required:
-      - market
-      - english_name
-      properties:
-        market:
-          type: string
-          description: 'Trading pair code representing the market.
-
-
-            [Example]: "SGD-BTC"
-
-            '
-          example: SGD-BTC
-        english_name:
-          type: string
-          description: English name of the digital asset.
-          example: Bitcoin
-        market_warning:
-          type: string
-          enum:
-          - NONE
-          - CAUTION
-          description: Trading pair warning status.
-          example: NONE
-    Candle:
-      type: object
-      required:
-      - market
-      - candle_date_time_utc
-      - opening_price
-      - high_price
-      - low_price
-      - trade_price
-      - timestamp
-      - candle_acc_trade_price
-      - candle_acc_trade_volume
-      properties:
-        market:
-          type: string
-          description: 'Trading pair code representing the market.
-
-
-            [Example]: "SGD-BTC"
-
-            '
-          example: SGD-BTC
-        candle_date_time_utc:
-          type: string
-          description: 'Start time of the candle period in UTC.
-
-
-            [Format]: yyyy-MM-dd''T''HH:mm:ss
-
-            '
-          example: '2025-06-23T14:29:59'
-        opening_price:
-          type: number
-          format: double
-          description: 'The opening price of the candle,
-
-            representing the first trading price during the candle period.
-
-            '
-          example: 142340000
-        high_price:
-          type: number
-          format: double
-          description: 'The highest trading price,
-
-            recorded during the candle period.
-
-            '
-          example: 142340000
-        low_price:
-          type: number
-          format: double
-          description: 'The lowest trading price,
-
-            recorded during the candle period.
-
-            '
-          example: 142340000
-        trade_price:
-          type: number
-          format: double
-          description: The closing price of the candle, representing the last trading price during the candle period.
-          example: 142340000
-        timestamp:
-          type: integer
-          format: int64
-          description: The timestamp (in milliseconds) when the last tick of the candle was recorded.
-          example: 1750688999123
-        candle_acc_trade_price:
-          type: number
-          format: double
-          description: The total trade amount (in the quoted currency) accumulated during the candle period.
-          example: 185042
-        candle_acc_trade_volume:
-          type: number
-          format: double
-          description: The total traded volume (in the base asset) accumulated during the candle period.
-          example: 0.0013
-    CandleMinute:
-      allOf:
-      - $ref: '#/components/schemas/Candle'
-      - type: object
-        required:
-        - unit
-        properties:
-          unit:
-            type: integer
-            format: int32
-            enum:
-            - 1
-            - 3
-            - 5
-            - 10
-            - 15
-            - 30
-            - 60
-            - 240
-            description: Candle unit in minutes.
-            example: 1
-    CandleDay:
-      allOf:
-      - $ref: '#/components/schemas/Candle'
-      - type: object
-        required:
-        - prev_closing_price
-        - change_price
-        - change_rate
-        properties:
-          prev_closing_price:
-            type: number
-            format: double
-            description: Previous day's closing price (UTC-based).
-            example: 147996000
-          change_price:
-            type: number
-            format: double
-            description: Price change = trade_price - prev_closing_price.
-            example: -2237000
-          change_rate:
-            type: number
-            format: double
-            description: Change rate = (trade_price - prev_closing_price) / prev_closing_price.
-            example: -0.0151152734
-          converted_trade_price:
-            type: number
-            format: double
-            description: Closing price converted per converting_price_unit. Null for non-digital asset markets.
-            example: 148601000
-    CandlePeriod:
-      allOf:
-      - $ref: '#/components/schemas/Candle'
-      - type: object
-        required:
-        - first_day_of_period
-        properties:
-          first_day_of_period:
-            type: string
-            description: Start date of candle aggregation period (yyyy-MM-dd).
-            example: '2025-06-30'
-    Trade:
-      type: object
-      required:
-      - market
-      - trade_date_utc
-      - trade_time_utc
-      - timestamp
-      - trade_price
-      - trade_volume
-      - prev_closing_price
-      - change_price
-      - ask_bid
-      - sequential_id
-      properties:
-        market:
-          type: string
-          description: Trading pair code.
-          example: SGD-BTC
-        trade_date_utc:
-          type: string
-          description: 'Trade date (UTC-based).
-
-
-            [Format] yyyy-MM-dd
-
-            '
-          example: '2025-06-17'
-        trade_time_utc:
-          type: string
-          description: 'Trade time (UTC-based).
-
-
-            [Format] HH:mm:ss
-
-            '
-          example: '16:59:59'
-        timestamp:
-          type: integer
-          format: int64
-          description: Milliseconds timestamp when the trade was executed.
-          example: 1750749886904
-        trade_price:
-          type: number
-          format: double
-          description: Most recent trade price.
-          example: 142340000
-        trade_volume:
-          type: number
-          format: double
-          description: Most recent trade volume.
-          example: 100000000
-        prev_closing_price:
-          type: number
-          format: double
-          description: Previous day's closing price (UTC-based).
-          example: 140908000
-        change_price:
-          type: number
-          format: double
-          description: "Price change from previous day's closing price.\nCalculated as \"trade_price\" - \"prev_closing_price\".\n  - Positive(+): current price rose from previous closing\n  - Negative(-): current price fell from previous closing\n  - 0: no change from previous closing\n"
-          example: 100000000
-        ask_bid:
-          type: string
-          enum:
-          - ASK
-          - BID
-          description: Trade direction — ASK (sell) or BID (buy).
-          example: ASK
-        sequential_id:
-          type: integer
-          description: 'Unique identifier for the trade.
-
-
-            This field does not guarantee the sequence of trades.
-
-            '
-          example: 17501795992650000
     Ticker:
       type: object
       required:
@@ -1868,6 +1613,209 @@ components:
           format: int64
           description: Timestamp (ms) when the ticker information was recorded.
           example: 1750746915062
+    Candle:
+      type: object
+      required:
+      - market
+      - candle_date_time_utc
+      - opening_price
+      - high_price
+      - low_price
+      - trade_price
+      - timestamp
+      - candle_acc_trade_price
+      - candle_acc_trade_volume
+      properties:
+        market:
+          type: string
+          description: 'Trading pair code representing the market.
+
+
+            [Example]: "SGD-BTC"
+
+            '
+          example: SGD-BTC
+        candle_date_time_utc:
+          type: string
+          description: 'Start time of the candle period in UTC.
+
+
+            [Format]: yyyy-MM-dd''T''HH:mm:ss
+
+            '
+          example: '2025-06-23T14:29:59'
+        opening_price:
+          type: number
+          format: double
+          description: 'The opening price of the candle,
+
+            representing the first trading price during the candle period.
+
+            '
+          example: 142340000
+        high_price:
+          type: number
+          format: double
+          description: 'The highest trading price,
+
+            recorded during the candle period.
+
+            '
+          example: 142340000
+        low_price:
+          type: number
+          format: double
+          description: 'The lowest trading price,
+
+            recorded during the candle period.
+
+            '
+          example: 142340000
+        trade_price:
+          type: number
+          format: double
+          description: The closing price of the candle, representing the last trading price during the candle period.
+          example: 142340000
+        timestamp:
+          type: integer
+          format: int64
+          description: The timestamp (in milliseconds) when the last tick of the candle was recorded.
+          example: 1750688999123
+        candle_acc_trade_price:
+          type: number
+          format: double
+          description: The total trade amount (in the quoted currency) accumulated during the candle period.
+          example: 185042
+        candle_acc_trade_volume:
+          type: number
+          format: double
+          description: The total traded volume (in the base asset) accumulated during the candle period.
+          example: 0.0013
+    CandleDay:
+      allOf:
+      - $ref: '#/components/schemas/Candle'
+      - type: object
+        required:
+        - prev_closing_price
+        - change_price
+        - change_rate
+        properties:
+          prev_closing_price:
+            type: number
+            format: double
+            description: Previous day's closing price (UTC-based).
+            example: 147996000
+          change_price:
+            type: number
+            format: double
+            description: Price change = trade_price - prev_closing_price.
+            example: -2237000
+          change_rate:
+            type: number
+            format: double
+            description: Change rate = (trade_price - prev_closing_price) / prev_closing_price.
+            example: -0.0151152734
+          converted_trade_price:
+            type: number
+            format: double
+            description: Closing price converted per converting_price_unit. Null for non-digital asset markets.
+            example: 148601000
+    Trade:
+      type: object
+      required:
+      - market
+      - trade_date_utc
+      - trade_time_utc
+      - timestamp
+      - trade_price
+      - trade_volume
+      - prev_closing_price
+      - change_price
+      - ask_bid
+      - sequential_id
+      properties:
+        market:
+          type: string
+          description: Trading pair code.
+          example: SGD-BTC
+        trade_date_utc:
+          type: string
+          description: 'Trade date (UTC-based).
+
+
+            [Format] yyyy-MM-dd
+
+            '
+          example: '2025-06-17'
+        trade_time_utc:
+          type: string
+          description: 'Trade time (UTC-based).
+
+
+            [Format] HH:mm:ss
+
+            '
+          example: '16:59:59'
+        timestamp:
+          type: integer
+          format: int64
+          description: Milliseconds timestamp when the trade was executed.
+          example: 1750749886904
+        trade_price:
+          type: number
+          format: double
+          description: Most recent trade price.
+          example: 142340000
+        trade_volume:
+          type: number
+          format: double
+          description: Most recent trade volume.
+          example: 100000000
+        prev_closing_price:
+          type: number
+          format: double
+          description: Previous day's closing price (UTC-based).
+          example: 140908000
+        change_price:
+          type: number
+          format: double
+          description: "Price change from previous day's closing price.\nCalculated as \"trade_price\" - \"prev_closing_price\".\n  - Positive(+): current price rose from previous closing\n  - Negative(-): current price fell from previous closing\n  - 0: no change from previous closing\n"
+          example: 100000000
+        ask_bid:
+          type: string
+          enum:
+          - ASK
+          - BID
+          description: Trade direction — ASK (sell) or BID (buy).
+          example: ASK
+        sequential_id:
+          type: integer
+          description: 'Unique identifier for the trade.
+
+
+            This field does not guarantee the sequence of trades.
+
+            '
+          example: 17501795992650000
+    OrderbookInstrument:
+      type: object
+      required:
+      - market
+      - quote_currency
+      - tick_size
+      properties:
+        market:
+          type: string
+          description: Trading pair code.
+          example: SGD-BTC
+        quote_currency:
+          type: string
+          description: Quote currency code for the trading pair (e.g., SGD, BTC, USDT).
+          example: SGD
+        tick_size:
+          type: string
+          description: Price unit applied to the orderbook level.
+          example: '10000'
     Orderbook:
       type: object
       required:
@@ -1935,25 +1883,79 @@ components:
           description: Price unit applied for this orderbook level.
           example: 10000
           default: 0
-    OrderbookInstrument:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          required:
+          - name
+          - message
+          properties:
+            name:
+              type: string
+              description: Name identifying the error.
+            message:
+              type: string
+              description: Message describing the cause of the error.
+    Market:
       type: object
       required:
       - market
-      - quote_currency
-      - tick_size
+      - english_name
       properties:
         market:
           type: string
-          description: Trading pair code.
+          description: 'Trading pair code representing the market.
+
+
+            [Example]: "SGD-BTC"
+
+            '
           example: SGD-BTC
-        quote_currency:
+        english_name:
           type: string
-          description: Quote currency code for the trading pair (e.g., SGD, BTC, USDT).
-          example: SGD
-        tick_size:
+          description: English name of the digital asset.
+          example: Bitcoin
+        market_warning:
           type: string
-          description: Price unit applied to the orderbook level.
-          example: '10000'
+          enum:
+          - NONE
+          - CAUTION
+          description: Trading pair warning status.
+          example: NONE
+    CandleMinute:
+      allOf:
+      - $ref: '#/components/schemas/Candle'
+      - type: object
+        required:
+        - unit
+        properties:
+          unit:
+            type: integer
+            format: int32
+            enum:
+            - 1
+            - 3
+            - 5
+            - 10
+            - 15
+            - 30
+            - 60
+            - 240
+            description: Candle unit in minutes.
+            example: 1
+    CandlePeriod:
+      allOf:
+      - $ref: '#/components/schemas/Candle'
+      - type: object
+        required:
+        - first_day_of_period
+        properties:
+          first_day_of_period:
+            type: string
+            description: Start date of candle aggregation period (yyyy-MM-dd).
+            example: '2025-06-30'
 x-provenance:
   method: searched
   source: https://global-docs.upbit.com/reference

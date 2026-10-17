@@ -1,0 +1,26 @@
+{
+  "provider": "dunamu",
+  "sources": [
+    "dunamu-exchange-api-openapi.yml",
+    "dunamu-quotation-api-openapi.yml"
+  ],
+  "outputs": [
+    "dunamu-exchange-api-openapi.yml",
+    "dunamu-quotation-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [
+    "dunamu-exchange-api-openapi.yml: previously refined output kept for 28 operation(s) no archived document covers (e.g. /v1/accounts get, /v1/deposit get, /v1/deposits get); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "dunamu-quotation-api-openapi.yml: previously refined output kept for 12 operation(s) no archived document covers (e.g. /v1/candles/days get, /v1/candles/minutes/{unit} get, /v1/candles/months get); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth."
+  ],
+  "notes": [
+    "sourced from openapi/_original/ (0 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "dunamu-exchange-api-openapi.yml: upgraded openapi 3.0.2 -> OpenAPI 3.2.0",
+    "dunamu-exchange-api-openapi.yml: declared missing tag: Exchange",
+    "dunamu-quotation-api-openapi.yml: upgraded openapi 3.0.2 -> OpenAPI 3.2.0",
+    "dunamu-quotation-api-openapi.yml: declared missing tag: Quotation",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": []
+}
